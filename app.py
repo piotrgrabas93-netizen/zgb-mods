@@ -15,7 +15,7 @@ MODS = [
         "purchased": True,
         "downloads": 0,
         "purchases": 0,
-        "thumbnail": "https://www.mediafire.com/file/fou9vvii688ad9l/icon_DeutzSeries9.png/file",
+        "thumbnail": "https://postimg.cc/2VsgGp2F",
         "description": "Deutz-Fahr Series 9",
         "summary": "9290 / 9310 / 9340 TTV",
         "compatibility": "FS23 Mobile",
