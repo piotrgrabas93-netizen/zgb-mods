@@ -7,7 +7,7 @@ MODS = [
     {
         "id": "deutz-series9",
         "title": "Deutz-Fahr Series 9",
-        "author": "RedCat3D",
+        "author": "Hacker",
         "category": "Ciagniki",
         "version": "2.1.0.0",
         "price_minor": 0,
