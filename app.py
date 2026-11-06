@@ -10,7 +10,7 @@ MODS = [
         "author": "Hacker",
         "category": "Ciagniki",
         "version": "2.1.0.0",
-        "price_minor": 0,
+        "price_minor"246.000$,
         "published": True,
         "purchased": True,
         "downloads": 0,
@@ -32,6 +32,37 @@ MODS = [
         "updated_at": "2026-11-06T00:00:00+00:00",
     },
 ]
+
+MODS = [
+    {
+        "id": "Lindner Unitrac Pack",
+        "title": "Lindner Unitrac Pack",
+        "author": "Hacker",
+        "category": "tiry",
+        "version": "1.0.0.1",
+        "price_minor": 153.000€,
+        "published": True,
+        "purchased": True,
+        "downloads": 0,
+        "purchases": 0,
+        "thumbnail": "https://i.postimg.cc/2VsgGp2F/icon-Deutz-Series9.png",
+        "description": "Lindner Unitrac Pack",
+        "summary": "ADF 3200 Mistral 3400
+        Swiss-Elite S 31
+        Platform",
+        "compatibility": "FS23 Mobile",
+        "file_url": "https://files.catbox.moe/3e3fhs.zip",
+        "filename": "Lindner Unitrac Pack.zip",
+        "size_bytes":35441869,
+        "sha256": "1b17b79c253b9884018e4ed620a10fc0aa97a4393589d7c0b7da4813e1ac26f2",
+        "naffy_url": "",
+        "tags": "",
+        "changelog": "",
+        "requirements": "",
+        "gallery": [],
+        "revision": 1,
+        "updated_at": "2026-11-06T00:00:00+00:00",
+    },
 
 def visible():
     return [m for m in MODS if m.get("published")]
