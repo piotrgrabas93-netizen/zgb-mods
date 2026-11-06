@@ -1,4 +1,4 @@
-import json, os
+import json, os, secrets
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
@@ -69,6 +69,22 @@ def catalog_response():
         "total": len(items),
     })
 
+def buyer():
+    return jsonify({
+        "token": "zgb-" + secrets.token_hex(16),
+        "recovery_code": "ZGB-" + secrets.token_hex(6).upper(),
+    })
+
+@app.route("/v5/buyers", methods=["GET", "POST"])
+@app.route("/buyers", methods=["GET", "POST"])
+def buyers():
+    return buyer()
+
+@app.route("/v5/buyers/recover", methods=["GET", "POST"])
+@app.route("/buyers/recover", methods=["GET", "POST"])
+def recover():
+    return buyer()
+
 @app.get("/v5/mods")
 @app.get("/v5/mods/")
 @app.get("/mods")
@@ -96,6 +112,7 @@ def download(mod_id):
         if m["id"] == mod_id:
             return jsonify({
                 "uri": m.get("file_url", ""),
+                "url": m.get("file_url", ""),
                 "filename": m.get("filename", mod_id + ".zip"),
                 "sha256": m.get("sha256", ""),
                 "size_bytes": m.get("size_bytes", 0),
