@@ -22,7 +22,7 @@ MODS = [
         "file_url": "https://www.mediafire.com/file/zfezff8ouzl8871/FS22_DeutzSeries9.zip/file",
         "filename": "FS22_DeutzSeries9.zip",
         "size_bytes": 0,
-        "sha256": "172e5c1a03bcc7ba80a7e7906dac4cee71985ffe6f46adfeb3790405298eccb7",
+        "sha256": "68fafa7d51f41a268ee4adf5dd81b24e2049dc1d66e0b12c590d27e040a0ad39",
         "naffy_url": "",
         "tags": "",
         "changelog": "",
