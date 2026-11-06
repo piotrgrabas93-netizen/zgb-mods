@@ -15,11 +15,11 @@ MODS = [
         "purchased": True,
         "downloads": 0,
         "purchases": 0,
-        "thumbnail": "",
+        "thumbnail": "https://link-do-zdjecia.jpg",
         "description": "Deutz-Fahr Series 9",
         "summary": "9290 / 9310 / 9340 TTV",
         "compatibility": "FS23 Mobile",
-        "file_url": "https://TWOJ-LINK-DO-ZIP",
+        "file_url": "https://link-do-pliku.zip",
         "filename": "FS22_DeutzSeries9.zip",
         "size_bytes": 0,
         "sha256": "",
@@ -30,7 +30,7 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00",
-    }
+    },
 ]
 
 def visible():
