@@ -21,7 +21,9 @@ MODS = [
         "compatibility": "FS23 Mobile",
         "file_url": "https://files.catbox.moe/l6x1bh.zip",
         "filename": "FS22_DeutzSeries9.zip",
-        "size_bytes":13.11,
+        "size_bytes":13746831,
+        size_mb = mod.get("size_bytes", 0) / (1024 * 1024)
+size_text = f"{size_mb:.2f} MB"
         "sha256": "68fafa7d51f41a268ee4adf5dd81b24e2049dc1d66e0b12c590d27e040a0ad39",
         "naffy_url": "",
         "tags": "",
