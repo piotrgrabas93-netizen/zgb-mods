@@ -1,9 +1,8 @@
 import json, os
-from flask import Flask, request, jsonify, redirect
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-# Wpisz tu swoje mody. price_minor: 0 = darmowy.
 MODS = [
     {
         "id": "deutz-series9",
@@ -37,8 +36,7 @@ MODS = [
 def visible():
     return [m for m in MODS if m.get("published")]
 
-@app.get("/v5/mods")
-def list_mods():
+def catalog_response():
     q = (request.args.get("q") or "").lower()
     cat = (request.args.get("category") or "").lower()
     filt = request.args.get("filter") or ""
@@ -71,6 +69,18 @@ def list_mods():
         "total": len(items),
     })
 
+@app.get("/v5/mods")
+@app.get("/v5/mods/")
+@app.get("/mods")
+@app.get("/mods/")
+def list_mods():
+    return catalog_response()
+
+@app.get("/v5")
+@app.get("/v5/")
+def v5_root():
+    return catalog_response()
+
 @app.get("/v5/mods/<mod_id>")
 def one(mod_id):
     for m in visible():
@@ -94,6 +104,12 @@ def download(mod_id):
 
 @app.get("/")
 def root():
+    return jsonify({"ok": True, "api": "/v5/mods"})
+
+@app.route("/<path:path>", methods=["GET", "POST"])
+def catch_all(path):
+    if path.startswith("v5") or path.startswith("mods"):
+        return catalog_response()
     return jsonify({"ok": True, "api": "/v5/mods"})
 
 if __name__ == "__main__":
