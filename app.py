@@ -19,7 +19,7 @@ MODS = [
         "description": "Deutz-Fahr Series 9",
         "summary": "9290 / 9310 / 9340 TTV",
         "compatibility": "FS23 Mobile",
-        "file_url": "https://www.mediafire.com/file/5hreoup8q90pahe/FS22_DeutzSeries9.zip/file",
+        "file_url": "172e5c1a03bcc7ba80a7e7906dac4cee71985ffe6f46adfeb3790405298eccb7",
         "filename": "FS22_DeutzSeries9.zip",
         "size_bytes": 0,
         "sha256": "",
