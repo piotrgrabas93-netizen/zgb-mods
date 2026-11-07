@@ -45,28 +45,7 @@ MODS = [
         "purchases": 0,
         "thumbnail": "https://iili.io/ntmdlB1.png",
         "description": "",
-        "summary": "Unitrac 122 LDrive:
-Price: 153.000 €
-Power: 122 hp
-Top speed: 50 kph
-
-ADF 3200:
-Price: 20.000€
-Capacity: 3.200l
-Working width: 5-10m
-
-Mistral 3400 SR:
-Price: 20.000€
-Capacity: 3.400l
-Working width: 12m
-
-Swiss-Elite S 31:
-Price: 21.500€
-Capacity: 12.000l
-
-Platform:
-Price: 2.500€
-Capacity: 2.000l",
+        "summary": "Unitrac pack 122 LDrive",
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/3onxgf34g2gvuwg/FS22_lindnerUnitrac122LDrive.zip/file",
         "filename": "lindnerUnitrac122LDrive",
