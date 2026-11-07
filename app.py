@@ -51,7 +51,7 @@ MODS = [
         "purchased": True,
         "downloads": 0,
         "purchases": 0,
-        "thumbnail": "https://i.postimg.cc/2VsgGp2F/icon-Deutz-Series9.png",
+        "thumbnail": "https://ibb.co/MDskfc5V",
         "description": "Lindner Unitrac Pack",
         "summary": "ADF 3200 Mistral 3400\nSwiss-Elite S 31\nPlatform",
         "compatibility": "FS23 Mobile",
