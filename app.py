@@ -75,10 +75,8 @@ MODS = [
         "downloads": 0,
         "purchases": 0,
         "thumbnail": "https://iili.io/nDqwhGf.png",
-        "description": "Lizard Energy",
-        "summary": "Working width: 1.5 m
-Price: 42500 $
-Needed Power: 120 hp",
+        "description":"Lizard Energy",
+        "summary": "Working width: 1.5",
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/e2ysxbui14opltf/FS22_LizardEnergy.zip/file",
         "filename": "LizardEnergy.zip",
@@ -92,7 +90,7 @@ Needed Power: 120 hp",
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00",
     },
-]
+{
 
 
 
