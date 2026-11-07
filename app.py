@@ -90,7 +90,7 @@ MODS = [
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00",
     },
-]
+{
 "id": "EVODISCK_Pack",
         "title": "EVODISCK Pack",
         "author": "Hacker",
