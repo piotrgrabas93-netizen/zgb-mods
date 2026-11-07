@@ -76,7 +76,7 @@ MODS = [
         "purchases": 0,
         "thumbnail": "https://iili.io/nDqwhGf.png",
         "description":"Lizard Energy",
-        "summary": "Working width: 1.5",
+        "summary": "Working width 1.5",
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/e2ysxbui14opltf/FS22_LizardEnergy.zip/file",
         "filename": "LizardEnergy.zip",
@@ -89,7 +89,7 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00",
-    },
+},
 {
 
 
