@@ -33,24 +33,45 @@ MODS = [
         "updated_at": "2026-11-06T00:00:00+00:00",
     },
     {
-        "id": "drugi-mod",
-        "title": "Nazwa moda",
+        "id": "",
+        "title": "lindnerUnitrac122LDrive",
         "author": "Hacker",
-        "category": "Ciagniki",
+        "category": "tiry",
         "version": "1.0.0.0",
         "price_minor": 0,
         "published": True,
         "purchased": True,
         "downloads": 0,
         "purchases": 0,
-        "thumbnail": "https://link-do-zdjecia.jpg",
-        "description": "Opis moda",
-        "summary": "Krótki opis",
+        "thumbnail": "https://iili.io/ntmdlB1.png",
+        "description": "",
+        "summary": "Unitrac 122 LDrive:
+Price: 153.000 €
+Power: 122 hp
+Top speed: 50 kph
+
+ADF 3200:
+Price: 20.000€
+Capacity: 3.200l
+Working width: 5-10m
+
+Mistral 3400 SR:
+Price: 20.000€
+Capacity: 3.400l
+Working width: 12m
+
+Swiss-Elite S 31:
+Price: 21.500€
+Capacity: 12.000l
+
+Platform:
+Price: 2.500€
+Capacity: 2.000l",
         "compatibility": "FS23 Mobile",
-        "file_url": "https://link-do-pliku.zip",
-        "filename": "nazwa_moda.zip",
+        "file_url": "https://www.mediafire.com/file/3onxgf34g2gvuwg/FS22_lindnerUnitrac122LDrive.zip/file",
+        "filename": "lindnerUnitrac122LDrive",
         "size_bytes": 0,
-        "sha256": "64-znaki-sumy",
+        "sha256": "1b17b79c253b9884018e4ed620a10fc0aa97a4393589d7c0b7da4813e1ac26f2",
         "naffy_url": "",
         "tags": "",
         "changelog": "",
