@@ -33,8 +33,8 @@ MODS = [
         "updated_at": "2026-11-06T00:00:00+00:00",
     },
     {
-        "id": "lindnerUnitrac 122LDrive",
-        "title": "lindnerUnitrac122LDrive",
+        "id": "lindner-unitrac-122",
+        "title": "Lindner Unitrac 122 LDrive",
         "author": "Hacker",
         "category": "tiry",
         "version": "1.0.0.0",
@@ -44,9 +44,8 @@ MODS = [
         "downloads": 0,
         "purchases": 0,
         "thumbnail": "https://iili.io/ntmdlB1.png",
-        "description": "",
-        "summary":"Unitrac 122 LDrive 
-ADF 3200 Mistral 3400 SR Swiss-Elite S 31 Platform",
+        "description": "Lindner Unitrac 122 LDrive",
+        "summary": "Unitrac 122 LDrive, ADF 3200, Mistral 3400 SR, Swiss-Elite S 31 Platform",
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/3onxgf34g2gvuwg/FS22_lindnerUnitrac122LDrive.zip/file",
         "filename": "lindnerUnitrac122LDrive.zip",
