@@ -76,7 +76,9 @@ MODS = [
         "purchases": 0,
         "thumbnail": "https://iili.io/nDqwhGf.png",
         "description": "Lizard Energy",
-        "summary": "Unitrac 122 LDrive, ADF 3200, Mistral 3400 SR, Swiss-Elite S 31 Platform",
+        "summary": "Working width: 1.5 m
+Price: 42500 $
+Needed Power: 120 hp",
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/e2ysxbui14opltf/FS22_LizardEnergy.zip/file",
         "filename": "LizardEnergy.zip",
