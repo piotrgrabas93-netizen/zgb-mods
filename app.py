@@ -16,7 +16,7 @@ MODS = [
         "purchased": True,
         "downloads": 0,
         "purchases": 0,
-        "thumbnail": "https://iili.io/ntb6QRa.png",
+        "thumbnail": "",
         "description": "Deutz-Fahr Series 9",
         "summary": "9290 / 9310 / 9340 TTV",
         "compatibility": "FS23 Mobile",
@@ -31,14 +31,10 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00",
-        
-
-        
-    
-},
+    },
     {
-        "id": "unitrac-122-ldrive",
-        "title": "Unitrac 122 LDrive",
+        "id": "drugi-mod",
+        "title": "Nazwa moda",
         "author": "Hacker",
         "category": "Ciagniki",
         "version": "1.0.0.0",
@@ -48,40 +44,13 @@ MODS = [
         "downloads": 0,
         "purchases": 0,
         "thumbnail": "https://link-do-zdjecia.jpg",
-        "description": """Unitrac 122 LDrive:
-Price: 153.000 €
-Power: 122 hp
-Top speed: 50 kph
-
-ADF 3200:
-Price: 20.000 €
-Capacity: 3.200l
-Working width: 5-10m
-
-Mistral 3400 SR:
-Price: 20.000 €
-Capacity: 3.400l
-Working width: 12m
-
-Swiss-Elite S 31:
-Price: 21.500 €
-Capacity: 12.000l
-
-Platform:
-Price: 2.500 €
-Capacity: 2.000l
-
-Changelog 1.0.0.1:
-Fixed unloading effect
-
-Changelog 1.0.0.2:
-Modules can now be attached more easily with configured twin tyres""",
+        "description": "Opis moda",
         "summary": "Krótki opis",
         "compatibility": "FS23 Mobile",
-        "file_url": "https://www.mediafire.com/file/y46c8z6v52dx4sh/FS22_lindnerUnitrac122LDrive.zip/file",
-        "filename": "FS22_lindnerUnitrac122LDrive.zip",
+        "file_url": "https://link-do-pliku.zip",
+        "filename": "nazwa_moda.zip",
         "size_bytes": 0,
-        "sha256": "1b17b79c253b9884018e4ed620a10fc0aa97a4393589d7c0b7da4813e1ac26f2",
+        "sha256": "64-znaki-sumy",
         "naffy_url": "",
         "tags": "",
         "changelog": "",
