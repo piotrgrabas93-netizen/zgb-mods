@@ -1,5 +1,6 @@
-import os
+import os, re
 from flask import Flask, request, jsonify
+import urllib.request
 
 app = Flask(__name__)
 
@@ -21,7 +22,7 @@ MODS = [
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/xhyvj8oqo21rjw6/FS22_DeutzSeries9.zip/file",
         "filename": "FS22_DeutzSeries9.zip",
-        "size_bytes": 13746831,
+        "size_bytes": 0,
         "sha256": "68fafa7d51f41a268ee4adf5dd81b24e2049dc1d66e0b12c590d27e040a0ad39",
         "naffy_url": "",
         "tags": "",
@@ -35,6 +36,14 @@ MODS = [
 
 def visible():
     return [m for m in MODS if m.get("published")]
+
+def direct(url):
+    if "mediafire.com/file/" not in url:
+        return url
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+    html = urllib.request.urlopen(req, timeout=30).read().decode("utf-8", "ignore")
+    found = re.findall(r"https://download\d*\.mediafire\.com[^\"']+", html)
+    return found[0] if found else url
 
 def catalog():
     q = (request.args.get("q") or "").lower()
@@ -55,9 +64,8 @@ def catalog():
     if cat:
         items = [m for m in items if cat in m.get("category", "").lower()]
     start = (page - 1) * limit
-    chunk = items[start:start + limit]
     out = []
-    for m in chunk:
+    for m in items[start:start + limit]:
         row = dict(m)
         row.pop("file_url", None)
         out.append(row)
@@ -95,15 +103,20 @@ def one(mod_id):
 def download(mod_id):
     for m in visible():
         if m["id"] == mod_id:
-            link = m.get("file_url", "")
+            link = direct(m.get("file_url", ""))
             return jsonify({
                 "uri": link,
                 "url": link,
                 "filename": m.get("filename", mod_id + ".zip"),
                 "sha256": m.get("sha256", ""),
-                "size_bytes": m.get("size_bytes", 0),
+                "size_bytes": 0,
             })
     return jsonify({"error": "not found"}), 404
+
+@app.route("/v5/buyers", methods=["GET", "POST"])
+@app.route("/buyers", methods=["GET", "POST"])
+def buyers():
+    return jsonify({"token": "zgb-ok", "recovery_code": "ZGB-OK"})
 
 @app.get("/")
 def root():
