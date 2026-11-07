@@ -22,7 +22,7 @@ MODS = [
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/xhyvj8oqo21rjw6/FS22_DeutzSeries9.zip/file",
         "filename": "FS22_DeutzSeries9.zip",
-        "size_bytes": 13 746 893,
+        "size_bytes": 13746893,
         "sha256": "68fafa7d51f41a268ee4adf5dd81b24e2049dc1d66e0b12c590d27e040a0ad39",
         "naffy_url": "",
         "tags": "",
