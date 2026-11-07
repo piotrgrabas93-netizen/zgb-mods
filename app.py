@@ -59,7 +59,37 @@ MODS = [
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00",
     },
+{
+
+        "id": "LizardEnergy",
+        "title": "Lizard Energy",
+        "author": "Hacker",
+        "category": "kosiarki",
+        "version": "1.0.0.0",
+        "price_minor": 0,
+        "published": True,
+        "purchased": True,
+        "downloads": 0,
+        "purchases": 0,
+        "thumbnail": "https://iili.io/nDqwhGf.png",
+        "description": "Lizard Energy",
+        "summary": "Unitrac 122 LDrive, ADF 3200, Mistral 3400 SR, Swiss-Elite S 31 Platform",
+        "compatibility": "FS23 Mobile",
+        "file_url": "https://www.mediafire.com/file/e2ysxbui14opltf/FS22_LizardEnergy.zip/file",
+        "filename": "LizardEnergy.zip",
+        "size_bytes": 9552527,
+        "sha256": "137b12c4875b6853ae6471fd71eeccec8950b2fc80e8ef67c4eb630f36ed5979",
+        "naffy_url": "",
+        "tags": "",
+        "changelog": "",
+        "requirements": "",
+        "gallery": [],
+        "revision": 1,
+        "updated_at": "2026-11-06T00:00:00+00:00",
+    },
 ]
+
+
 
 def visible():
     return [m for m in MODS if m.get("published")]
