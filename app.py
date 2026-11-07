@@ -32,8 +32,7 @@ MODS = [
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00",
         },
-    {  },
-    {
+]
         "id": "Unitrac 122 LDrive",
         "title": "Unitrac 122 LDrive",
         "author": "Hacker",
@@ -72,7 +71,7 @@ Changelog 1.0.0.1:
 Fixed unloading effect
 
 Changelog 1.0.0.2:
-Modules can now be attached more easily with configured twin tyres.",
+Modules can now be attached more easily with configured twin tyres",
         "summary": "Krótki opis",
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/y46c8z6v52dx4sh/FS22_lindnerUnitrac122LDrive.zip/file",
