@@ -50,7 +50,7 @@ MODS = [
         "purchased": True,
         "downloads": 0,
         "purchases": 0,
-        "thumbnail": "<content://media/external/downloads/1000807703",
+        "thumbnail": "<",
         "description": "Lindner Unitrac Pack",
         "summary": "ADF 3200 Mistral 3400\nSwiss-Elite S 31\nPlatform",
         "compatibility": "FS23 Mobile",
