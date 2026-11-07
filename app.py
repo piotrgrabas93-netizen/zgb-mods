@@ -51,7 +51,7 @@ MODS = [
         "purchased": True,
         "downloads": 0,
         "purchases": 0,
-        "thumbnail": "<a href='https://postimg.cc/nCJbvjT9' target='_blank'><img src='https://i.postimg.cc/nCJbvjT9/icon-lindner-Unitrac122LDrive.png' border='0' alt='icon-lindner-Unitrac122LDrive'></a>",
+        "thumbnail": "<https://i.postimg.cc/2VsgGp2F/icon-lindner-Unitrac122LDrive.png",
         "description": "Lindner Unitrac Pack",
         "summary": "ADF 3200 Mistral 3400\nSwiss-Elite S 31\nPlatform",
         "compatibility": "FS23 Mobile",
