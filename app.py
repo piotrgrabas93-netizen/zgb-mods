@@ -1,8 +1,12 @@
-import os, re
+
+import os
+import re
 from flask import Flask, request, jsonify
 import urllib.request
 
 app = Flask(__name__)
+
+CHANNEL_ID = "UC7oYer-vkZ7rvJTcy2onzrw"
 
 MODS = [
     {
@@ -59,8 +63,7 @@ MODS = [
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00",
     },
-{
-
+    {
         "id": "LizardEnergy",
         "title": "Lizard Energy",
         "author": "Hacker",
@@ -91,48 +94,140 @@ MODS = [
 
 
 
+
+def latest_video():
+    try:
+        url = (
+            "https://www.youtube.com/feeds/videos.xml?channel_id="
+            + CHANNEL_ID
+        )
+
+        req = urllib.request.Request(
+            url,
+            headers={"User-Agent": "Mozilla/5.0"}
+        )
+
+        xml = urllib.request.urlopen(
+            req,
+            timeout=20
+        ).read().decode("utf-8", "ignore")
+
+        vid = re.search(
+            r"<yt:videoId>([^<]+)</yt:videoId>",
+            xml
+        )
+
+        title = re.findall(
+            r"<title>([^<]+)</title>",
+            xml
+        )
+
+        return {
+            "video_id": vid.group(1) if vid else "",
+            "title": title[1] if len(title) > 1 else "ZGB",
+        }
+
+    except Exception:
+        return {
+            "video_id": "",
+            "title": "ZGB"
+        }
+
+
+
+
 def visible():
-    return [m for m in MODS if m.get("published")]
+    return [
+        m for m in MODS
+        if m.get("published")
+    ]
+
 
 def direct(url):
     if "mediafire.com/file/" not in url:
         return url
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-    html = urllib.request.urlopen(req, timeout=30).read().decode("utf-8", "ignore")
-    found = re.findall(r"https://download\d*\.mediafire\.com[^\"']+", html)
+
+    req = urllib.request.Request(
+        url,
+        headers={"User-Agent": "Mozilla/5.0"}
+    )
+
+    html = urllib.request.urlopen(
+        req,
+        timeout=30
+    ).read().decode("utf-8", "ignore")
+
+    found = re.findall(
+        r"https://download\d*\.mediafire\.com[^\"']+",
+        html
+    )
+
     return found[0] if found else url
 
+
+
+
 def catalog():
+
     q = (request.args.get("q") or "").lower()
     cat = (request.args.get("category") or "").lower()
     filt = request.args.get("filter") or ""
+
     try:
-        page = max(1, int(request.args.get("page") or 1))
+        page = max(
+            1,
+            int(request.args.get("page") or 1)
+        )
     except ValueError:
         page = 1
+
     limit = 40
+
     items = visible()
+
     if filt == "free":
-        items = [m for m in items if m.get("price_minor", 0) == 0]
+        items = [
+            m for m in items
+            if m.get("price_minor", 0) == 0
+        ]
+
     elif filt == "paid":
-        items = [m for m in items if m.get("price_minor", 0) > 0]
+        items = [
+            m for m in items
+            if m.get("price_minor", 0) > 0
+        ]
+
     if q:
-        items = [m for m in items if q in m.get("title", "").lower()]
+        items = [
+            m for m in items
+            if q in m.get("title", "").lower()
+        ]
+
     if cat:
-        items = [m for m in items if cat in m.get("category", "").lower()]
+        items = [
+            m for m in items
+            if cat in m.get("category", "").lower()
+        ]
+
     start = (page - 1) * limit
+
     out = []
+
     for m in items[start:start + limit]:
         row = dict(m)
         row.pop("file_url", None)
         out.append(row)
+
     return jsonify({
-        "channel": {"revision": 1, "title": "ZGB", "video_id": ""},
+        "channel": latest_video(),
         "items": out,
         "page": page,
         "page_size": limit,
         "total": len(items),
     })
+
+
+
 
 @app.get("/v5/mods")
 @app.get("/v5/mods/")
@@ -141,43 +236,87 @@ def catalog():
 def list_mods():
     return catalog()
 
+
 @app.get("/v5")
 @app.get("/v5/")
 def v5_root():
     return catalog()
 
+
+
+
 @app.get("/v5/mods/<mod_id>")
 def one(mod_id):
+
     for m in visible():
+
         if m["id"] == mod_id:
+
             row = dict(m)
             row.pop("file_url", None)
-            return jsonify(row)
-    return jsonify({"error": "not found"}), 404
 
-@app.route("/v5/mods/<mod_id>/download", methods=["GET", "POST"])
-@app.route("/mods/<mod_id>/download", methods=["GET", "POST"])
+            return jsonify(row)
+
+    return jsonify({
+        "error": "not found"
+    }), 404
+
+
+
+@app.route(
+    "/v5/mods/<mod_id>/download",
+    methods=["GET", "POST"]
+)
+@app.route(
+    "/mods/<mod_id>/download",
+    methods=["GET", "POST"]
+)
 def download(mod_id):
+
     for m in visible():
+
         if m["id"] == mod_id:
-            link = direct(m.get("file_url", ""))
+
+            link = direct(
+                m.get("file_url", "")
+            )
+
             return jsonify({
                 "uri": link,
                 "url": link,
-                "filename": m.get("filename", mod_id + ".zip"),
+                "filename": m.get(
+                    "filename",
+                    mod_id + ".zip"
+                ),
                 "sha256": m.get("sha256", ""),
-                "size_bytes": 0,
+                "size_bytes": m.get("size_bytes", 0),
             })
-    return jsonify({"error": "not found"}), 404
 
-@app.route("/v5/buyers", methods=["GET", "POST"])
-@app.route("/buyers", methods=["GET", "POST"])
+    return jsonify({
+        "error": "not found"
+    }), 404
+@app.route(
+    "/v5/buyers",
+    methods=["GET", "POST"]
+)
+@app.route(
+    "/buyers",
+    methods=["GET", "POST"]
+)
 def buyers():
-    return jsonify({"token": "zgb-ok", "recovery_code": "ZGB-OK"})
 
+    return jsonify({
+        "token": "zgb-ok",
+        "recovery_code": "ZGB-OK"
+    })
 @app.get("/")
 def root():
-    return jsonify({"ok": True, "api": "/v5/mods"})
-
+    return jsonify({
+        "ok": True,
+        "api": "/v5/mods"
+    })
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
+    app.run(
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 10000))
+    )
