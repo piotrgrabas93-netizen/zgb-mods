@@ -64,7 +64,7 @@ MODS = [
         "updated_at": "2026-11-06T00:00:00+00:00",
     },
     {
-        "id": "LizardEnergy",
+        "id":"LizardEnergy",
         "title": "Lizard Energy",
         "author": "Hacker",
         "category": "kosiarki",
@@ -91,7 +91,7 @@ MODS = [
         "updated_at": "2026-11-06T00:00:00+00:00",
     },
 {
-"id": "EVODISCK_Pack",
+"id":"EVODISCK_Pack",
         "title": "EVODISCK Pack",
         "author": "Hacker",
         "category": "Kultywatory",
@@ -103,8 +103,7 @@ MODS = [
         "purchases": 0,
         "thumbnail": "https://iili.io/nDCz7N1.png",
         "description": "EVODISCK Pack",
-        "summary": "EVODISC-K 600
--Base Price: 32.500 ",
+        "summary": "EVODISC-K 600 32.500 ",
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/qzdrpdurkfclkmf/FS22_OzdokenEvodiscKPack.zip/file",
         "filename": "EVODISCK_Pack.zip",
