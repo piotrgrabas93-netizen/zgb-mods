@@ -107,7 +107,7 @@ MODS = [
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/1p4xpxdewqixif5/FS22_OzdokenEvodiscKPack.zip/file",
         "filename": "EVODISCK_Pack.zip",
-        "size_bytes":33114030,
+        "size_bytes":33117956,
         "sha256": "0bcb55e11e2798d78d192423c9f4d14013e1494e5e2078aa70ca517f2de8a68c",
         "naffy_url": "",
         "tags": "",
