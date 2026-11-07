@@ -1,4 +1,3 @@
-
 import os
 import re
 from flask import Flask, request, jsonify
@@ -90,7 +89,7 @@ MODS = [
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00",
 },
-{
+[
 
 
 
