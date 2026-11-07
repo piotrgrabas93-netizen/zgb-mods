@@ -1,11 +1,18 @@
+
 import os
 import re
-from flask import Flask, request, jsonify
 import urllib.request
+import urllib.error
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
 CHANNEL_ID = "UC7oYer-vkZ7rvJTcy2onzrw"
+
+
+# =========================================================
+# MODY
+# =========================================================
 
 MODS = [
     {
@@ -74,7 +81,7 @@ MODS = [
         "downloads": 0,
         "purchases": 0,
         "thumbnail": "https://iili.io/nDqwhGf.png",
-        "description":"Lizard Energy",
+        "description": "Lizard Energy",
         "summary": "Working width 1.5",
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/e2ysxbui14opltf/FS22_LizardEnergy.zip/file",
@@ -88,11 +95,13 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00",
-},
-[
+    },
+]
 
 
-
+# =========================================================
+# YOUTUBE - NAJNOWSZY FILM
+# =========================================================
 
 def latest_video():
     try:
@@ -106,10 +115,8 @@ def latest_video():
             headers={"User-Agent": "Mozilla/5.0"}
         )
 
-        xml = urllib.request.urlopen(
-            req,
-            timeout=20
-        ).read().decode("utf-8", "ignore")
+        with urllib.request.urlopen(req, timeout=20) as response:
+            xml = response.read().decode("utf-8", "ignore")
 
         vid = re.search(
             r"<yt:videoId>([^<]+)</yt:videoId>",
@@ -117,23 +124,27 @@ def latest_video():
         )
 
         title = re.findall(
-            r"<title>([^<]+)</title>",
+            r"<title>(.*?)</title>",
             xml
         )
 
         return {
             "video_id": vid.group(1) if vid else "",
-            "title": title[1] if len(title) > 1 else "ZGB",
+            "title": title[1] if len(title) > 1 else "ZGB"
         }
 
-    except Exception:
+    except Exception as e:
+        print("YouTube error:", e)
+
         return {
             "video_id": "",
             "title": "ZGB"
         }
 
 
-
+# =========================================================
+# WIDOCZNE MODY
+# =========================================================
 
 def visible():
     return [
@@ -142,29 +153,39 @@ def visible():
     ]
 
 
+# =========================================================
+# LINK MEDIAFIRE
+# =========================================================
+
 def direct(url):
+
     if "mediafire.com/file/" not in url:
         return url
 
-    req = urllib.request.Request(
-        url,
-        headers={"User-Agent": "Mozilla/5.0"}
-    )
+    try:
+        req = urllib.request.Request(
+            url,
+            headers={"User-Agent": "Mozilla/5.0"}
+        )
 
-    html = urllib.request.urlopen(
-        req,
-        timeout=30
-    ).read().decode("utf-8", "ignore")
+        with urllib.request.urlopen(req, timeout=30) as response:
+            html = response.read().decode("utf-8", "ignore")
 
-    found = re.findall(
-        r"https://download\d*\.mediafire\.com[^\"']+",
-        html
-    )
+        found = re.findall(
+            r"https://download\d*\.mediafire\.com[^\"'<> ]+",
+            html
+        )
 
-    return found[0] if found else url
+        return found[0] if found else url
+
+    except Exception as e:
+        print("MediaFire error:", e)
+        return url
 
 
-
+# =========================================================
+# KATALOG MODÓW
+# =========================================================
 
 def catalog():
 
@@ -177,7 +198,7 @@ def catalog():
             1,
             int(request.args.get("page") or 1)
         )
-    except ValueError:
+    except (ValueError, TypeError):
         page = 1
 
     limit = 40
@@ -226,7 +247,9 @@ def catalog():
     })
 
 
-
+# =========================================================
+# LISTA MODÓW
+# =========================================================
 
 @app.get("/v5/mods")
 @app.get("/v5/mods/")
@@ -242,7 +265,9 @@ def v5_root():
     return catalog()
 
 
-
+# =========================================================
+# POJEDYNCZY MOD
+# =========================================================
 
 @app.get("/v5/mods/<mod_id>")
 def one(mod_id):
@@ -261,6 +286,9 @@ def one(mod_id):
     }), 404
 
 
+# =========================================================
+# POBIERANIE MODÓW
+# =========================================================
 
 @app.route(
     "/v5/mods/<mod_id>/download",
@@ -294,6 +322,12 @@ def download(mod_id):
     return jsonify({
         "error": "not found"
     }), 404
+
+
+# =========================================================
+# BUYERS
+# =========================================================
+
 @app.route(
     "/v5/buyers",
     methods=["GET", "POST"]
@@ -308,13 +342,27 @@ def buyers():
         "token": "zgb-ok",
         "recovery_code": "ZGB-OK"
     })
+
+
+# =========================================================
+# STRONA GŁÓWNA
+# =========================================================
+
 @app.get("/")
 def root():
+
     return jsonify({
         "ok": True,
         "api": "/v5/mods"
     })
+
+
+# =========================================================
+# START SERWERA
+# =========================================================
+
 if __name__ == "__main__":
+
     app.run(
         host="0.0.0.0",
         port=int(os.environ.get("PORT", 10000))
