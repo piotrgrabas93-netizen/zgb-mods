@@ -1,4 +1,3 @@
-
 import os
 import re
 import urllib.request
@@ -8,11 +7,6 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 
 CHANNEL_ID = "UC7oYer-vkZ7rvJTcy2onzrw"
-
-
-# =========================================================
-# MODY
-# =========================================================
 
 MODS = [
     {
@@ -74,7 +68,7 @@ MODS = [
         "title": "Lizard Energy",
         "author": "Hacker",
         "category": "kosiarki",
-        "version": "1.0.0.0",
+        "version": "3.0.0.0",
         "price_minor": 0,
         "published": True,
         "purchased": True,
@@ -97,11 +91,35 @@ MODS = [
         "updated_at": "2026-11-06T00:00:00+00:00",
     },
 ]
+"id": "EVODISCK_Pack",
+        "title": "EVODISCK Pack",
+        "author": "Hacker",
+        "category": "Kultywatory",
+        "version": "2.1.0.0",
+        "price_minor": 0,
+        "published": True,
+        "purchased": True,
+        "downloads": 0,
+        "purchases": 0,
+        "thumbnail": "https://iili.io/nDCz7N1.png",
+        "description": "EVODISCK Pack",
+        "summary": "EVODISC-K 600
+-Base Price: 32.500 ",
+        "compatibility": "FS23 Mobile",
+        "file_url": "https://www.mediafire.com/file/qzdrpdurkfclkmf/FS22_OzdokenEvodiscKPack.zip/file",
+        "filename": "EVODISCK_Pack.zip",
+        "size_bytes":33114030,
+        "sha256": "0bcb55e11e2798d78d192423c9f4d14013e1494e5e2078aa70ca517f2de8a68c",
+        "naffy_url": "",
+        "tags": "",
+        "changelog": "",
+        "requirements": "",
+        "gallery": [],
+        "revision": 1,
+        "updated_at": "2026-11-06T00:00:00+00:00",
+    },
+]
 
-
-# =========================================================
-# YOUTUBE - NAJNOWSZY FILM
-# =========================================================
 
 def latest_video():
     try:
@@ -142,20 +160,12 @@ def latest_video():
         }
 
 
-# =========================================================
-# WIDOCZNE MODY
-# =========================================================
-
 def visible():
     return [
         m for m in MODS
         if m.get("published")
     ]
 
-
-# =========================================================
-# LINK MEDIAFIRE
-# =========================================================
 
 def direct(url):
 
@@ -182,10 +192,6 @@ def direct(url):
         print("MediaFire error:", e)
         return url
 
-
-# =========================================================
-# KATALOG MODÓW
-# =========================================================
 
 def catalog():
 
@@ -246,11 +252,6 @@ def catalog():
         "total": len(items),
     })
 
-
-# =========================================================
-# LISTA MODÓW
-# =========================================================
-
 @app.get("/v5/mods")
 @app.get("/v5/mods/")
 @app.get("/mods")
@@ -263,11 +264,6 @@ def list_mods():
 @app.get("/v5/")
 def v5_root():
     return catalog()
-
-
-# =========================================================
-# POJEDYNCZY MOD
-# =========================================================
 
 @app.get("/v5/mods/<mod_id>")
 def one(mod_id):
@@ -284,11 +280,6 @@ def one(mod_id):
     return jsonify({
         "error": "not found"
     }), 404
-
-
-# =========================================================
-# POBIERANIE MODÓW
-# =========================================================
 
 @app.route(
     "/v5/mods/<mod_id>/download",
@@ -324,10 +315,6 @@ def download(mod_id):
     }), 404
 
 
-# =========================================================
-# BUYERS
-# =========================================================
-
 @app.route(
     "/v5/buyers",
     methods=["GET", "POST"]
@@ -343,11 +330,6 @@ def buyers():
         "recovery_code": "ZGB-OK"
     })
 
-
-# =========================================================
-# STRONA GŁÓWNA
-# =========================================================
-
 @app.get("/")
 def root():
 
@@ -355,11 +337,6 @@ def root():
         "ok": True,
         "api": "/v5/mods"
     })
-
-
-# =========================================================
-# START SERWERA
-# =========================================================
 
 if __name__ == "__main__":
 
