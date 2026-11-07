@@ -1,9 +1,8 @@
-import json, os
-from flask import Flask, request, jsonify, redirect
+import os
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-# Wpisz tu swoje mody. price_minor: 0 = darmowy.
 MODS = [
     {
         "id": "deutz-series9",
@@ -22,7 +21,7 @@ MODS = [
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/xhyvj8oqo21rjw6/FS22_DeutzSeries9.zip/file",
         "filename": "FS22_DeutzSeries9.zip",
-        "size_bytes":13746831,
+        "size_bytes": 13746831,
         "sha256": "68fafa7d51f41a268ee4adf5dd81b24e2049dc1d66e0b12c590d27e040a0ad39",
         "naffy_url": "",
         "tags": "",
@@ -37,8 +36,7 @@ MODS = [
 def visible():
     return [m for m in MODS if m.get("published")]
 
-@app.get("/v5/mods")
-def list_mods():
+def catalog():
     q = (request.args.get("q") or "").lower()
     cat = (request.args.get("category") or "").lower()
     filt = request.args.get("filter") or ""
@@ -71,6 +69,18 @@ def list_mods():
         "total": len(items),
     })
 
+@app.get("/v5/mods")
+@app.get("/v5/mods/")
+@app.get("/mods")
+@app.get("/mods/")
+def list_mods():
+    return catalog()
+
+@app.get("/v5")
+@app.get("/v5/")
+def v5_root():
+    return catalog()
+
 @app.get("/v5/mods/<mod_id>")
 def one(mod_id):
     for m in visible():
@@ -80,12 +90,15 @@ def one(mod_id):
             return jsonify(row)
     return jsonify({"error": "not found"}), 404
 
-@app.post("/v5/mods/<mod_id>/download")
+@app.route("/v5/mods/<mod_id>/download", methods=["GET", "POST"])
+@app.route("/mods/<mod_id>/download", methods=["GET", "POST"])
 def download(mod_id):
     for m in visible():
         if m["id"] == mod_id:
+            link = m.get("file_url", "")
             return jsonify({
-                "uri": m.get("file_url", ""),
+                "uri": link,
+                "url": link,
                 "filename": m.get("filename", mod_id + ".zip"),
                 "sha256": m.get("sha256", ""),
                 "size_bytes": m.get("size_bytes", 0),
