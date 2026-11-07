@@ -33,6 +33,34 @@ MODS = [
         "updated_at": "2026-11-06T00:00:00+00:00",
     }
 ]
+{
+        "id": "lindner-unitrac-pack",
+        "title": "Lindner Unitrac Pack",
+        "author": "Hacker",
+        "category": "tiry",
+        "version": "1.0.0.1",
+        "price_minor": 0,
+        "published": True,
+        "purchased": True,
+        "downloads": 0,
+        "purchases": 0,
+        "thumbnail": "<",
+        "description": "Lindner Unitrac Pack",
+        "summary": "ADF 3200 Mistral 3400\nSwiss-Elite S 31\nPlatform",
+        "compatibility": "FS23 Mobile",
+        "file_url": "https://files.catbox.moe/3e3fhs.zip",
+        "filename": "Lindner Unitrac Pack.zip",
+        "size_bytes": 35441869,
+        "sha256": "1b17b79c253b9884018e4ed620a10fc0aa97a4393589d7c0b7da4813e1ac26f2",
+        "naffy_url": "",
+        "tags": "",
+        "changelog": "",
+        "requirements": "",
+        "gallery": [],
+        "revision": 1,
+        "updated_at": "2026-11-06T00:00:00+00:00",
+    },
+]
 
 def visible():
     return [m for m in MODS if m.get("published")]
@@ -70,34 +98,6 @@ def list_mods():
         "page_size": limit,
         "total": len(items),
     })
-{
-        "id": "lindner-unitrac-pack",
-        "title": "Lindner Unitrac Pack",
-        "author": "Hacker",
-        "category": "tiry",
-        "version": "1.0.0.1",
-        "price_minor": 0,
-        "published": True,
-        "purchased": True,
-        "downloads": 0,
-        "purchases": 0,
-        "thumbnail": "<",
-        "description": "Lindner Unitrac Pack",
-        "summary": "ADF 3200 Mistral 3400\nSwiss-Elite S 31\nPlatform",
-        "compatibility": "FS23 Mobile",
-        "file_url": "https://files.catbox.moe/3e3fhs.zip",
-        "filename": "Lindner Unitrac Pack.zip",
-        "size_bytes": 35441869,
-        "sha256": "1b17b79c253b9884018e4ed620a10fc0aa97a4393589d7c0b7da4813e1ac26f2",
-        "naffy_url": "",
-        "tags": "",
-        "changelog": "",
-        "requirements": "",
-        "gallery": [],
-        "revision": 1,
-        "updated_at": "2026-11-06T00:00:00+00:00",
-    },
-]
 
 @app.get("/v5/mods/<mod_id>")
 def one(mod_id):
