@@ -71,21 +71,15 @@ def list_mods():
         "total": len(items),
     })
 
-@app.get("/v5/mods/<mod_id>")
-def one(mod_id):
-    for m in visible():
-        if m["id"] == mod_id:
-            row = dict(m)
-            row.pop("file_url", None)
-            return jsonify(row)
-    return jsonify({"error": "not found"}), 404
-
-@app.post("/v5/mods/<mod_id>/download")
+@app.route("/v5/mods/<mod_id>/download", methods=["GET", "POST"])
+@app.route("/mods/<mod_id>/download", methods=["GET", "POST"])
 def download(mod_id):
     for m in visible():
         if m["id"] == mod_id:
+            link = m.get("file_url", "")
             return jsonify({
-                "uri": m.get("file_url", ""),
+                "uri": link,
+                "url": link,
                 "filename": m.get("filename", mod_id + ".zip"),
                 "sha256": m.get("sha256", ""),
                 "size_bytes": m.get("size_bytes", 0),
