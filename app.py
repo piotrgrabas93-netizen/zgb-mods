@@ -328,9 +328,9 @@ MODS = [
         "purchased": True,
         "downloads": 0,
         "purchases": 0,
-        "thumbnail": "https://iili.io/nbaq90g.png",
+        "thumbnail": "https://iili.io/nbaAbKQ.png",
         "description": "Ursus4512_4514",
-        "summary": " Working width: 3.6 m- Capacity 250 liters- Price 4500 $",
+        "summary": "Price 4512 31000 $4514 41000 $Power 60 hpMaxspeed 28 kph",
         "file_url": "https://files.catbox.moe/biv3g7.zip",
         "filename": "Ursus4512_4514.zip",
         "size_bytes": 1929379,
@@ -342,7 +342,7 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
-    },
+},
 ]
 
 
