@@ -1,3 +1,4 @@
+
 import os
 import re
 import html
@@ -213,10 +214,10 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
-},
-{
-
-"title": "lizardRumbler",
+    },
+    {
+        "id": "lizardRumbler",
+        "title": "lizardRumbler",
         "author": "Hacker",
         "category": "Samochody",
         "version": "1.0.0.0",
@@ -240,9 +241,10 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
-},
-{
-  "title": "lowRumbler",
+    },
+    {
+        "id": "lowRumbler",
+        "title": "lowRumbler",
         "author": "Hacker",
         "category": "Samochody",
         "version": "1.1.0.0",
@@ -266,9 +268,10 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
-},
-{
-  "title": "SmallTrailer",
+    },
+    {
+        "id": "SmallTrailer",
+        "title": "SmallTrailer",
         "author": "Hacker",
         "category": "Przyczepy",
         "version": "1.1.0.0",
@@ -280,6 +283,7 @@ MODS = [
         "thumbnail": "https://iili.io/nbYyFMx.png",
         "description": "SmallTrailer",
         "summary": "Cena: 2500 € Pojemność 1800 l, 4400 l",
+        "compatibility": "FS23 Mobile",
         "file_url": "https://files.catbox.moe/wo0il1.zip",
         "filename": "SmallTrailer.zip",
         "size_bytes": 1929379,
@@ -291,9 +295,10 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
-},
-{
-"title": "TIM_Pneumatska",
+    },
+    {
+        "id": "TIM_Pneumatska",
+        "title": "TIM_Pneumatska",
         "author": "Hacker",
         "category": "Siewniki",
         "version": "1.0.0.0",
@@ -304,7 +309,8 @@ MODS = [
         "purchases": 0,
         "thumbnail": "https://iili.io/nbaq90g.png",
         "description": "TIM_Pneumatska",
-        "summary": " Working width: 3.6 m- Capacity 250 liters- Price 4500 $",
+        "summary": "Working width: 3.6 m - Capacity 250 liters - Price 4500 $",
+        "compatibility": "FS23 Mobile",
         "file_url": "https://files.catbox.moe/biv3g7.zip",
         "filename": "TIM_Pneumatska.zip",
         "size_bytes": 1929379,
@@ -316,10 +322,10 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
-},
-{
-
-"title": "Ursus4512_4514",
+    },
+    {
+        "id": "Ursus4512_4514",
+        "title": "Ursus4512_4514",
         "author": "Hacker",
         "category": "Ciagniki",
         "version": "1.1.0.0",
@@ -330,7 +336,8 @@ MODS = [
         "purchases": 0,
         "thumbnail": "https://iili.io/nbaAbKQ.png",
         "description": "Ursus4512_4514",
-        "summary": "Price 4512 31000 $4514 41000 $Power 60 hpMaxspeed 28 kph",
+        "summary": "Price 4512 31000 $ 4514 41000 $ Power 60 hp Max speed 28 kph",
+        "compatibility": "FS23 Mobile",
         "file_url": "https://files.catbox.moe/biv3g7.zip",
         "filename": "Ursus4512_4514.zip",
         "size_bytes": 1929379,
@@ -342,9 +349,8 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
-},
+    }
 ]
-
 
 
 def latest_video():
@@ -750,7 +756,8 @@ def root():
     return jsonify({
         "ok": True,
         "api": "/v5/mods",
-        "latest_video": "/v5/channel/latest"
+        "latest_video": "/v5/channel/latest",
+        "media": MEDIA
     })
 
 
