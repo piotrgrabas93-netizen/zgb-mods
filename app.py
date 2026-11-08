@@ -291,6 +291,31 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
+},
+{
+"title": "TIM_Pneumatska",
+        "author": "Hacker",
+        "category": "Siewniki",
+        "version": "1.0.0.0",
+        "price_minor": 0,
+        "published": True,
+        "purchased": True,
+        "downloads": 0,
+        "purchases": 0,
+        "thumbnail": "https://iili.io/nbYyFMx.png",
+        "description": "TIM_Pneumatska",
+        "summary": " Working width: 3.6 m- Capacity 250 liters- Price 4500 $",
+        "file_url": "https://files.catbox.moe/wo0il1.zip",
+        "filename": "TIM_Pneumatska.zip",
+        "size_bytes": 1929379,
+        "sha256": "6a8d55a1cb94aa828cb8289294ae9294c3cef929286f5599a0a4a1093b16b0b3",
+        "naffy_url": "",
+        "tags": "",
+        "changelog": "",
+        "requirements": "",
+        "gallery": [],
+        "revision": 1,
+        "updated_at": "2026-11-06T00:00:00+00:00"
     },
 ]
 
