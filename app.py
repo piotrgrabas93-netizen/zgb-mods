@@ -1,8 +1,11 @@
 
 import os
 import re
+import html
 import urllib.request
-from flask import Flask, request, jsonify
+import urllib.error
+from urllib.parse import quote
+from flask import Flask, request, jsonify, Response, stream_with_context, url_for
 
 app = Flask(__name__)
 
@@ -132,8 +135,8 @@ MODS = [
         "description": "ursus_1614_Pack",
         "summary": "Price: 58000 Power 155 Max speed 28/38 kph",
         "compatibility": "FS23 Mobile",
-        "file_url": "https://files.catbox.moe/zl3iec.zip",
-        "filename": "1614.zip",
+        "file_url": "https://www.mediafire.com/file/onc2ylux6jpn1e8/FS22_1614.zip/file",
+        "filename": "ursus_1614_Pack.zip",
         "size_bytes": 44900127,
         "sha256": "333296c3f22e4b951f9c45487989f53284e5d218e5b9e662941d6e2ba9903da8",
         "naffy_url": "",
@@ -143,16 +146,13 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
-    },
+    }
 ]
 
 
 def latest_video():
     try:
-        url = (
-            "https://www.youtube.com/feeds/videos.xml?channel_id="
-            + CHANNEL_ID
-        )
+        url = "https://www.youtube.com/feeds/videos.xml?channel_id=" + CHANNEL_ID
 
         req = urllib.request.Request(
             url,
@@ -167,19 +167,17 @@ def latest_video():
             xml
         )
 
-        title = re.findall(
-            r"<title>(.*?)</title>",
+        titles = re.findall(
+            r"<title>([^<]+)</title>",
             xml
         )
 
         return {
             "video_id": vid.group(1) if vid else "",
-            "title": title[1] if len(title) > 1 else "ZGB"
+            "title": titles[1] if len(titles) > 1 else "ZGB"
         }
 
-    except Exception as e:
-        print("YouTube error:", e)
-
+    except Exception:
         return {
             "video_id": "",
             "title": "ZGB"
@@ -197,30 +195,36 @@ def direct(url):
     if "mediafire.com/file/" not in url:
         return url
 
-    try:
-        req = urllib.request.Request(
-            url,
-            headers={"User-Agent": "Mozilla/5.0"}
-        )
+    req = urllib.request.Request(
+        url,
+        headers={"User-Agent": "Mozilla/5.0"}
+    )
 
-        with urllib.request.urlopen(req, timeout=30) as response:
-            html = response.read().decode("utf-8", "ignore")
+    with urllib.request.urlopen(req, timeout=40) as response:
+        page = response.read().decode("utf-8", "ignore")
 
-        found = re.findall(
-            r"https://download\d*\.mediafire\.com[^\"'<> ]+",
-            html
-        )
+    page = html.unescape(page)
+    page = page.replace("\\/", "/")
 
-        return found[0] if found else url
+    patterns = [
+        r'https://download\d*\.mediafire\.com/[^"\'<>\s]+',
+        r'"(https://download\d*\.mediafire\.com/[^"]+)"',
+        r'href="(https://download\d*\.mediafire\.com/[^"]+)"'
+    ]
 
-    except Exception as e:
-        print("MediaFire error:", e)
-        return url
+    for pattern in patterns:
+        found = re.findall(pattern, page)
+
+        if found:
+            link = found[0].rstrip("\\")
+            return link
+
+    raise Exception("Nie znaleziono bezposredniego linku MediaFire")
 
 
 def catalog():
-    q = (request.args.get("q") or "").lower()
-    cat = (request.args.get("category") or "").lower()
+    q = (request.args.get("q") or "").lower().strip()
+    cat = (request.args.get("category") or "").lower().strip()
     filt = request.args.get("filter") or ""
 
     try:
@@ -250,6 +254,8 @@ def catalog():
         items = [
             m for m in items
             if q in m.get("title", "").lower()
+            or q in m.get("category", "").lower()
+            or q in m.get("summary", "").lower()
         ]
 
     if cat:
@@ -313,13 +319,15 @@ def one(mod_id):
 def download(mod_id):
     for m in visible():
         if m["id"] == mod_id:
-            link = direct(
-                m.get("file_url", "")
+            file_link = url_for(
+                "download_file",
+                mod_id=mod_id,
+                _external=True
             )
 
             return jsonify({
-                "uri": link,
-                "url": link,
+                "uri": file_link,
+                "url": file_link,
                 "filename": m.get(
                     "filename",
                     mod_id + ".zip"
@@ -331,6 +339,93 @@ def download(mod_id):
     return jsonify({
         "error": "not found"
     }), 404
+
+
+@app.get("/v5/mods/<mod_id>/file")
+@app.get("/mods/<mod_id>/file")
+def download_file(mod_id):
+    mod = None
+
+    for m in visible():
+        if m["id"] == mod_id:
+            mod = m
+            break
+
+    if mod is None:
+        return jsonify({
+            "error": "not found"
+        }), 404
+
+    try:
+        link = direct(mod.get("file_url", ""))
+
+        req = urllib.request.Request(
+            link,
+            headers={
+                "User-Agent": "Mozilla/5.0",
+                "Accept": "application/zip,application/octet-stream,*/*"
+            }
+        )
+
+        upstream = urllib.request.urlopen(
+            req,
+            timeout=60
+        )
+
+        content_type = upstream.headers.get(
+            "Content-Type",
+            "application/octet-stream"
+        )
+
+        if "text/html" in content_type.lower():
+            upstream.close()
+            return jsonify({
+                "error": "Zrodlo zwrocilo strone HTML zamiast pliku ZIP"
+            }), 502
+
+        filename = mod.get(
+            "filename",
+            mod_id + ".zip"
+        )
+
+        def generate():
+            try:
+                while True:
+                    chunk = upstream.read(256 * 1024)
+
+                    if not chunk:
+                        break
+
+                    yield chunk
+            finally:
+                upstream.close()
+
+        response = Response(
+            stream_with_context(generate()),
+            content_type="application/octet-stream",
+            direct_passthrough=True
+        )
+
+        response.headers["Content-Disposition"] = (
+            "attachment; filename*=UTF-8''" + quote(filename)
+        )
+
+        response.headers["Content-Length"] = upstream.headers.get(
+            "Content-Length",
+            str(mod.get("size_bytes", 0))
+        )
+
+        response.headers["Cache-Control"] = "no-cache"
+
+        return response
+
+    except Exception as e:
+        print("Download error:", e)
+
+        return jsonify({
+            "error": "Nie udalo sie pobrac pelnego pliku",
+            "details": str(e)
+        }), 502
 
 
 @app.route(
