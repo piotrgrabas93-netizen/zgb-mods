@@ -17,10 +17,13 @@ app.config["MAX_CONTENT_LENGTH"] = 500 * 1024 * 1024
 
 CHANNEL_ID = "UC7oYer-vkZ7rvJTcy2onzrw"
 
-# Pamięć pobranych plików.
-# Dane są wspólne dla endpointu informacji i endpointu pobierania.
 FILE_CACHE = {}
 CACHE_LOCK = threading.Lock()
+
+MEDIA = {
+    "youtube": "https://www.youtube.com/@ZGB_Hacke_jp",
+    "tiktok": "https://www.tiktok.com/@zgb_hacker._.zapa"
+}
 
 MODS = [
     {
@@ -310,11 +313,6 @@ def direct(url):
 
 
 def fetch_complete_file(mod):
-    """
-    Pobiera plik ze źródła, sprawdza ZIP,
-    oblicza prawdziwy rozmiar i SHA256.
-    """
-
     source_url = direct(mod.get("file_url", ""))
 
     req = urllib.request.Request(
@@ -401,11 +399,6 @@ def fetch_complete_file(mod):
 
 
 def get_file(mod):
-    """
-    Zwraca plik z pamięci podręcznej.
-    Jeśli go nie ma, pobiera i sprawdza oryginał.
-    """
-
     mod_id = mod["id"]
 
     with CACHE_LOCK:
@@ -471,6 +464,7 @@ def catalog():
 
     return jsonify({
         "channel": latest_video(),
+        "media": MEDIA,
         "items": out,
         "page": page,
         "page_size": limit,
@@ -527,7 +521,6 @@ def download(mod_id):
         return jsonify({"error": "not found"}), 404
 
     try:
-        # Pobiera ZIP i oblicza prawdziwe dane.
         file_info = get_file(mod)
 
         file_link = url_for(
