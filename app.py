@@ -225,7 +225,7 @@ MODS = [
         "purchased": True,
         "downloads": 0,
         "purchases": 0,
-        "thumbnail": "https://iili.io/nb2yYMP.png",
+        "thumbnail": "https://iili.io/nbYrhWF.png",
         "description": "lizardRumbler",
         "summary": "",
         "compatibility": "FS23 Mobile",
