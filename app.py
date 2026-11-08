@@ -300,6 +300,12 @@ def catalog():
     })
 
 
+@app.get("/v5/channel/latest")
+@app.get("/channel/latest")
+def channel_latest():
+    return jsonify(latest_video())
+
+
 @app.get("/v5/mods")
 @app.get("/v5/mods/")
 @app.get("/mods")
@@ -466,7 +472,8 @@ def buyers():
 def root():
     return jsonify({
         "ok": True,
-        "api": "/v5/mods"
+        "api": "/v5/mods",
+        "latest_video": "/v5/channel/latest"
     })
 
 
