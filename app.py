@@ -214,7 +214,7 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
-    }
+    },
 ]
 
 "title": "lizardRumbler",
@@ -241,11 +241,9 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
-    }
-]
-
-
-"title": "lowRumbler",
+},
+{
+  "title": "lowRumbler",
         "author": "Hacker",
         "category": "Samochody",
         "version": "1.1.0.0",
@@ -269,8 +267,35 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
-    }
+},
+{
+
+"title": "SmallTrailer",
+        "author": "Hacker",
+        "category": "Przyczepy",
+        "version": "1.1.0.0",
+        "price_minor": 0,
+        "published": True,
+        "purchased": True,
+        "downloads": 0,
+        "purchases": 0,
+        "thumbnail": "https://iili.io/nbYQU3F.png",
+        "description": "SmallTrailer",
+        "summary": "Cena: 2500 € Pojemność 1800 l, 4400 l",
+        "file_url": "https://files.catbox.moe/k6m6ae.zip",
+        "filename": "SmallTrailer.zip",
+        "size_bytes": 1929379,
+        "sha256": "c24a188ad96772108ce9283ebbd24508c5880eb6abf805bf6001fd8b28aaa2de",
+        "naffy_url": "",
+        "tags": "",
+        "changelog": "",
+        "requirements": "",
+        "gallery": [],
+        "revision": 1,
+        "updated_at": "2026-11-06T00:00:00+00:00"
+    },
 ]
+
 
 def latest_video():
     try:
