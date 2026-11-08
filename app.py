@@ -137,7 +137,7 @@ MODS = [
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/onc2ylux6jpn1e8/FS22_1614.zip/file",
         "filename": "ursus_1614_Pack.zip",
-        "size_bytes": 44900127,
+        "size_bytes": 44894839,
         "sha256": "333296c3f22e4b951f9c45487989f53284e5d218e5b9e662941d6e2ba9903da8",
         "naffy_url": "",
         "tags": "",
