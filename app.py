@@ -316,8 +316,35 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
+},
+{
+
+"title": "Ursus4512_4514",
+        "author": "Hacker",
+        "category": "Ciagniki",
+        "version": "1.1.0.0",
+        "price_minor": 0,
+        "published": True,
+        "purchased": True,
+        "downloads": 0,
+        "purchases": 0,
+        "thumbnail": "https://iili.io/nbaq90g.png",
+        "description": "Ursus4512_4514",
+        "summary": " Working width: 3.6 m- Capacity 250 liters- Price 4500 $",
+        "file_url": "https://files.catbox.moe/biv3g7.zip",
+        "filename": "Ursus4512_4514.zip",
+        "size_bytes": 1929379,
+        "sha256": "4157181e853d9d2ad095b42cafc2846981f5221d3774e72d2e8aefbf4b322a2f",
+        "naffy_url": "",
+        "tags": "",
+        "changelog": "",
+        "requirements": "",
+        "gallery": [],
+        "revision": 1,
+        "updated_at": "2026-11-06T00:00:00+00:00"
     },
 ]
+
 
 
 def latest_video():
