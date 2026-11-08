@@ -1,4 +1,3 @@
-
 import os
 import re
 import html
@@ -214,8 +213,8 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
-    },
-]
+},
+{
 
 "title": "lizardRumbler",
         "author": "Hacker",
@@ -269,8 +268,7 @@ MODS = [
         "updated_at": "2026-11-06T00:00:00+00:00"
 },
 {
-
-"title": "SmallTrailer",
+  "title": "SmallTrailer",
         "author": "Hacker",
         "category": "Przyczepy",
         "version": "1.1.0.0",
