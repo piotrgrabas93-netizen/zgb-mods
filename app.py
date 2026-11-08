@@ -217,6 +217,33 @@ MODS = [
     }
 ]
 
+"title": "lizardRumbler",
+        "author": "Hacker",
+        "category": "Samochody",
+        "version": "1.0.0.0",
+        "price_minor": 0,
+        "published": True,
+        "purchased": True,
+        "downloads": 0,
+        "purchases": 0,
+        "thumbnail": "https://iili.io/nb2yYMP.png",
+        "description": "lizardRumbler",
+        "summary": "",
+        "compatibility": "FS23 Mobile",
+        "file_url": "https://files.catbox.moe/jpg5yy.zip",
+        "filename": "lizardRumbler.zip",
+        "size_bytes": 1929379,
+        "sha256": "6bebee493303b2c5a4a3030cec6ce7167b4f6b3fb9441ef22ecdfff5b3efd4b7",
+        "naffy_url": "",
+        "tags": "",
+        "changelog": "",
+        "requirements": "",
+        "gallery": [],
+        "revision": 1,
+        "updated_at": "2026-11-06T00:00:00+00:00"
+    }
+]
+
 
 def latest_video():
     try:
