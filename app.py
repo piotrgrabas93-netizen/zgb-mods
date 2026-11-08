@@ -118,8 +118,6 @@ MODS = [
         "updated_at": "2026-11-06T00:00:00+00:00",
     },
 ]
-
-
 "id": "ursus_1614_Pack",
         "title": "ursus 1614 pack",
         "author": "Hacker",
@@ -145,8 +143,8 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00",
-    },
-]
+},
+{
 
 
 def latest_video():
