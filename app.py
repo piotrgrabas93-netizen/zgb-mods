@@ -172,15 +172,34 @@ def latest_video():
             xml
         )
 
+        video_id = vid.group(1) if vid else ""
+
+        title = html.unescape(
+            titles[1] if len(titles) > 1 else "ZGB"
+        )
+
         return {
-            "video_id": vid.group(1) if vid else "",
-            "title": titles[1] if len(titles) > 1 else "ZGB"
+            "video_id": video_id,
+            "title": title,
+            "thumbnail": (
+                "https://img.youtube.com/vi/"
+                + video_id
+                + "/hqdefault.jpg"
+            ) if video_id else "",
+            "url": (
+                "https://www.youtube.com/watch?v="
+                + video_id
+            ) if video_id else ""
         }
 
-    except Exception:
+    except Exception as e:
+        print("YouTube error:", e)
+
         return {
             "video_id": "",
-            "title": "ZGB"
+            "title": "ZGB",
+            "thumbnail": "",
+            "url": ""
         }
 
 
