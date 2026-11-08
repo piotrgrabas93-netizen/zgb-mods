@@ -1,7 +1,7 @@
+
 import os
 import re
 import urllib.request
-import urllib.error
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
@@ -34,7 +34,7 @@ MODS = [
         "requirements": "",
         "gallery": [],
         "revision": 1,
-        "updated_at": "2026-11-06T00:00:00+00:00",
+        "updated_at": "2026-11-06T00:00:00+00:00"
     },
     {
         "id": "lindner-unitrac-122",
@@ -61,7 +61,7 @@ MODS = [
         "requirements": "",
         "gallery": [],
         "revision": 1,
-        "updated_at": "2026-11-06T00:00:00+00:00",
+        "updated_at": "2026-11-06T00:00:00+00:00"
     },
     {
         "id": "LizardEnergy",
@@ -88,7 +88,7 @@ MODS = [
         "requirements": "",
         "gallery": [],
         "revision": 1,
-        "updated_at": "2026-11-06T00:00:00+00:00",
+        "updated_at": "2026-11-06T00:00:00+00:00"
     },
     {
         "id": "EVODISCK_Pack",
@@ -115,7 +115,7 @@ MODS = [
         "requirements": "",
         "gallery": [],
         "revision": 1,
-        "updated_at": "2026-11-06T00:00:00+00:00",
+        "updated_at": "2026-11-06T00:00:00+00:00"
     },
     {
         "id": "ursus_1614_Pack",
@@ -143,8 +143,8 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
-    },
-{
+    }
+]
 
 
 def latest_video():
@@ -194,7 +194,6 @@ def visible():
 
 
 def direct(url):
-
     if "mediafire.com/file/" not in url:
         return url
 
@@ -220,7 +219,6 @@ def direct(url):
 
 
 def catalog():
-
     q = (request.args.get("q") or "").lower()
     cat = (request.args.get("category") or "").lower()
     filt = request.args.get("filter") or ""
@@ -234,7 +232,6 @@ def catalog():
         page = 1
 
     limit = 40
-
     items = visible()
 
     if filt == "free":
@@ -262,7 +259,6 @@ def catalog():
         ]
 
     start = (page - 1) * limit
-
     out = []
 
     for m in items[start:start + limit]:
@@ -275,8 +271,9 @@ def catalog():
         "items": out,
         "page": page,
         "page_size": limit,
-        "total": len(items),
+        "total": len(items)
     })
+
 
 @app.get("/v5/mods")
 @app.get("/v5/mods/")
@@ -291,21 +288,19 @@ def list_mods():
 def v5_root():
     return catalog()
 
+
 @app.get("/v5/mods/<mod_id>")
 def one(mod_id):
-
     for m in visible():
-
         if m["id"] == mod_id:
-
             row = dict(m)
             row.pop("file_url", None)
-
             return jsonify(row)
 
     return jsonify({
         "error": "not found"
     }), 404
+
 
 @app.route(
     "/v5/mods/<mod_id>/download",
@@ -316,11 +311,8 @@ def one(mod_id):
     methods=["GET", "POST"]
 )
 def download(mod_id):
-
     for m in visible():
-
         if m["id"] == mod_id:
-
             link = direct(
                 m.get("file_url", "")
             )
@@ -333,7 +325,7 @@ def download(mod_id):
                     mod_id + ".zip"
                 ),
                 "sha256": m.get("sha256", ""),
-                "size_bytes": m.get("size_bytes", 0),
+                "size_bytes": m.get("size_bytes", 0)
             })
 
     return jsonify({
@@ -350,23 +342,21 @@ def download(mod_id):
     methods=["GET", "POST"]
 )
 def buyers():
-
     return jsonify({
         "token": "zgb-ok",
         "recovery_code": "ZGB-OK"
     })
 
+
 @app.get("/")
 def root():
-
     return jsonify({
         "ok": True,
         "api": "/v5/mods"
     })
 
-if __name__ == "__main__":
 
+if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
-        port=int(os.environ.get("PORT", 10000))
-    )
+        port=int(os.environ.get("PORT", 10000))    )
