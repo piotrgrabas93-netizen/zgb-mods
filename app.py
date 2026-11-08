@@ -130,7 +130,7 @@ MODS = [
         "purchases": 0,
         "thumbnail": "https://iili.io/nDo6N9t.png",
         "description": "ursus_1614_Pack",
-        "summary": "Price: 58000 Power 155 Max speed 28/38 kph",
+        "summary": "Price: 58000 Power 155 ",
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/q7n1vjwdvmpwqsw/FS22_1614.zip/file",
         "filename": "ursus_1614_Pack.zip",
@@ -144,7 +144,7 @@ MODS = [
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
 },
-
+{
 
 
 def latest_video():
