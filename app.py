@@ -245,6 +245,33 @@ MODS = [
 ]
 
 
+"title": "lowRumbler",
+        "author": "Hacker",
+        "category": "Samochody",
+        "version": "1.0.0.0",
+        "price_minor": 0,
+        "published": True,
+        "purchased": True,
+        "downloads": 0,
+        "purchases": 0,
+        "thumbnail": "https://iili.io/nb2yYMP.png",
+        "description": "lowRumbler",
+        "summary": "Price: $52,000 Power 190 hp Max speed 80 kph",
+        "compatibility": "FS23 Mobile",
+        "file_url": "https://files.catbox.moe/xj3js4.zip",
+        "filename": "lowRumbler.zip",
+        "size_bytes": 1929379,
+        "sha256": "e01f1158daea6a2f2c00b5fa282bd8240a62839ed77330a721f3999cbb2b7dbc",
+        "naffy_url": "",
+        "tags": "",
+        "changelog": "",
+        "requirements": "",
+        "gallery": [],
+        "revision": 1,
+        "updated_at": "2026-11-06T00:00:00+00:00"
+    }
+]
+
 def latest_video():
     try:
         url = (
