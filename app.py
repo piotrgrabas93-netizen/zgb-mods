@@ -121,11 +121,10 @@ MODS = [
         "updated_at": "2026-11-06T00:00:00+00:00"
     },
     {
-        "id": "amazoneZGB_ZGTS",
-        "title": "amazoneZGB ZGTS",
+        "title": "amazoneZGB_ZGTS",
         "author": "Hacker",
-        "category": "siewniki",
-        "version": "1.5.0.0",
+        "category": "Kultywatory",
+        "version": "1.1.0.0",
         "price_minor": 0,
         "published": True,
         "purchased": True,
@@ -133,11 +132,11 @@ MODS = [
         "purchases": 0,
         "thumbnail": "https://iili.io/nDmIDFI.png",
         "description": "amazoneZGB_ZGTS Pack",
-        "summary": "Price 50000 Working width 15.0-36.0 m",
+        "summary": "Price 50000 Working width: 15.0-36.0 m",
         "compatibility": "FS23 Mobile",
-        "file_url": "https://files.catbox.moe/fcpp6c.zip",
-        "filename": "amazoneZGB_ZGTS Pack.zip",
-        "size_bytes":"5800000,
+        "file_url": "https://www.mediafire.com/file/cdabcke1t29r954/FS22_amazoneZGB_ZGTS.zip/file",
+        "filename": "amazoneZGB_ZGTSzip",
+        "size_bytes":5211423,
         "sha256": "80e9c66a7c6962f436cba95c16c32d0c53409e2563e33c128ebe10a24ae340b5",
         "naffy_url": "",
         "tags": "",
@@ -146,8 +145,8 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
-    }
-]
+    },
+    {
 
 
 def latest_video():
