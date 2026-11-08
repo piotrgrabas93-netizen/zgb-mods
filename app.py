@@ -131,7 +131,7 @@ MODS = [
         "purchased": True,
         "downloads": 0,
         "purchases": 0,
-        "thumbnail": "https://iili.io/nDo6N9t.png",
+        "thumbnail": "https://iili.io/nDmIDFI.png",
         "description": "amazoneZGB_ZGTS Pack",
         "summary": "Price 50000 Working width 15.0-36.0 m",
         "compatibility": "FS23 Mobile",
