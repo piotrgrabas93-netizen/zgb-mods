@@ -121,6 +121,7 @@ MODS = [
         "updated_at": "2026-11-06T00:00:00+00:00"
     },
     {
+        "id": "amazoneZGB_ZGTS",
         "title": "amazoneZGB_ZGTS",
         "author": "Hacker",
         "category": "Kultywatory",
@@ -136,7 +137,7 @@ MODS = [
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/cdabcke1t29r954/FS22_amazoneZGB_ZGTS.zip/file",
         "filename": "amazoneZGB_ZGTS.zip",
-        "size_bytes":5211423,
+        "size_bytes": 5211423,
         "sha256": "80e9c66a7c6962f436cba95c16c32d0c53409e2563e33c128ebe10a24ae340b5",
         "naffy_url": "",
         "tags": "",
@@ -145,8 +146,9 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
-},
-{
+    },
+    {
+        "id": "JeantilBR10430",
         "title": "JeantilBR10430",
         "author": "Hacker",
         "category": "Przyczepy",
@@ -162,7 +164,7 @@ MODS = [
         "compatibility": "FS23 Mobile",
         "file_url": "https://files.catbox.moe/i8ueiz.zip",
         "filename": "JeantilBR10430.zip",
-        "size_bytes":7769948,
+        "size_bytes": 7769948,
         "sha256": "80e9c66a7c6962f436cba95c16c32d0c53409e2563e33c128ebe10a24ae340b5",
         "naffy_url": "",
         "tags": "",
@@ -173,9 +175,8 @@ MODS = [
         "updated_at": "2026-11-06T00:00:00+00:00"
     },
     {
-        
-
-"title": "Lizard600",
+        "id": "Lizard600",
+        "title": "Lizard600",
         "author": "Hacker",
         "category": "obciazniki",
         "version": "1.0.0.0",
@@ -190,7 +191,7 @@ MODS = [
         "compatibility": "FS23 Mobile",
         "file_url": "https://files.catbox.moe/jpg5yy.zip",
         "filename": "Lizard600.zip",
-        "size_bytes":1929379,
+        "size_bytes": 1929379,
         "sha256": "6bebee493303b2c5a4a3030cec6ce7167b4f6b3fb9441ef22ecdfff5b3efd4b7",
         "naffy_url": "",
         "tags": "",
@@ -199,12 +200,16 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
-    },
-    [
-        
+    }
+]
+
+
 def latest_video():
     try:
-        url = "https://www.youtube.com/feeds/videos.xml?channel_id=" + CHANNEL_ID
+        url = (
+            "https://www.youtube.com/feeds/videos.xml?channel_id="
+            + CHANNEL_ID
+        )
 
         req = urllib.request.Request(
             url,
@@ -220,14 +225,15 @@ def latest_video():
         )
 
         titles = re.findall(
-            r"<title>([^<]+)</title>",
-            xml
+            r"<title>(.*?)</title>",
+            xml,
+            re.DOTALL
         )
 
         video_id = vid.group(1) if vid else ""
 
         title = html.unescape(
-            titles[1] if len(titles) > 1 else "ZGB"
+            titles[1].strip() if len(titles) > 1 else "ZGB"
         )
 
         return {
@@ -258,7 +264,7 @@ def latest_video():
 def visible():
     return [
         m for m in MODS
-        if m.get("published")
+        if m.get("published", False)
     ]
 
 
@@ -290,7 +296,9 @@ def direct(url):
             link = found[0].rstrip("\\")
             return link
 
-    raise Exception("Nie znaleziono bezposredniego linku MediaFire")
+    raise Exception(
+        "Nie znaleziono bezposredniego linku MediaFire"
+    )
 
 
 def catalog():
@@ -487,10 +495,10 @@ def download_file(mod_id):
             "attachment; filename*=UTF-8''" + quote(filename)
         )
 
-        response.headers["Content-Length"] = upstream.headers.get(
-            "Content-Length",
-            str(mod.get("size_bytes", 0))
-        )
+        content_length = upstream.headers.get("Content-Length")
+
+        if content_length:
+            response.headers["Content-Length"] = content_length
 
         response.headers["Cache-Control"] = "no-cache"
 
