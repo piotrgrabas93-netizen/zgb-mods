@@ -117,11 +117,11 @@ MODS = [
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00",
     },
-]
-"id": "ursus_1614_Pack",
+    {
+        "id": "ursus_1614_Pack",
         "title": "ursus 1614 pack",
         "author": "Hacker",
-        "category": "ciagniki",
+        "category": "male ciagniki",
         "version": "1.5.0.0",
         "price_minor": 0,
         "published": True,
@@ -142,8 +142,8 @@ MODS = [
         "requirements": "",
         "gallery": [],
         "revision": 1,
-        "updated_at": "2026-11-06T00:00:00+00:00",
-],
+        "updated_at": "2026-11-06T00:00:00+00:00"
+},
 {
 
 
