@@ -135,7 +135,7 @@ MODS = [
         "summary": "Price 50000 Working width: 15.0-36.0 m",
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/cdabcke1t29r954/FS22_amazoneZGB_ZGTS.zip/file",
-        "filename": "amazoneZGB_ZGTSzip",
+        "filename": "amazoneZGB_ZGTS.zip",
         "size_bytes":5211423,
         "sha256": "80e9c66a7c6962f436cba95c16c32d0c53409e2563e33c128ebe10a24ae340b5",
         "naffy_url": "",
@@ -145,10 +145,63 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
+},
+{
+        "title": "JeantilBR10430",
+        "author": "Hacker",
+        "category": "Przyczepy",
+        "version": "1.0.0.0",
+        "price_minor": 0,
+        "published": True,
+        "purchased": True,
+        "downloads": 0,
+        "purchases": 0,
+        "thumbnail": "https://iili.io/nb2TYQt.png",
+        "description": "JeantilBR10430 Pack",
+        "summary": "Price 150.000 to 156.500 Capacity from 45.000 to 71.000 L",
+        "compatibility": "FS23 Mobile",
+        "file_url": "https://files.catbox.moe/i8ueiz.zip",
+        "filename": "JeantilBR10430.zip",
+        "size_bytes":7769948,
+        "sha256": "80e9c66a7c6962f436cba95c16c32d0c53409e2563e33c128ebe10a24ae340b5",
+        "naffy_url": "",
+        "tags": "",
+        "changelog": "",
+        "requirements": "",
+        "gallery": [],
+        "revision": 1,
+        "updated_at": "2026-11-06T00:00:00+00:00"
+    },
+    {
+        
+
+"title": "Lizard600",
+        "author": "Hacker",
+        "category": "obciazniki",
+        "version": "1.0.0.0",
+        "price_minor": 0,
+        "published": True,
+        "purchased": True,
+        "downloads": 0,
+        "purchases": 0,
+        "thumbnail": "https://iili.io/nb2yYMP.png",
+        "description": "Lizard600 Pack",
+        "summary": "- Cena: 300 - Waga: 600 kg",
+        "compatibility": "FS23 Mobile",
+        "file_url": "https://files.catbox.moe/jpg5yy.zip",
+        "filename": "Lizard600.zip",
+        "size_bytes":1929379,
+        "sha256": "6bebee493303b2c5a4a3030cec6ce7167b4f6b3fb9441ef22ecdfff5b3efd4b7",
+        "naffy_url": "",
+        "tags": "",
+        "changelog": "",
+        "requirements": "",
+        "gallery": [],
+        "revision": 1,
+        "updated_at": "2026-11-06T00:00:00+00:00"
     },
     [
-
-
+        
 def latest_video():
     try:
         url = "https://www.youtube.com/feeds/videos.xml?channel_id=" + CHANNEL_ID
