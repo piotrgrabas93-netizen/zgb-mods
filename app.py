@@ -2,18 +2,25 @@
 import os
 import re
 import html
+import hashlib
+import threading
 import urllib.request
 import urllib.error
 import zipfile
+
 from io import BytesIO
 from urllib.parse import quote
 from flask import Flask, request, jsonify, Response, url_for
 
 app = Flask(__name__)
-
 app.config["MAX_CONTENT_LENGTH"] = 500 * 1024 * 1024
 
 CHANNEL_ID = "UC7oYer-vkZ7rvJTcy2onzrw"
+
+# Pamięć pobranych plików.
+# Dane są wspólne dla endpointu informacji i endpointu pobierania.
+FILE_CACHE = {}
+CACHE_LOCK = threading.Lock()
 
 MODS = [
     {
@@ -299,7 +306,120 @@ def direct(url):
         if found:
             return found[0].rstrip("\\")
 
-    raise Exception("Nie znaleziono bezposredniego linku MediaFire")
+    raise Exception("Nie znaleziono bezpośredniego linku MediaFire")
+
+
+def fetch_complete_file(mod):
+    """
+    Pobiera plik ze źródła, sprawdza ZIP,
+    oblicza prawdziwy rozmiar i SHA256.
+    """
+
+    source_url = direct(mod.get("file_url", ""))
+
+    req = urllib.request.Request(
+        source_url,
+        headers={
+            "User-Agent": "Mozilla/5.0",
+            "Accept": "application/zip,application/octet-stream,*/*",
+            "Accept-Encoding": "identity",
+            "Connection": "close"
+        }
+    )
+
+    with urllib.request.urlopen(req, timeout=240) as upstream:
+
+        content_type = upstream.headers.get(
+            "Content-Type", ""
+        ).lower()
+
+        if "text/html" in content_type:
+            raise Exception("Źródło zwróciło HTML zamiast ZIP")
+
+        expected = upstream.headers.get("Content-Length")
+
+        data = BytesIO()
+        received = 0
+
+        while True:
+            chunk = upstream.read(256 * 1024)
+
+            if not chunk:
+                break
+
+            data.write(chunk)
+            received += len(chunk)
+
+        if expected:
+            expected = int(expected)
+
+            if received != expected:
+                raise Exception(
+                    "Niekompletny plik ze źródła. "
+                    "Otrzymano "
+                    + str(received)
+                    + " bajtów, oczekiwano "
+                    + str(expected)
+                )
+
+    file_data = data.getvalue()
+
+    if not file_data:
+        raise Exception("Pobrany plik jest pusty")
+
+    buffer = BytesIO(file_data)
+
+    if not zipfile.is_zipfile(buffer):
+        raise Exception("Pobrany plik nie jest poprawnym ZIP-em")
+
+    buffer.seek(0)
+
+    with zipfile.ZipFile(buffer, "r") as archive:
+        bad_file = archive.testzip()
+
+        if bad_file:
+            raise Exception(
+                "Uszkodzony plik w ZIP: " + bad_file
+            )
+
+    actual_size = len(file_data)
+    actual_sha256 = hashlib.sha256(file_data).hexdigest()
+
+    print(
+        "POPRAWNY ZIP:",
+        mod["id"],
+        actual_size,
+        actual_sha256
+    )
+
+    return {
+        "data": file_data,
+        "size_bytes": actual_size,
+        "sha256": actual_sha256,
+        "filename": mod.get("filename", mod["id"] + ".zip")
+    }
+
+
+def get_file(mod):
+    """
+    Zwraca plik z pamięci podręcznej.
+    Jeśli go nie ma, pobiera i sprawdza oryginał.
+    """
+
+    mod_id = mod["id"]
+
+    with CACHE_LOCK:
+        cached = FILE_CACHE.get(mod_id)
+
+    if cached is not None:
+        return cached
+
+    downloaded = fetch_complete_file(mod)
+
+    with CACHE_LOCK:
+        FILE_CACHE[mod_id] = downloaded
+
+    return downloaded
 
 
 def catalog():
@@ -398,31 +518,40 @@ def one(mod_id):
     methods=["GET", "POST"]
 )
 def download(mod_id):
-    for m in visible():
-        if m["id"] == mod_id:
-            file_link = url_for(
-                "download_file",
-                mod_id=mod_id,
-                _external=True
-            )
+    mod = next(
+        (m for m in visible() if m["id"] == mod_id),
+        None
+    )
 
-            return jsonify({
-                "uri": file_link,
-                "url": file_link,
-                "filename": m.get(
-                    "filename",
-                    mod_id + ".zip"
-                ),
-                "sha256": m.get("sha256", ""),
-                "size_bytes": m.get("size_bytes", 0)
-            })
+    if mod is None:
+        return jsonify({"error": "not found"}), 404
 
-    return jsonify({"error": "not found"}), 404
+    try:
+        # Pobiera ZIP i oblicza prawdziwe dane.
+        file_info = get_file(mod)
 
+        file_link = url_for(
+            "download_file",
+            mod_id=mod_id,
+            _external=True
+        )
 
-# =====================================================
-# COMPLETE DOWNLOAD - FULL FILE CHECK
-# =====================================================
+        return jsonify({
+            "uri": file_link,
+            "url": file_link,
+            "filename": file_info["filename"],
+            "sha256": file_info["sha256"],
+            "size_bytes": file_info["size_bytes"]
+        })
+
+    except Exception as e:
+        print("METADATA ERROR:", mod_id, repr(e))
+
+        return jsonify({
+            "error": "Nie udało się sprawdzić pliku",
+            "details": str(e)
+        }), 502
+
 
 @app.get("/v5/mods/<mod_id>/file")
 @app.get("/mods/<mod_id>/file")
@@ -437,93 +566,9 @@ def download_file(mod_id):
         return jsonify({"error": "not found"}), 404
 
     try:
-        source_url = direct(mod.get("file_url", ""))
-
-        req = urllib.request.Request(
-            source_url,
-            headers={
-                "User-Agent": "Mozilla/5.0",
-                "Accept": "application/zip,application/octet-stream,*/*",
-                "Accept-Encoding": "identity",
-                "Connection": "close"
-            }
-        )
-
-        print("Pobieranie:", mod["title"])
-
-        with urllib.request.urlopen(req, timeout=180) as upstream:
-
-            content_type = upstream.headers.get(
-                "Content-Type", ""
-            ).lower()
-
-            if "text/html" in content_type:
-                raise Exception(
-                    "Źródło zwróciło stronę HTML zamiast ZIP"
-                )
-
-            expected_length = upstream.headers.get(
-                "Content-Length"
-            )
-
-            data = BytesIO()
-            received = 0
-
-            while True:
-                chunk = upstream.read(256 * 1024)
-
-                if not chunk:
-                    break
-
-                data.write(chunk)
-                received += len(chunk)
-
-            if expected_length:
-                expected_length = int(expected_length)
-
-                if received != expected_length:
-                    raise Exception(
-                        "Niekompletny plik ze źródła. "
-                        "Otrzymano: "
-                        + str(received)
-                        + " bajtów, oczekiwano: "
-                        + str(expected_length)
-                    )
-
-        file_data = data.getvalue()
-
-        if not file_data:
-            raise Exception("Pobrany plik jest pusty")
-
-        # Sprawdzenie archiwum ZIP
-        file_buffer = BytesIO(file_data)
-
-        if not zipfile.is_zipfile(file_buffer):
-            raise Exception(
-                "Pobrany plik nie jest poprawnym archiwum ZIP"
-            )
-
-        file_buffer.seek(0)
-
-        with zipfile.ZipFile(file_buffer, "r") as archive:
-            bad_file = archive.testzip()
-
-            if bad_file is not None:
-                raise Exception(
-                    "Uszkodzony plik wewnątrz ZIP: " + bad_file
-                )
-
-        filename = mod.get(
-            "filename",
-            mod_id + ".zip"
-        )
-
-        print(
-            "Plik sprawdzony poprawnie:",
-            filename,
-            received,
-            "bajtów"
-        )
+        file_info = get_file(mod)
+        file_data = file_info["data"]
+        filename = file_info["filename"]
 
         response = Response(
             file_data,
@@ -532,24 +577,30 @@ def download_file(mod_id):
         )
 
         response.headers["Content-Disposition"] = (
-            "attachment; filename*=UTF-8''" + quote(filename)
+            "attachment; filename*=UTF-8''"
+            + quote(filename)
         )
 
-        response.headers["Content-Length"] = str(len(file_data))
+        response.headers["Content-Length"] = str(
+            file_info["size_bytes"]
+        )
+
         response.headers["Content-Transfer-Encoding"] = "binary"
         response.headers["Cache-Control"] = "no-store"
         response.headers["Accept-Ranges"] = "none"
         response.headers["X-Content-Type-Options"] = "nosniff"
 
+        print(
+            "WYSŁANO:",
+            mod_id,
+            file_info["size_bytes"],
+            file_info["sha256"]
+        )
+
         return response
 
     except Exception as e:
-
-        print(
-            "DOWNLOAD ERROR:",
-            mod_id,
-            repr(e)
-        )
+        print("DOWNLOAD ERROR:", mod_id, repr(e))
 
         return jsonify({
             "error": "Nie udało się pobrać kompletnego pliku",
