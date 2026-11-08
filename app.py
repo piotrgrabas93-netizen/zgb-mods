@@ -137,7 +137,7 @@ MODS = [
         "compatibility": "FS23 Mobile",
         "file_url": "https://files.catbox.moe/fcpp6c.zip",
         "filename": "amazoneZGB_ZGTS Pack.zip",
-        "size_bytes": 6081741,
+        "size_bytes": 5800000,
         "sha256": "80e9c66a7c6962f436cba95c16c32d0c53409e2563e33c128ebe10a24ae340b5",
         "naffy_url": "",
         "tags": "",
