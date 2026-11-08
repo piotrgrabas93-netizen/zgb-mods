@@ -132,7 +132,7 @@ MODS = [
         "description": "ursus_1614_Pack",
         "summary": "Price: 58000 Power 155 Max speed 28/38 kph",
         "compatibility": "FS23 Mobile",
-        "file_url": "https://www.mediafire.com/file/q7n1vjwdvmpwqsw/FS22_1614.zip/file",
+        "file_url": "https://files.catbox.moe/zl3iec.zip",
         "filename": "1614.zip",
         "size_bytes": 44900127,
         "sha256": "333296c3f22e4b951f9c45487989f53284e5d218e5b9e662941d6e2ba9903da8",
