@@ -25,6 +25,13 @@ MEDIA = {
     "tiktok": "https://www.tiktok.com/@zgb_hacker._.zapa"
 }
 
+UPDATE = {
+    "version_code": 5067,
+    "version": "5.6.5",
+    "url": "https://www.mediafire.com/file/75ndai94t1v302j/ZGB_MODS.apk/file",
+    "message": "Jest nowa wersja. Odinstaluj starą APK, potem zainstaluj nową."
+}
+
 MODS = [
     {
         "id": "deutz-series9",
@@ -216,7 +223,7 @@ MODS = [
         "updated_at": "2026-11-06T00:00:00+00:00"
     },
     {
-    "id": "Fendt800VarioGen5",
+        "id": "Fendt800VarioGen5",
         "title": "Fendt800VarioGen5",
         "author": "Hacker",
         "category": "Ciagniki",
@@ -228,7 +235,7 @@ MODS = [
         "purchases": 0,
         "thumbnail": "https://iili.io/nba82iG.png",
         "description": "Fendt800VarioGen5",
-        "summary": " TractorsPrice 287,500€ Power 283  343  hpMax speed 40 60 kph",
+        "summary": "Tractors Price 287,500€ Power 283 343 hp Max speed 40 60 kph",
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/6rdl8437n1k04fb/FS25_Fendt800VarioGen5.zip/file",
         "filename": "Fendt800VarioGen5.zip",
@@ -259,7 +266,7 @@ MODS = [
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/t71w8y7vhuwpdcl/FS22_Ursus4512_4514.zip/file",
         "filename": "Ursus4512_4514.zip",
-        "size_bytes":30031237,
+        "size_bytes": 34256998,
         "sha256": "4157181e853d9d2ad095b42cafc2846981f5221d3774e72d2e8aefbf4b322a2f",
         "naffy_url": "",
         "tags": "",
@@ -519,6 +526,7 @@ def catalog():
     return jsonify({
         "channel": latest_video(),
         "media": MEDIA,
+        "update": UPDATE,
         "items": out,
         "page": page,
         "page_size": limit,
@@ -676,7 +684,8 @@ def root():
         "ok": True,
         "api": "/v5/mods",
         "latest_video": "/v5/channel/latest",
-        "media": MEDIA
+        "media": MEDIA,
+        "update": UPDATE
     })
 
 
