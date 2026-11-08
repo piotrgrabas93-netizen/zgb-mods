@@ -143,8 +143,8 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
-}.
-
+    }.
+]
 
 
 def latest_video():
@@ -359,4 +359,4 @@ def root():
 if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
-        port=int(os.environ.get("PORT", 10000))    )
+        port=int(os.environ.get("PORT", 10000)))
