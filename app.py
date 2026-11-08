@@ -119,6 +119,36 @@ MODS = [
     },
 ]
 
+
+"id": "ursus_1614_Pack",
+        "title": "ursus 1614 pack",
+        "author": "Hacker",
+        "category": "male ciagniki",
+        "version": "1.5.0.0",
+        "price_minor": 0,
+        "published": True,
+        "purchased": True,
+        "downloads": 0,
+        "purchases": 0,
+        "thumbnail": "https://iili.io/nDo6N9t.png",
+        "description": "ursus_1614_Pack",
+        "summary": "Price: 58000 Power 155 Max speed 28/38 kph",
+        "compatibility": "FS23 Mobile",
+        "file_url": "https://www.mediafire.com/file/q7n1vjwdvmpwqsw/FS22_1614.zip/file",
+        "filename": "ursus_1614_Pack.zip",
+        "size_bytes": 44900127,
+        "sha256": "333296c3f22e4b951f9c45487989f53284e5d218e5b9e662941d6e2ba9903da8",
+        "naffy_url": "",
+        "tags": "",
+        "changelog": "",
+        "requirements": "",
+        "gallery": [],
+        "revision": 1,
+        "updated_at": "2026-11-06T00:00:00+00:00",
+    },
+]
+
+
 def latest_video():
     try:
         url = (
