@@ -248,7 +248,7 @@ MODS = [
 "title": "lowRumbler",
         "author": "Hacker",
         "category": "Samochody",
-        "version": "1.0.0.0",
+        "version": "1.1.0.0",
         "price_minor": 0,
         "published": True,
         "purchased": True,
