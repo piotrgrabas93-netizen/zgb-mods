@@ -27,7 +27,7 @@ MEDIA = {
 }
 
 UPDATE = {
-    "version_code": 5071,
+    "version_code": 5070,
     "version": "5.7.1",
     "message": "Ta wersja jest nieaktywna. Zainstaluj nową."
 }
