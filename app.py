@@ -16,7 +16,7 @@ app.config["MAX_CONTENT_LENGTH"] = 500 * 1024 * 1024
 
 CHANNEL_ID = "UC7oYer-vkZ7rvJTcy2onzrw"
 
-APP_APK = "https://link-do-pliku.apk"
+APP_APK = "https://www.mediafire.com/file/jenls8v6m506ydn/ZGB_MODS.apk/file"
 
 FILE_CACHE = {}
 CACHE_LOCK = threading.Lock()
