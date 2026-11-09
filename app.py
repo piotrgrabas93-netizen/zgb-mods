@@ -1,4 +1,3 @@
-
 import os
 import re
 import html
@@ -10,12 +9,14 @@ import zipfile
 
 from io import BytesIO
 from urllib.parse import quote
-from flask import Flask, request, jsonify, Response, url_for
+from flask import Flask, request, jsonify, Response, url_for, redirect
 
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 500 * 1024 * 1024
 
 CHANNEL_ID = "UC7oYer-vkZ7rvJTcy2onzrw"
+
+APP_APK = "https://link-do-pliku.apk"
 
 FILE_CACHE = {}
 CACHE_LOCK = threading.Lock()
@@ -26,10 +27,9 @@ MEDIA = {
 }
 
 UPDATE = {
-    "version_code": 5068,
-    "version": "5.6.6",
-    "url": "https://www.mediafire.com/file/75ndai94t1v302j/ZGB_MODS.apk/file",
-    "message": "Jest nowa wersja. Odinstaluj starą APK, potem zainstaluj nową."
+    "version_code": 5071,
+    "version": "5.7.1",
+    "message": "Ta wersja jest nieaktywna. Zainstaluj nową."
 }
 
 MODS = [
@@ -534,6 +534,11 @@ def catalog():
     })
 
 
+@app.get("/app.apk")
+def app_apk():
+    return redirect(APP_APK)
+
+
 @app.get("/v5/channel/latest")
 @app.get("/channel/latest")
 def channel_latest():
@@ -684,6 +689,7 @@ def root():
         "ok": True,
         "api": "/v5/mods",
         "latest_video": "/v5/channel/latest",
+        "app_apk": "/app.apk",
         "media": MEDIA,
         "update": UPDATE
     })
