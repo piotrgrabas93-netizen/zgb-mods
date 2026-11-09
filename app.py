@@ -16,7 +16,7 @@ app.config["MAX_CONTENT_LENGTH"] = 500 * 1024 * 1024
 
 CHANNEL_ID = "UC7oYer-vkZ7rvJTcy2onzrw"
 
-APP_APK = "https://files.catbox.moe/6e5dly.apk"
+APP_APK = "https://link-do-pliku.apk"
 
 FILE_CACHE = {}
 CACHE_LOCK = threading.Lock()
@@ -27,8 +27,8 @@ MEDIA = {
 }
 
 UPDATE = {
-    "version_code": 5071,
-    "version": "5.7.1",
+    "version_code": 5072,
+    "version": "5.7.2",
     "message": "Ta wersja jest nieaktywna. Zainstaluj nową."
 }
 
