@@ -26,12 +26,6 @@ MEDIA = {
     "tiktok": "https://www.tiktok.com/@zgb_hacker._.zapa"
 }
 
-UPDATE = {
-    "version_code":0,
-    "version": "5.4.4",
-    "message": "Ta wersja jest nieaktywna. Zainstaluj nową."
-}
-
 MODS = [
     {
         "id": "deutz-series9",
@@ -526,7 +520,6 @@ def catalog():
     return jsonify({
         "channel": latest_video(),
         "media": MEDIA,
-        "update": UPDATE,
         "items": out,
         "page": page,
         "page_size": limit,
@@ -536,13 +529,7 @@ def catalog():
 
 @app.get("/app.apk")
 def app_apk():
-    try:
-        return redirect(direct(APP_APK))
-    except Exception as e:
-        return jsonify({
-            "error": "Nie udało się pobrać APK",
-            "details": str(e)
-        }), 502
+    return redirect(APP_APK)
 
 
 @app.get("/v5/channel/latest")
@@ -696,8 +683,7 @@ def root():
         "api": "/v5/mods",
         "latest_video": "/v5/channel/latest",
         "app_apk": "/app.apk",
-        "media": MEDIA,
-        "update": UPDATE
+        "media": MEDIA
     })
 
 
