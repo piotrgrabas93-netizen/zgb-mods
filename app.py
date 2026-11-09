@@ -1,6 +1,7 @@
 import os
 import re
 import html
+import json
 import hashlib
 import threading
 import urllib.request
@@ -8,6 +9,7 @@ import urllib.error
 import zipfile
 
 from io import BytesIO
+from datetime import datetime
 from urllib.parse import quote
 from flask import Flask, request, jsonify, Response, url_for, redirect
 
@@ -20,6 +22,9 @@ APP_APK = "https://files.catbox.moe/7i882h.apk"
 
 FILE_CACHE = {}
 CACHE_LOCK = threading.Lock()
+
+HELP_FILE = "help_messages.json"
+HELP_LOCK = threading.Lock()
 
 MEDIA = {
     "youtube": "https://www.youtube.com/@ZGB_Hacke_jp",
@@ -527,6 +532,21 @@ def catalog():
     })
 
 
+def load_help():
+    if not os.path.exists(HELP_FILE):
+        return []
+    try:
+        with open(HELP_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return []
+
+
+def save_help(items):
+    with open(HELP_FILE, "w", encoding="utf-8") as f:
+        json.dump(items, f, ensure_ascii=False)
+
+
 @app.get("/app.apk")
 def app_apk():
     return redirect(APP_APK)
@@ -659,6 +679,29 @@ def download_file(mod_id):
             "error": "Nie udało się pobrać kompletnego pliku",
             "details": str(e)
         }), 502
+
+
+@app.route("/v5/help", methods=["GET", "POST"])
+@app.route("/help", methods=["GET", "POST"])
+def help_messages():
+    if request.method == "POST":
+        data = request.get_json(silent=True) or {}
+        item = {
+            "device_id": data.get("device_id", ""),
+            "topic": data.get("topic", ""),
+            "message": data.get("message", ""),
+            "time": datetime.utcnow().isoformat()
+        }
+        with HELP_LOCK:
+            items = load_help()
+            items.append(item)
+            save_help(items)
+        return jsonify({"ok": True})
+
+    device_id = request.args.get("device_id") or ""
+    items = load_help()
+    mine = [m for m in items if m.get("device_id") == device_id]
+    return jsonify({"items": mine})
 
 
 @app.route(
