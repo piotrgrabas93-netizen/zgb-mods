@@ -26,8 +26,8 @@ MEDIA = {
 }
 
 UPDATE = {
-    "version_code": 5067,
-    "version": "5.6.5",
+    "version_code": 5068,
+    "version": "5.6.6",
     "url": "https://www.mediafire.com/file/75ndai94t1v302j/ZGB_MODS.apk/file",
     "message": "Jest nowa wersja. Odinstaluj starą APK, potem zainstaluj nową."
 }
