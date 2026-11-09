@@ -536,7 +536,13 @@ def catalog():
 
 @app.get("/app.apk")
 def app_apk():
-    return redirect(APP_APK)
+    try:
+        return redirect(direct(APP_APK))
+    except Exception as e:
+        return jsonify({
+            "error": "Nie udało się pobrać APK",
+            "details": str(e)
+        }), 502
 
 
 @app.get("/v5/channel/latest")
