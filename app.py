@@ -706,7 +706,23 @@ def help_messages():
 
 @app.get("/v5/help/all")
 def help_all():
-    return jsonify({"items": load_help()})
+    items = load_help()
+    page = "<html><meta charset='utf-8'><body style='background:#111;color:#eee;font-family:sans-serif;padding:16px'>"
+    page += "<h2>Wiadomości z Pomocy</h2>"
+    if not items:
+        page += "<p>Brak wiadomości</p>"
+    else:
+        for m in items:
+            line = (
+                m.get("time", "")[:19].replace("T", " ")
+                + " | "
+                + m.get("topic", "")
+                + " | "
+                + m.get("message", "")
+            )
+            page += "<p>" + html.escape(line) + "</p>"
+    page += "</body></html>"
+    return page
 
 
 @app.route(
