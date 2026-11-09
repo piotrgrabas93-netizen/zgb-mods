@@ -704,6 +704,11 @@ def help_messages():
     return jsonify({"items": mine})
 
 
+@app.get("/v5/help/all")
+def help_all():
+    return jsonify({"items": load_help()})
+
+
 @app.route(
     "/v5/buyers",
     methods=["GET", "POST"]
