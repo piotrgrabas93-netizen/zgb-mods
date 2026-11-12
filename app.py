@@ -35,7 +35,7 @@ MEDIA = {
 
 # TU USTAWIASZ CZAS AKTUALIZACJI (czas polski)
 UPDATE_LABEL = "Aktualizacja za"
-UPDATE_UNTIL = "00:10"
+UPDATE_UNTIL = "01:00"
 
 MODS = [
     {
