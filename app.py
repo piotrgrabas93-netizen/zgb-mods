@@ -9,7 +9,7 @@ import urllib.error
 import zipfile
 
 from io import BytesIO
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from urllib.parse import quote
 from flask import Flask, request, jsonify, Response, url_for, redirect
 
@@ -32,6 +32,10 @@ MEDIA = {
     "youtube": "https://www.youtube.com/@ZGB_Hacke_jp",
     "tiktok": "https://www.tiktok.com/@zgb_hacker._.zapa"
 }
+
+# TU USTAWIASZ CZAS AKTUALIZACJI (czas polski)
+UPDATE_LABEL = "Aktualizacja za"
+UPDATE_UNTIL = "00:01"
 
 MODS = [
     {
@@ -317,6 +321,23 @@ def add_download(mod_id):
 apply_counts()
 
 
+def countdown_info():
+    tz = timezone(timedelta(hours=1))
+    try:
+        dt = datetime.strptime(UPDATE_UNTIL, "%Y-%m-%d %H:%M").replace(tzinfo=tz)
+        until_ms = int(dt.timestamp() * 1000)
+        seconds = max(0, int(dt.timestamp() - datetime.now(tz).timestamp()))
+    except Exception:
+        until_ms = 0
+        seconds = 0
+    return {
+        "label": UPDATE_LABEL,
+        "until": UPDATE_UNTIL,
+        "until_ms": until_ms,
+        "seconds": seconds,
+    }
+
+
 def latest_video():
     try:
         url = (
@@ -483,6 +504,7 @@ def catalog():
     return jsonify({
         "channel": latest_video(),
         "media": MEDIA,
+        "countdown": countdown_info(),
         "items": out,
         "page": page,
         "page_size": limit,
@@ -657,7 +679,8 @@ def root():
         "api": "/v5/mods",
         "latest_video": "/v5/channel/latest",
         "app_apk": "/app.apk",
-        "media": MEDIA
+        "media": MEDIA,
+        "countdown": countdown_info()
     })
 
 
@@ -665,5 +688,4 @@ if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
         port=int(os.environ.get("PORT", 10000)),
-        threaded=True
-    )
+        threaded=True)
