@@ -35,7 +35,7 @@ MEDIA = {
 
 # TU USTAWIASZ CZAS. Możesz dać samo "10:00" albo pełną datę "2026-11-13 10:00"
 UPDATE_LABEL = "Aktualizacja za"
-UPDATE_UNTIL = "10:00"
+UPDATE_UNTIL = "00:10"
 
 MODS = [
     {
