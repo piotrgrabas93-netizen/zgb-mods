@@ -28,14 +28,18 @@ HELP_LOCK = threading.Lock()
 COUNTS_FILE = "downloads.json"
 COUNTS_LOCK = threading.Lock()
 
+COUNTDOWN_FILE = "countdown_target.json"
+
 MEDIA = {
     "youtube": "https://www.youtube.com/@ZGB_Hacke_jp",
     "tiktok": "https://www.tiktok.com/@zgb_hacker._.zapa"
 }
 
-# TU USTAWIASZ CZAS. Możesz dać samo "10:00" albo pełną datę "2026-11-13 10:00"
+# TU USTAWIASZ ILE MA LICZYĆ
 UPDATE_LABEL = "Aktualizacja za"
-UPDATE_UNTIL = "00:00:39"
+UPDATE_DAYS = 0
+UPDATE_HOURS = 0
+UPDATE_MINUTES = 50
 
 MODS = [
     {
@@ -324,28 +328,35 @@ apply_counts()
 def countdown_info():
     tz = timezone(timedelta(hours=1))
     now = datetime.now(tz)
-    try:
-        text = UPDATE_UNTIL.strip()
-        if len(text) <= 5:
-            hour, minute = text.split(":")
-            dt = now.replace(
-                hour=int(hour),
-                minute=int(minute),
-                second=0,
-                microsecond=0
-            )
-            if dt <= now:
-                dt = dt + timedelta(days=1)
-        else:
-            dt = datetime.strptime(text, "%Y-%m-%d %H:%M").replace(tzinfo=tz)
+    key = str(UPDATE_DAYS) + ":" + str(UPDATE_HOURS) + ":" + str(UPDATE_MINUTES)
+    until_ms = 0
+    saved = {}
+    if os.path.exists(COUNTDOWN_FILE):
+        try:
+            with open(COUNTDOWN_FILE, "r", encoding="utf-8") as f:
+                saved = json.load(f)
+        except Exception:
+            saved = {}
+    if saved.get("key") == key and saved.get("until_ms"):
+        until_ms = int(saved["until_ms"])
+    else:
+        dt = now + timedelta(
+            days=int(UPDATE_DAYS),
+            hours=int(UPDATE_HOURS),
+            minutes=int(UPDATE_MINUTES)
+        )
         until_ms = int(dt.timestamp() * 1000)
-        seconds = max(0, int(dt.timestamp() - now.timestamp()))
-    except Exception:
-        until_ms = 0
-        seconds = 0
+        try:
+            with open(COUNTDOWN_FILE, "w", encoding="utf-8") as f:
+                json.dump({"key": key, "until_ms": until_ms}, f)
+        except Exception:
+            pass
+    seconds = max(0, int(until_ms / 1000 - now.timestamp()))
     return {
         "label": UPDATE_LABEL,
-        "until": UPDATE_UNTIL,
+        "days": int(UPDATE_DAYS),
+        "hours": int(UPDATE_HOURS),
+        "minutes": int(UPDATE_MINUTES),
         "until_ms": until_ms,
         "seconds": seconds,
     }
@@ -701,4 +712,5 @@ if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
         port=int(os.environ.get("PORT", 10000)),
-        threaded=True)
+        threaded=True
+    )
