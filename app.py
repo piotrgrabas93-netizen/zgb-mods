@@ -17,7 +17,6 @@ app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 500 * 1024 * 1024
 
 CHANNEL_ID = "UC7oYer-vkZ7rvJTcy2onzrw"
-
 APP_APK = "https://files.catbox.moe/7i882h.apk"
 
 FILE_CACHE = {}
@@ -25,6 +24,9 @@ CACHE_LOCK = threading.Lock()
 
 HELP_FILE = "help_messages.json"
 HELP_LOCK = threading.Lock()
+
+COUNTS_FILE = "downloads.json"
+COUNTS_LOCK = threading.Lock()
 
 MEDIA = {
     "youtube": "https://www.youtube.com/@ZGB_Hacke_jp",
@@ -278,55 +280,73 @@ MODS = [
 ]
 
 
+def load_counts():
+    if not os.path.exists(COUNTS_FILE):
+        return {}
+    try:
+        with open(COUNTS_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            return data if isinstance(data, dict) else {}
+    except Exception:
+        return {}
+
+
+def save_counts():
+    data = {m["id"]: int(m.get("downloads", 0)) for m in MODS}
+    with open(COUNTS_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f)
+
+
+def apply_counts():
+    saved = load_counts()
+    for m in MODS:
+        if m["id"] in saved:
+            m["downloads"] = int(saved[m["id"]])
+
+
+def add_download(mod_id):
+    with COUNTS_LOCK:
+        for m in MODS:
+            if m["id"] == mod_id:
+                m["downloads"] = int(m.get("downloads", 0)) + 1
+                save_counts()
+                return m["downloads"]
+    return 0
+
+
+apply_counts()
+
+
 def latest_video():
     try:
         url = (
             "https://www.youtube.com/feeds/videos.xml?channel_id="
             + CHANNEL_ID
         )
-
         req = urllib.request.Request(
             url,
             headers={"User-Agent": "Mozilla/5.0"}
         )
-
         with urllib.request.urlopen(req, timeout=20) as response:
             xml = response.read().decode("utf-8", "ignore")
-
-        vid = re.search(
-            r"<yt:videoId>([^<]+)</yt:videoId>",
-            xml
-        )
-
-        titles = re.findall(
-            r"<title>(.*?)</title>",
-            xml,
-            re.DOTALL
-        )
-
+        vid = re.search(r"<yt:videoId>([^<]+)</yt:videoId>", xml)
+        titles = re.findall(r"<title>(.*?)</title>", xml, re.DOTALL)
         video_id = vid.group(1) if vid else ""
-
         title = html.unescape(
             titles[1].strip() if len(titles) > 1 else "ZGB"
         )
-
         return {
             "video_id": video_id,
             "title": title,
             "thumbnail": (
-                "https://img.youtube.com/vi/"
-                + video_id
-                + "/hqdefault.jpg"
+                "https://img.youtube.com/vi/" + video_id + "/hqdefault.jpg"
             ) if video_id else "",
             "url": (
-                "https://www.youtube.com/watch?v="
-                + video_id
+                "https://www.youtube.com/watch?v=" + video_id
             ) if video_id else ""
         }
-
     except Exception as e:
         print("YouTube error:", e)
-
         return {
             "video_id": "",
             "title": "ZGB",
@@ -336,45 +356,34 @@ def latest_video():
 
 
 def visible():
-    return [
-        m for m in MODS
-        if m.get("published", False)
-    ]
+    return [m for m in MODS if m.get("published", False)]
 
 
 def direct(url):
     if "mediafire.com/file/" not in url:
         return url
-
     req = urllib.request.Request(
         url,
         headers={"User-Agent": "Mozilla/5.0"}
     )
-
     with urllib.request.urlopen(req, timeout=60) as response:
         page = response.read().decode("utf-8", "ignore")
-
     page = html.unescape(page)
     page = page.replace("\\/", "/")
-
     patterns = [
         r'https://download\d*\.mediafire\.com/[^"\'<>\s]+',
         r'"(https://download\d*\.mediafire\.com/[^"]+)"',
         r'href="(https://download\d*\.mediafire\.com/[^"]+)"'
     ]
-
     for pattern in patterns:
         found = re.findall(pattern, page)
-
         if found:
             return found[0].rstrip("\\")
-
     raise Exception("Nie znaleziono bezpośredniego linku MediaFire")
 
 
 def fetch_complete_file(mod):
     source_url = direct(mod.get("file_url", ""))
-
     req = urllib.request.Request(
         source_url,
         headers={
@@ -384,72 +393,41 @@ def fetch_complete_file(mod):
             "Connection": "close"
         }
     )
-
     with urllib.request.urlopen(req, timeout=240) as upstream:
-
-        content_type = upstream.headers.get(
-            "Content-Type", ""
-        ).lower()
-
+        content_type = upstream.headers.get("Content-Type", "").lower()
         if "text/html" in content_type:
             raise Exception("Źródło zwróciło HTML zamiast ZIP")
-
         expected = upstream.headers.get("Content-Length")
-
         data = BytesIO()
         received = 0
-
         while True:
             chunk = upstream.read(256 * 1024)
-
             if not chunk:
                 break
-
             data.write(chunk)
             received += len(chunk)
-
         if expected:
             expected = int(expected)
-
             if received != expected:
                 raise Exception(
                     "Niekompletny plik ze źródła. "
-                    "Otrzymano "
-                    + str(received)
-                    + " bajtów, oczekiwano "
-                    + str(expected)
+                    "Otrzymano " + str(received)
+                    + " bajtów, oczekiwano " + str(expected)
                 )
-
     file_data = data.getvalue()
-
     if not file_data:
         raise Exception("Pobrany plik jest pusty")
-
     buffer = BytesIO(file_data)
-
     if not zipfile.is_zipfile(buffer):
         raise Exception("Pobrany plik nie jest poprawnym ZIP-em")
-
     buffer.seek(0)
-
     with zipfile.ZipFile(buffer, "r") as archive:
         bad_file = archive.testzip()
-
         if bad_file:
-            raise Exception(
-                "Uszkodzony plik w ZIP: " + bad_file
-            )
-
+            raise Exception("Uszkodzony plik w ZIP: " + bad_file)
     actual_size = len(file_data)
     actual_sha256 = hashlib.sha256(file_data).hexdigest()
-
-    print(
-        "POPRAWNY ZIP:",
-        mod["id"],
-        actual_size,
-        actual_sha256
-    )
-
+    print("POPRAWNY ZIP:", mod["id"], actual_size, actual_sha256)
     return {
         "data": file_data,
         "size_bytes": actual_size,
@@ -460,18 +438,13 @@ def fetch_complete_file(mod):
 
 def get_file(mod):
     mod_id = mod["id"]
-
     with CACHE_LOCK:
         cached = FILE_CACHE.get(mod_id)
-
     if cached is not None:
         return cached
-
     downloaded = fetch_complete_file(mod)
-
     with CACHE_LOCK:
         FILE_CACHE[mod_id] = downloaded
-
     return downloaded
 
 
@@ -479,27 +452,16 @@ def catalog():
     q = (request.args.get("q") or "").lower().strip()
     cat = (request.args.get("category") or "").lower().strip()
     filt = request.args.get("filter") or ""
-
     try:
         page = max(1, int(request.args.get("page") or 1))
     except (ValueError, TypeError):
         page = 1
-
     limit = 40
     items = visible()
-
     if filt == "free":
-        items = [
-            m for m in items
-            if m.get("price_minor", 0) == 0
-        ]
-
+        items = [m for m in items if m.get("price_minor", 0) == 0]
     elif filt == "paid":
-        items = [
-            m for m in items
-            if m.get("price_minor", 0) > 0
-        ]
-
+        items = [m for m in items if m.get("price_minor", 0) > 0]
     if q:
         items = [
             m for m in items
@@ -507,21 +469,17 @@ def catalog():
             or q in m.get("category", "").lower()
             or q in m.get("summary", "").lower()
         ]
-
     if cat:
         items = [
             m for m in items
             if cat in m.get("category", "").lower()
         ]
-
     start = (page - 1) * limit
     out = []
-
     for m in items[start:start + limit]:
         row = dict(m)
         row.pop("file_url", None)
         out.append(row)
-
     return jsonify({
         "channel": latest_video(),
         "media": MEDIA,
@@ -579,36 +537,19 @@ def one(mod_id):
             row = dict(m)
             row.pop("file_url", None)
             return jsonify(row)
-
     return jsonify({"error": "not found"}), 404
 
 
-@app.route(
-    "/v5/mods/<mod_id>/download",
-    methods=["GET", "POST"]
-)
-@app.route(
-    "/mods/<mod_id>/download",
-    methods=["GET", "POST"]
-)
+@app.route("/v5/mods/<mod_id>/download", methods=["GET", "POST"])
+@app.route("/mods/<mod_id>/download", methods=["GET", "POST"])
 def download(mod_id):
-    mod = next(
-        (m for m in visible() if m["id"] == mod_id),
-        None
-    )
-
+    mod = next((m for m in visible() if m["id"] == mod_id), None)
     if mod is None:
         return jsonify({"error": "not found"}), 404
-
     try:
         file_info = get_file(mod)
-
-        file_link = url_for(
-            "download_file",
-            mod_id=mod_id,
-            _external=True
-        )
-
+        add_download(mod_id)
+        file_link = url_for("download_file", mod_id=mod_id, _external=True)
         return jsonify({
             "uri": file_link,
             "url": file_link,
@@ -616,10 +557,8 @@ def download(mod_id):
             "sha256": file_info["sha256"],
             "size_bytes": file_info["size_bytes"]
         })
-
     except Exception as e:
         print("METADATA ERROR:", mod_id, repr(e))
-
         return jsonify({
             "error": "Nie udało się sprawdzić pliku",
             "details": str(e)
@@ -629,52 +568,30 @@ def download(mod_id):
 @app.get("/v5/mods/<mod_id>/file")
 @app.get("/mods/<mod_id>/file")
 def download_file(mod_id):
-
-    mod = next(
-        (m for m in visible() if m["id"] == mod_id),
-        None
-    )
-
+    mod = next((m for m in visible() if m["id"] == mod_id), None)
     if mod is None:
         return jsonify({"error": "not found"}), 404
-
     try:
         file_info = get_file(mod)
         file_data = file_info["data"]
         filename = file_info["filename"]
-
         response = Response(
             file_data,
             status=200,
             content_type="application/zip"
         )
-
         response.headers["Content-Disposition"] = (
-            "attachment; filename*=UTF-8''"
-            + quote(filename)
+            "attachment; filename*=UTF-8''" + quote(filename)
         )
-
-        response.headers["Content-Length"] = str(
-            file_info["size_bytes"]
-        )
-
+        response.headers["Content-Length"] = str(file_info["size_bytes"])
         response.headers["Content-Transfer-Encoding"] = "binary"
         response.headers["Cache-Control"] = "no-store"
         response.headers["Accept-Ranges"] = "none"
         response.headers["X-Content-Type-Options"] = "nosniff"
-
-        print(
-            "WYSŁANO:",
-            mod_id,
-            file_info["size_bytes"],
-            file_info["sha256"]
-        )
-
+        print("WYSŁANO:", mod_id, file_info["size_bytes"], file_info["sha256"])
         return response
-
     except Exception as e:
         print("DOWNLOAD ERROR:", mod_id, repr(e))
-
         return jsonify({
             "error": "Nie udało się pobrać kompletnego pliku",
             "details": str(e)
@@ -697,7 +614,6 @@ def help_messages():
             items.append(item)
             save_help(items)
         return jsonify({"ok": True})
-
     device_id = request.args.get("device_id") or ""
     items = load_help()
     mine = [m for m in items if m.get("device_id") == device_id]
@@ -725,14 +641,8 @@ def help_all():
     return page
 
 
-@app.route(
-    "/v5/buyers",
-    methods=["GET", "POST"]
-)
-@app.route(
-    "/buyers",
-    methods=["GET", "POST"]
-)
+@app.route("/v5/buyers", methods=["GET", "POST"])
+@app.route("/buyers", methods=["GET", "POST"])
 def buyers():
     return jsonify({
         "token": "zgb-ok",
@@ -755,4 +665,5 @@ if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
         port=int(os.environ.get("PORT", 10000)),
-        threaded=True)
+        threaded=True
+    )
