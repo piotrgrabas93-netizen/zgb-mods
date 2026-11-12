@@ -33,9 +33,9 @@ MEDIA = {
     "tiktok": "https://www.tiktok.com/@zgb_hacker._.zapa"
 }
 
-# TU USTAWIASZ CZAS AKTUALIZACJI (czas polski)
+# TU USTAWIASZ CZAS. Możesz dać samo "10:00" albo pełną datę "2026-11-13 10:00"
 UPDATE_LABEL = "Aktualizacja za"
-UPDATE_UNTIL = "01:00"
+UPDATE_UNTIL = "10:00"
 
 MODS = [
     {
@@ -323,10 +323,23 @@ apply_counts()
 
 def countdown_info():
     tz = timezone(timedelta(hours=1))
+    now = datetime.now(tz)
     try:
-        dt = datetime.strptime(UPDATE_UNTIL, "%Y-%m-%d %H:%M").replace(tzinfo=tz)
+        text = UPDATE_UNTIL.strip()
+        if len(text) <= 5:
+            hour, minute = text.split(":")
+            dt = now.replace(
+                hour=int(hour),
+                minute=int(minute),
+                second=0,
+                microsecond=0
+            )
+            if dt <= now:
+                dt = dt + timedelta(days=1)
+        else:
+            dt = datetime.strptime(text, "%Y-%m-%d %H:%M").replace(tzinfo=tz)
         until_ms = int(dt.timestamp() * 1000)
-        seconds = max(0, int(dt.timestamp() - datetime.now(tz).timestamp()))
+        seconds = max(0, int(dt.timestamp() - now.timestamp()))
     except Exception:
         until_ms = 0
         seconds = 0
