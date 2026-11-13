@@ -4,6 +4,7 @@ import html
 import json
 import hashlib
 import threading
+import time
 import urllib.request
 import urllib.error
 import zipfile
@@ -30,12 +31,15 @@ COUNTS_LOCK = threading.Lock()
 
 COUNTDOWN_FILE = "countdown_target.json"
 
+VIDEO_CACHE = {"data": None, "time": 0}
+VIDEO_LOCK = threading.Lock()
+VIDEO_TTL = 300
+
 MEDIA = {
     "youtube": "https://www.youtube.com/@ZGB_Hacke_jp",
     "tiktok": "https://www.tiktok.com/@zgb_hacker._.zapa"
 }
 
-# TU USTAWIASZ ILE MA LICZYĆ
 UPDATE_LABEL = "Aktualizacja za"
 UPDATE_DAYS = 1
 UPDATE_HOURS = 15
@@ -362,42 +366,63 @@ def countdown_info():
     }
 
 
+def empty_video():
+    return {
+        "video_id": "",
+        "title": "ZGB",
+        "thumbnail": "",
+        "url": ""
+    }
+
+
+def fetch_latest_video():
+    url = (
+        "https://www.youtube.com/feeds/videos.xml?channel_id="
+        + CHANNEL_ID
+    )
+    req = urllib.request.Request(
+        url,
+        headers={"User-Agent": "Mozilla/5.0"}
+    )
+    with urllib.request.urlopen(req, timeout=8) as response:
+        xml = response.read().decode("utf-8", "ignore")
+    vid = re.search(r"<yt:videoId>([^<]+)</yt:videoId>", xml)
+    titles = re.findall(r"<title>(.*?)</title>", xml, re.DOTALL)
+    video_id = vid.group(1) if vid else ""
+    title = html.unescape(
+        titles[1].strip() if len(titles) > 1 else "ZGB"
+    )
+    return {
+        "video_id": video_id,
+        "title": title,
+        "thumbnail": (
+            "https://img.youtube.com/vi/" + video_id + "/hqdefault.jpg"
+        ) if video_id else "",
+        "url": (
+            "https://www.youtube.com/watch?v=" + video_id
+        ) if video_id else ""
+    }
+
+
 def latest_video():
+    now = time.time()
+    with VIDEO_LOCK:
+        cached = VIDEO_CACHE["data"]
+        age = now - VIDEO_CACHE["time"]
+        if cached is not None and age < VIDEO_TTL:
+            return cached
     try:
-        url = (
-            "https://www.youtube.com/feeds/videos.xml?channel_id="
-            + CHANNEL_ID
-        )
-        req = urllib.request.Request(
-            url,
-            headers={"User-Agent": "Mozilla/5.0"}
-        )
-        with urllib.request.urlopen(req, timeout=20) as response:
-            xml = response.read().decode("utf-8", "ignore")
-        vid = re.search(r"<yt:videoId>([^<]+)</yt:videoId>", xml)
-        titles = re.findall(r"<title>(.*?)</title>", xml, re.DOTALL)
-        video_id = vid.group(1) if vid else ""
-        title = html.unescape(
-            titles[1].strip() if len(titles) > 1 else "ZGB"
-        )
-        return {
-            "video_id": video_id,
-            "title": title,
-            "thumbnail": (
-                "https://img.youtube.com/vi/" + video_id + "/hqdefault.jpg"
-            ) if video_id else "",
-            "url": (
-                "https://www.youtube.com/watch?v=" + video_id
-            ) if video_id else ""
-        }
+        data = fetch_latest_video()
     except Exception as e:
         print("YouTube error:", e)
-        return {
-            "video_id": "",
-            "title": "ZGB",
-            "thumbnail": "",
-            "url": ""
-        }
+        with VIDEO_LOCK:
+            if VIDEO_CACHE["data"] is not None:
+                return VIDEO_CACHE["data"]
+        data = empty_video()
+    with VIDEO_LOCK:
+        VIDEO_CACHE["data"] = data
+        VIDEO_CACHE["time"] = now
+    return data
 
 
 def visible():
@@ -712,5 +737,4 @@ if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
         port=int(os.environ.get("PORT", 10000)),
-        threaded=True
-    )
+        threaded=True)
