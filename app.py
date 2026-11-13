@@ -45,6 +45,16 @@ UPDATE_DAYS = 1
 UPDATE_HOURS = 15
 UPDATE_MINUTES = 0
 
+# Jak czas zejdzie do zera i version_code jest większy niż w telefonie,
+# APK pokaże okno Zainstaluj i zablokuje starą wersję.
+# Teraz w telefonie jest 5101. Przy nowej wersji daj 5102, 5103...
+UPDATE = {
+    "version_code": 5101,
+    "version": "5.10.1",
+    "message": "Czas minął. Zainstaluj nową wersję.",
+    "apk_url": ""
+}
+
 MODS = [
     {
         "id": "deutz-series9",
@@ -312,8 +322,9 @@ def save_counts():
 def apply_counts():
     saved = load_counts()
     for m in MODS:
-        if m["id"] in saved:
-            m["downloads"] = int(saved[m["id"]])
+        floor = int(m.get("downloads", 0))
+        saved_value = int(saved.get(m["id"], 0))
+        m["downloads"] = max(floor, saved_value)
 
 
 def add_download(mod_id):
@@ -554,6 +565,7 @@ def catalog():
         "channel": latest_video(),
         "media": MEDIA,
         "countdown": countdown_info(),
+        "update": UPDATE,
         "items": out,
         "page": page,
         "page_size": limit,
@@ -729,7 +741,8 @@ def root():
         "latest_video": "/v5/channel/latest",
         "app_apk": "/app.apk",
         "media": MEDIA,
-        "countdown": countdown_info()
+        "countdown": countdown_info(),
+        "update": UPDATE
     })
 
 
