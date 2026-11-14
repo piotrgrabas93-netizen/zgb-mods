@@ -299,8 +299,35 @@ MODS = [
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
     }
-]
+    }
 
+"id": "ClaasXerion12650",
+        "title": "ClaasXerion12650",
+        "author": "Hacker",
+        "category": "Ciagniki",
+        "version": "2.0.0.2",
+        "price_minor": 0,
+        "published": True,
+        "purchased": True,
+        "downloads": 0,
+        "purchases": 0,
+        "thumbnail": "https://iili.io/nbaAbKQ.png",
+        "description": "Ursus4512_4514",
+        "summary": "Price 4512 31000 $ 4514 41000 $ Power 60 hp Max speed 28 kph",
+        "compatibility": "FS23 Mobile",
+        "file_url": "https://www.mediafire.com/file/3y9v6xna491j9r2/FS22_ClaasXerion12650.zip/file",
+        "filename": "ClaasXerion12650.zip",
+        "size_bytes": 34256998,
+        "sha256": "69d34ba6618d2d82aa223fbaf3cd1a3dbcb204f50d107ed81919465fd7c26979",
+        "naffy_url": "",
+        "tags": "",
+        "changelog": "",
+        "requirements": "",
+        "gallery": [],
+        "revision": 1,
+        "updated_at": "2026-11-06T00:00:00+00:00"
+    }
+]
 
 def load_counts():
     if not os.path.exists(COUNTS_FILE):
