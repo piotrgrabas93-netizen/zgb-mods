@@ -44,13 +44,15 @@ MEDIA = {
 UPDATE_LABEL = "Aktualizacja za"
 UPDATE_DAYS = 0
 UPDATE_HOURS = 0
-UPDATE_MINUTES =30
+UPDATE_MINUTES = 30
 
+# version_code musi być większy niż w telefonie (teraz 5103).
+# apk_url musi być bezpośrednim linkiem do pliku .apk, nie do ZIP i nie do strony MediaFire.
 UPDATE = {
-    "version_code": 5103,
-    "version": "5.10.2",
+    "version_code": 5104,
+    "version": "5.10.4",
     "message": "Czas minął. Zainstaluj nową wersję.",
-    "apk_url": "https://www.mediafire.com/file/lq33aolj21nn8fd/ZGB_MODS.zip/file"
+    "apk_url": ""
 }
 
 MODS = [
@@ -71,7 +73,7 @@ MODS = [
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/xhyvj8oqo21rjw6/FS22_DeutzSeries9.zip/file",
         "filename": "FS22_DeutzSeries9.zip",
-        "size_bytes":,
+        "size_bytes": 13746893,
         "sha256": "68fafa7d51f41a268ee4adf5dd81b24e2049dc1d66e0b12c590d27e040a0ad39",
         "naffy_url": "",
         "tags": "",
@@ -98,7 +100,7 @@ MODS = [
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/3onxgf34g2gvuwg/FS22_lindnerUnitrac122LDrive.zip/file",
         "filename": "lindnerUnitrac122LDrive.zip",
-        "size_bytes":,
+        "size_bytes": 15267267,
         "sha256": "1b17b79c253b9884018e4ed620a10fc0aa97a4393589d7c0b7da4813e1ac26f2",
         "naffy_url": "",
         "tags": "",
@@ -125,7 +127,7 @@ MODS = [
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/e2ysxbui14opltf/FS22_LizardEnergy.zip/file",
         "filename": "LizardEnergy.zip",
-        "size_bytes":,
+        "size_bytes": 9552527,
         "sha256": "137b12c4875b6853ae6471fd71eeccec8950b2fc80e8ef67c4eb630f36ed5979",
         "naffy_url": "",
         "tags": "",
@@ -152,7 +154,7 @@ MODS = [
         "compatibility": "FS23 Mobile",
         "file_url": "https://files.catbox.moe/2zstrz.zip",
         "filename": "EVODISCK_Pack.zip",
-        "size_bytes":,
+        "size_bytes": 33117956,
         "sha256": "26f35bd8455b781a9e0db4380cdeffcc8f32da2a7ffd511a0017913c10c67246",
         "naffy_url": "",
         "tags": "",
@@ -179,7 +181,7 @@ MODS = [
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/cdabcke1t29r954/FS22_amazoneZGB_ZGTS.zip/file",
         "filename": "amazoneZGB_ZGTS.zip",
-        "size_bytes":,
+        "size_bytes": 5211423,
         "sha256": "80e9c66a7c6962f436cba95c16c32d0c53409e2563e33c128ebe10a24ae340b5",
         "naffy_url": "",
         "tags": "",
@@ -206,7 +208,7 @@ MODS = [
         "compatibility": "FS23 Mobile",
         "file_url": "https://files.catbox.moe/i8ueiz.zip",
         "filename": "JeantilBR10430.zip",
-        "size_bytes":,
+        "size_bytes": 7769948,
         "sha256": "80e9c66a7c6962f436cba95c16c32d0c53409e2563e33c128ebe10a24ae340b5",
         "naffy_url": "",
         "tags": "",
@@ -233,7 +235,7 @@ MODS = [
         "compatibility": "FS23 Mobile",
         "file_url": "https://files.catbox.moe/jpg5yy.zip",
         "filename": "Lizard600.zip",
-        "size_bytes":,
+        "size_bytes": 1929379,
         "sha256": "6bebee493303b2c5a4a3030cec6ce7167b4f6b3fb9441ef22ecdfff5b3efd4b7",
         "naffy_url": "",
         "tags": "",
@@ -260,7 +262,7 @@ MODS = [
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/6rdl8437n1k04fb/FS25_Fendt800VarioGen5.zip/file",
         "filename": "Fendt800VarioGen5.zip",
-        "size_bytes":,
+        "size_bytes": 34256998,
         "sha256": "192155899576ddf7d1b6e4c944948b5bb10f7a4feb4a64b69f458e5ff524a680",
         "naffy_url": "",
         "tags": "",
@@ -287,7 +289,7 @@ MODS = [
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/t71w8y7vhuwpdcl/FS22_Ursus4512_4514.zip/file",
         "filename": "Ursus4512_4514.zip",
-        "size_bytes":,
+        "size_bytes": 34256998,
         "sha256": "4157181e853d9d2ad095b42cafc2846981f5221d3774e72d2e8aefbf4b322a2f",
         "naffy_url": "",
         "tags": "",
@@ -296,9 +298,9 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
- },
-]
-     "id": "ClaasXerion12650",
+    },
+    {
+        "id": "ClaasXerion12650",
         "title": "ClaasXerion12650",
         "author": "Hacker",
         "category": "Ciagniki",
@@ -309,12 +311,12 @@ MODS = [
         "downloads": 0,
         "purchases": 0,
         "thumbnail": "https://i.ibb.co/QjKkkFNP/icon-Xerion12650.png",
-        "description": "ClaasXerion12650",  
-        "summary": "Claas Xerion 12.650 Tractor, Large series tractorModel Xerion 12.590Engine Price 706.045 $Power 585HP",
+        "description": "ClaasXerion12650",
+        "summary": "Claas Xerion 12.650 Tractor, Large series tractor Model Xerion 12.590 Engine Price 706.045 $ Power 585HP",
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/koqdyljjs04dme6/FS22_ClaasXerion12650.zip/file",
         "filename": "ClaasXerion12650.zip",
-        "size_bytes":,
+        "size_bytes": 0,
         "sha256": "69d34ba6618d2d82aa223fbaf3cd1a3dbcb204f50d107ed81919465fd7c26979",
         "naffy_url": "",
         "tags": "",
@@ -324,8 +326,8 @@ MODS = [
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
     },
-]
-       "id": "MF600Series",
+    {
+        "id": "MF600Series",
         "title": "MF600Series",
         "author": "Hacker",
         "category": "Ciagniki",
@@ -335,13 +337,13 @@ MODS = [
         "purchased": True,
         "downloads": 0,
         "purchases": 0,
-        "thumbnail": "https://i.ibb.co/BVyDQp4y/icon-series600.png⁠",
-        "description": "MF600Series",  
+        "thumbnail": "https://i.ibb.co/BVyDQp4y/icon-series600.png",
+        "description": "MF600Series",
         "summary": "Base Price 600 Versions 2WD - 21.500$ 4WD - 26.500$",
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/tf5zt9anpdawrz3/FS22_MF600Series.zip/file",
         "filename": "MF600Series.zip",
-        "size_bytes":,
+        "size_bytes": 0,
         "sha256": "63615a618bbc349162eff06a4230c6ef10a847c76c28d6bac324d2fd9be5260e",
         "naffy_url": "",
         "tags": "",
@@ -351,8 +353,8 @@ MODS = [
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
     },
-]
-       "id": "URSUS_C360",
+    {
+        "id": "URSUS_C360",
         "title": "URSUS_C360",
         "author": "Hacker",
         "category": "Ciagniki",
@@ -362,13 +364,13 @@ MODS = [
         "purchased": True,
         "downloads": 0,
         "purchases": 0,
-        "thumbnail": "https://i.ibb.co/N6byzr1L/store-Ursus-C360.png⁠",
-        "description": "URSUS_C360",  
-        "summary": "Price: 18000 €Power: 45-52hp Category small tractors",
+        "thumbnail": "https://i.ibb.co/N6byzr1L/store-Ursus-C360.png",
+        "description": "URSUS_C360",
+        "summary": "Price: 18000 € Power: 45-52hp Category small tractors",
         "compatibility": "FS23 Mobile",
         "file_url": "https://www.mediafire.com/file/rxquqzrcy1a0ds7/FS22_URSUS_C360.zip/file",
         "filename": "URSUS_C360.zip",
-        "size_bytes":,
+        "size_bytes": 0,
         "sha256": "804daf4f2312324aa9666b064cecbfd696d77080300fd02ec5c6ddc1efd27b27",
         "naffy_url": "",
         "tags": "",
@@ -379,7 +381,6 @@ MODS = [
         "updated_at": "2026-11-06T00:00:00+00:00"
     }
 ]
-
 
 
 def load_counts():
