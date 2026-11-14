@@ -369,7 +369,7 @@ MODS = [
         "file_url": "https://www.mediafire.com/file/rxquqzrcy1a0ds7/FS22_URSUS_C360.zip/file",
         "filename": "URSUS_C360.zip",
         "size_bytes":,
-        "sha256": "63615a618bbc349162eff06a4230c6ef10a847c76c28d6bac324d2fd9be5260e",
+        "sha256": "804daf4f2312324aa9666b064cecbfd696d77080300fd02ec5c6ddc1efd27b27",
         "naffy_url": "",
         "tags": "",
         "changelog": "",
