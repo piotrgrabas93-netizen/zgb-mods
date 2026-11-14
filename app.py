@@ -49,8 +49,8 @@ UPDATE_MINUTES = 1
 # version_code musi być większy niż w telefonie (teraz 5103).
 # apk_url musi być bezpośrednim linkiem do pliku .apk, nie do ZIP i nie do strony MediaFire.
 UPDATE = {
-    "version_code": 5105,
-    "version": "5.10.5",
+    "version_code": 5106,
+    "version": "5.10.6",
     "message": "Czas minął. Zainstaluj nową wersję.",
     "apk_url": "https://files.catbox.moe/nhsc02.apk"
 }
