@@ -50,9 +50,9 @@ UPDATE_MINUTES = 30
 # apk_url musi być bezpośrednim linkiem do pliku .apk, nie do ZIP i nie do strony MediaFire.
 UPDATE = {
     "version_code": 5103,
-    "version": "5.10.4",
+    "version": "5.10.5",
     "message": "Czas minął. Zainstaluj nową wersję.",
-    "apk_url": ""
+    "apk_url": "https://files.catbox.moe/zg70za.zip"
 }
 
 MODS = [
