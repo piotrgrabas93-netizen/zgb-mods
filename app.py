@@ -296,6 +296,33 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
+ },
+]
+     "id": "ClaasXerion12650",
+        "title": "ClaasXerion12650",
+        "author": "Hacker",
+        "category": "Ciagniki",
+        "version": "2.0.0.2",
+        "price_minor": 0,
+        "published": True,
+        "purchased": True,
+        "downloads": 0,
+        "purchases": 0,
+        "thumbnail": "https://i.ibb.co/QjKkkFNP/icon-Xerion12650.png",
+        "description": "ClaasXerion12650",  
+        "summary": "Claas Xerion 12.650 Tractor, Large series tractorModel Xerion 12.590Engine Price 706.045 $Power 585HP",
+        "compatibility": "FS23 Mobile",
+        "file_url": "https://www.mediafire.com/file/koqdyljjs04dme6/FS22_ClaasXerion12650.zip/file",
+        "filename": "ClaasXerion12650.zip",
+        "size_bytes":,
+        "sha256": "4157181e853d9d2ad095b42cafc2846981f5221d3774e72d2e8aefbf4b322a2f",
+        "naffy_url": "",
+        "tags": "",
+        "changelog": "",
+        "requirements": "",
+        "gallery": [],
+        "revision": 1,
+        "updated_at": "2026-11-06T00:00:00+00:00"
     }
 ]
 
