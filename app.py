@@ -325,12 +325,9 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
+    },
     }
-]
-
-},
-    {
-        "id": "MF600Series",
+      "id": "MF600Series",
         "title": "MF600Series",
         "author": "Hacker",
         "category": "Ciagniki",
@@ -348,6 +345,34 @@ MODS = [
         "filename": "MF600Series.zip",
         "size_bytes": 34256998,
         "sha256": "63615a618bbc349162eff06a4230c6ef10a847c76c28d6bac324d2fd9be5260e",
+        "naffy_url": "",
+        "tags": "",
+        "changelog": "",
+        "requirements": "",
+        "gallery": [],
+        "revision": 1,
+        "updated_at": "2026-11-06T00:00:00+00:00"
+    },
+]
+
+         "id": "MF600Series",
+        "title": "MF600Series",
+        "author": "Hacker",
+        "category": "Ciagniki",
+        "version": "1.1.1.0",
+        "price_minor": 0,
+        "published": True,
+        "purchased": True,
+        "downloads": 0,
+        "purchases": 0,
+        "thumbnail": "https://iili.io/o9YwJoP.png",
+        "description": "ClaasXerion12650",
+        "summary": "Base Price 600 Versions 2WD  21.500$ 4WD  26.500$",
+        "compatibility": "FS23 Mobile",
+        "file_url": "https://www.mediafire.com/file/z2qw3p8nev9189d/FS22_URSUS_C360.zip/file",
+        "filename": "MF600Series.zip",
+        "size_bytes": 34256998,
+        "sha256": "b0ae3d9dcdccb6f2911fb109ee41f58e12363b7a04bed9194e4900031c9cd888",
         "naffy_url": "",
         "tags": "",
         "changelog": "",
