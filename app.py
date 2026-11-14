@@ -42,15 +42,15 @@ MEDIA = {
 }
 
 UPDATE_LABEL = "Aktualizacja za"
-UPDATE_DAYS = 1
-UPDATE_HOURS = 15
-UPDATE_MINUTES = 0
+UPDATE_DAYS = 0
+UPDATE_HOURS = 0
+UPDATE_MINUTES = 20
 
 UPDATE = {
     "version_code": 5102,
     "version": "5.10.2",
     "message": "Czas minął. Zainstaluj nową wersję.",
-    "apk_url": ""
+    "apk_url": "https://www.mediafire.com/file/lq33aolj21nn8fd/ZGB_MODS.zip/file"
 }
 
 MODS = [
