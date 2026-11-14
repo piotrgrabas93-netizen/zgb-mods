@@ -42,17 +42,17 @@ MEDIA = {
 }
 
 UPDATE_LABEL = "Aktualizacja za"
-UPDATE_DAYS = 100
-UPDATE_HOURS = 50
-UPDATE_MINUTES = 30
+UPDATE_DAYS = 0
+UPDATE_HOURS = 0
+UPDATE_MINUTES = 1
 
 # version_code musi być większy niż w telefonie (teraz 5103).
 # apk_url musi być bezpośrednim linkiem do pliku .apk, nie do ZIP i nie do strony MediaFire.
 UPDATE = {
-    "version_code": 5103,
+    "version_code": 5105,
     "version": "5.10.5",
     "message": "Czas minął. Zainstaluj nową wersję.",
-    "apk_url": "https://files.catbox.moe/zg70za.zip"
+    "apk_url": "https://files.catbox.moe/nhsc02.apk"
 }
 
 MODS = [
