@@ -365,7 +365,7 @@ MODS = [
         "purchased": True,
         "downloads": 0,
         "purchases": 0,
-        "thumbnail": "https://iili.io/o9YwJoP.png",
+        "thumbnail": "https://ibb.co/HD3HQCNr",
         "description": "URSUS_C360",
         "summary": "Price 18000 € Power 45-52hp Category: small tractors",
         "compatibility": "FS23 Mobile",
