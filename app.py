@@ -49,7 +49,7 @@ UPDATE_MINUTES = 30
 # version_code musi być większy niż w telefonie (teraz 5103).
 # apk_url musi być bezpośrednim linkiem do pliku .apk, nie do ZIP i nie do strony MediaFire.
 UPDATE = {
-    "version_code": 5104,
+    "version_code": 5103,
     "version": "5.10.4",
     "message": "Czas minął. Zainstaluj nową wersję.",
     "apk_url": ""
