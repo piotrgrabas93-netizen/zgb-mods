@@ -42,8 +42,8 @@ MEDIA = {
 }
 
 UPDATE_LABEL = "Aktualizacja za"
-UPDATE_DAYS = 0
-UPDATE_HOURS = 0
+UPDATE_DAYS = 100
+UPDATE_HOURS = 50
 UPDATE_MINUTES = 30
 
 # version_code musi być większy niż w telefonie (teraz 5103).
