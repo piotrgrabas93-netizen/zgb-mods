@@ -328,6 +328,36 @@ MODS = [
     }
 ]
 
+},
+    {
+        "id": "MF600Series",
+        "title": "MF600Series",
+        "author": "Hacker",
+        "category": "Ciagniki",
+        "version": "1.1.1.0",
+        "price_minor": 0,
+        "published": True,
+        "purchased": True,
+        "downloads": 0,
+        "purchases": 0,
+        "thumbnail": "https://iili.io/o9YfoH7.png",
+        "description": "ClaasXerion12650",
+        "summary": "Claas Xerion 12.650 Tractor, Large series tractor Model: Xerion 12.590",
+        "compatibility": "FS23 Mobile",
+        "file_url": "https://www.mediafire.com/file/3y9v6xna491j9r2/FS22_ClaasXerion12650.zip/file",
+        "filename": "MF600Series.zip",
+        "size_bytes": 34256998,
+        "sha256": "63615a618bbc349162eff06a4230c6ef10a847c76c28d6bac324d2fd9be5260e",
+        "naffy_url": "",
+        "tags": "",
+        "changelog": "",
+        "requirements": "",
+        "gallery": [],
+        "revision": 1,
+        "updated_at": "2026-11-06T00:00:00+00:00"
+    }
+]
+
 def load_counts():
     if not os.path.exists(COUNTS_FILE):
         return {}
