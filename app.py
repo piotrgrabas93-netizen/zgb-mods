@@ -1,4 +1,3 @@
-
 import os
 import re
 import html
@@ -7,6 +6,7 @@ import hashlib
 import threading
 import time
 import urllib.request
+import urllib.error
 import zipfile
 
 from io import BytesIO
@@ -37,7 +37,8 @@ VIDEO_TTL = 300
 
 MEDIA = {
     "youtube": "https://www.youtube.com/@ZGB_Hacke_jp",
-    "tiktok": "https://www.tiktok.com/@zgb_hacker._.zapa"
+    "tiktok": "https://www.tiktok.com/@zgb_hacker._.zapa",
+    "discord": "https://discord.gg/UGKjzk2Zm"
 }
 
 UPDATE_LABEL = "Aktualizacja za"
@@ -46,15 +47,11 @@ UPDATE_HOURS = 15
 UPDATE_MINUTES = 0
 
 UPDATE = {
-    "version_code": 5101,
-    "version": "5.10.1",
+    "version_code": 5102,
+    "version": "5.10.2",
     "message": "Czas minął. Zainstaluj nową wersję.",
     "apk_url": ""
 }
-
-# =========================================================
-# MODS
-# =========================================================
 
 MODS = [
     {
@@ -299,99 +296,13 @@ MODS = [
         "gallery": [],
         "revision": 1,
         "updated_at": "2026-11-06T00:00:00+00:00"
-    },
-    {
-        "id": "ClaasXerion12650",
-        "title": "ClaasXerion12650",
-        "author": "Hacker",
-        "category": "Ciagniki",
-        "version": "2.0.0.2",
-        "price_minor": 0,
-        "published": True,
-        "purchased": True,
-        "downloads": 0,
-        "purchases": 0,
-        "thumbnail": "https://iili.io/o9YfoH7.png",
-        "description": "ClaasXerion12650",
-        "summary": "Claas Xerion 12.650 Tractor, Large series tractor Model: Xerion 12.590",
-        "compatibility": "FS23 Mobile",
-        "file_url": "https://www.mediafire.com/file/3y9v6xna491j9r2/FS22_ClaasXerion12650.zip/file",
-        "filename": "ClaasXerion12650.zip",
-        "size_bytes": 34256998,
-        "sha256": "69d34ba6618d2d82aa223fbaf3cd1a3dbcb204f50d107ed81919465fd7c26979",
-        "naffy_url": "",
-        "tags": "",
-        "changelog": "",
-        "requirements": "",
-        "gallery": [],
-        "revision": 1,
-        "updated_at": "2026-11-06T00:00:00+00:00"
-    },
-    {
-        "id": "MF600Series",
-        "title": "MF600Series",
-        "author": "Hacker",
-        "category": "Ciagniki",
-        "version": "1.1.1.0",
-        "price_minor": 0,
-        "published": True,
-        "purchased": True,
-        "downloads": 0,
-        "purchases": 0,
-        "thumbnail": "https://iili.io/o9YwJoP.png",
-        "description": "MF600Series",
-        "summary": "Base Price 600 Versions 2WD 21.500$ 4WD 26.500$",
-        "compatibility": "FS23 Mobile",
-        "file_url": "https://www.mediafire.com/file/3y9v6xna491j9r2/FS22_ClaasXerion12650.zip/file",
-        "filename": "MF600Series.zip",
-        "size_bytes": 34256998,
-        "sha256": "63615a618bbc349162eff06a4230c6ef10a847c76c28d6bac324d2fd9be5260e",
-        "naffy_url": "",
-        "tags": "",
-        "changelog": "",
-        "requirements": "",
-        "gallery": [],
-        "revision": 1,
-        "updated_at": "2026-11-06T00:00:00+00:00"
-    },
-    {
-        "id": "URSUS_C360",
-        "title": "URSUS_C360",
-        "author": "Hacker",
-        "category": "Ciagniki",
-        "version": "1.1.1.0",
-        "price_minor": 0,
-        "published": True,
-        "purchased": True,
-        "downloads": 0,
-        "purchases": 0,
-        "thumbnail": "https://i.ibb.co/N6byzr1L/store-Ursus-C360.png",
-        "description": "URSUS_C360",
-        "summary": "Price 18000 € Power 45-52hp Category: small tractors",
-        "compatibility": "FS23 Mobile",
-        "file_url": "https://www.mediafire.com/file/z2qw3p8nev9189d/FS22_URSUS_C360.zip/file",
-        "filename": "URSUS_C360.zip",
-        "size_bytes": 34256998,
-        "sha256": "b0ae3d9dcdccb6f2911fb109ee41f58e12363b7a04bed9194e4900031c9cd888",
-        "naffy_url": "",
-        "tags": "",
-        "changelog": "",
-        "requirements": "",
-        "gallery": [],
-        "revision": 1,
-        "updated_at": "2026-11-06T00:00:00+00:00"
     }
 ]
 
 
-# =========================================================
-# LICZNIKI POBRAŃ
-# =========================================================
-
 def load_counts():
     if not os.path.exists(COUNTS_FILE):
         return {}
-
     try:
         with open(COUNTS_FILE, "r", encoding="utf-8") as f:
             data = json.load(f)
@@ -401,18 +312,13 @@ def load_counts():
 
 
 def save_counts():
-    data = {
-        m["id"]: int(m.get("downloads", 0))
-        for m in MODS
-    }
-
+    data = {m["id"]: int(m.get("downloads", 0)) for m in MODS}
     with open(COUNTS_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f)
 
 
 def apply_counts():
     saved = load_counts()
-
     for m in MODS:
         floor = int(m.get("downloads", 0))
         saved_value = int(saved.get(m["id"], 0))
@@ -426,37 +332,24 @@ def add_download(mod_id):
                 m["downloads"] = int(m.get("downloads", 0)) + 1
                 save_counts()
                 return m["downloads"]
-
     return 0
 
 
 apply_counts()
 
 
-# =========================================================
-# ODLICZANIE AKTUALIZACJI
-# =========================================================
-
 def countdown_info():
     tz = timezone(timedelta(hours=1))
     now = datetime.now(tz)
-
-    key = (
-        str(UPDATE_DAYS) + ":"
-        + str(UPDATE_HOURS) + ":"
-        + str(UPDATE_MINUTES)
-    )
-
+    key = str(UPDATE_DAYS) + ":" + str(UPDATE_HOURS) + ":" + str(UPDATE_MINUTES)
     until_ms = 0
     saved = {}
-
     if os.path.exists(COUNTDOWN_FILE):
         try:
             with open(COUNTDOWN_FILE, "r", encoding="utf-8") as f:
                 saved = json.load(f)
         except Exception:
             saved = {}
-
     if saved.get("key") == key and saved.get("until_ms"):
         until_ms = int(saved["until_ms"])
     else:
@@ -465,36 +358,22 @@ def countdown_info():
             hours=int(UPDATE_HOURS),
             minutes=int(UPDATE_MINUTES)
         )
-
         until_ms = int(dt.timestamp() * 1000)
-
         try:
             with open(COUNTDOWN_FILE, "w", encoding="utf-8") as f:
-                json.dump({
-                    "key": key,
-                    "until_ms": until_ms
-                }, f)
+                json.dump({"key": key, "until_ms": until_ms}, f)
         except Exception:
             pass
-
-    seconds = max(
-        0,
-        int(until_ms / 1000 - now.timestamp())
-    )
-
+    seconds = max(0, int(until_ms / 1000 - now.timestamp()))
     return {
         "label": UPDATE_LABEL,
         "days": int(UPDATE_DAYS),
         "hours": int(UPDATE_HOURS),
         "minutes": int(UPDATE_MINUTES),
         "until_ms": until_ms,
-        "seconds": seconds
+        "seconds": seconds,
     }
 
-
-# =========================================================
-# YOUTUBE
-# =========================================================
 
 def empty_video():
     return {
@@ -510,115 +389,158 @@ def fetch_latest_video():
         "https://www.youtube.com/feeds/videos.xml?channel_id="
         + CHANNEL_ID
     )
-
     req = urllib.request.Request(
         url,
         headers={"User-Agent": "Mozilla/5.0"}
     )
-
     with urllib.request.urlopen(req, timeout=8) as response:
         xml = response.read().decode("utf-8", "ignore")
-
-    vid = re.search(
-        r"<yt:videoId>([^<]+)</yt:videoId>",
-        xml
-    )
-
-    titles = re.findall(
-        r"<title>(.*?)</title>",
-        xml,
-        re.DOTALL
-    )
-
+    vid = re.search(r"<yt:videoId>([^<]+)</yt:videoId>", xml)
+    titles = re.findall(r"<title>(.*?)</title>", xml, re.DOTALL)
     video_id = vid.group(1) if vid else ""
-
     title = html.unescape(
         titles[1].strip() if len(titles) > 1 else "ZGB"
     )
-
     return {
         "video_id": video_id,
         "title": title,
         "thumbnail": (
-            "https://img.youtube.com/vi/"
-            + video_id
-            + "/hqdefault.jpg"
+            "https://img.youtube.com/vi/" + video_id + "/hqdefault.jpg"
         ) if video_id else "",
         "url": (
-            "https://www.youtube.com/watch?v="
-            + video_id
+            "https://www.youtube.com/watch?v=" + video_id
         ) if video_id else ""
     }
 
 
 def latest_video():
     now = time.time()
-
     with VIDEO_LOCK:
         cached = VIDEO_CACHE["data"]
         age = now - VIDEO_CACHE["time"]
-
         if cached is not None and age < VIDEO_TTL:
             return cached
-
     try:
         data = fetch_latest_video()
-
     except Exception as e:
         print("YouTube error:", e)
-
         with VIDEO_LOCK:
             if VIDEO_CACHE["data"] is not None:
                 return VIDEO_CACHE["data"]
-
         data = empty_video()
-
     with VIDEO_LOCK:
         VIDEO_CACHE["data"] = data
         VIDEO_CACHE["time"] = now
-
     return data
 
 
-# =========================================================
-# KATALOG MODÓW
-# =========================================================
-
 def visible():
-    return [
-        m for m in MODS
-        if m.get("published", False)
+    return [m for m in MODS if m.get("published", False)]
+
+
+def direct(url):
+    if "mediafire.com/file/" not in url:
+        return url
+    req = urllib.request.Request(
+        url,
+        headers={"User-Agent": "Mozilla/5.0"}
+    )
+    with urllib.request.urlopen(req, timeout=60) as response:
+        page = response.read().decode("utf-8", "ignore")
+    page = html.unescape(page)
+    page = page.replace("\\/", "/")
+    patterns = [
+        r'https://download\d*\.mediafire\.com/[^"\'<>\s]+',
+        r'"(https://download\d*\.mediafire\.com/[^"]+)"',
+        r'href="(https://download\d*\.mediafire\.com/[^"]+)"'
     ]
+    for pattern in patterns:
+        found = re.findall(pattern, page)
+        if found:
+            return found[0].rstrip("\\")
+    raise Exception("Nie znaleziono bezpośredniego linku MediaFire")
+
+
+def fetch_complete_file(mod):
+    source_url = direct(mod.get("file_url", ""))
+    req = urllib.request.Request(
+        source_url,
+        headers={
+            "User-Agent": "Mozilla/5.0",
+            "Accept": "application/zip,application/octet-stream,*/*",
+            "Accept-Encoding": "identity",
+            "Connection": "close"
+        }
+    )
+    with urllib.request.urlopen(req, timeout=240) as upstream:
+        content_type = upstream.headers.get("Content-Type", "").lower()
+        if "text/html" in content_type:
+            raise Exception("Źródło zwróciło HTML zamiast ZIP")
+        expected = upstream.headers.get("Content-Length")
+        data = BytesIO()
+        received = 0
+        while True:
+            chunk = upstream.read(256 * 1024)
+            if not chunk:
+                break
+            data.write(chunk)
+            received += len(chunk)
+        if expected:
+            expected = int(expected)
+            if received != expected:
+                raise Exception(
+                    "Niekompletny plik ze źródła. "
+                    "Otrzymano " + str(received)
+                    + " bajtów, oczekiwano " + str(expected)
+                )
+    file_data = data.getvalue()
+    if not file_data:
+        raise Exception("Pobrany plik jest pusty")
+    buffer = BytesIO(file_data)
+    if not zipfile.is_zipfile(buffer):
+        raise Exception("Pobrany plik nie jest poprawnym ZIP-em")
+    buffer.seek(0)
+    with zipfile.ZipFile(buffer, "r") as archive:
+        bad_file = archive.testzip()
+        if bad_file:
+            raise Exception("Uszkodzony plik w ZIP: " + bad_file)
+    actual_size = len(file_data)
+    actual_sha256 = hashlib.sha256(file_data).hexdigest()
+    print("POPRAWNY ZIP:", mod["id"], actual_size, actual_sha256)
+    return {
+        "data": file_data,
+        "size_bytes": actual_size,
+        "sha256": actual_sha256,
+        "filename": mod.get("filename", mod["id"] + ".zip")
+    }
+
+
+def get_file(mod):
+    mod_id = mod["id"]
+    with CACHE_LOCK:
+        cached = FILE_CACHE.get(mod_id)
+    if cached is not None:
+        return cached
+    downloaded = fetch_complete_file(mod)
+    with CACHE_LOCK:
+        FILE_CACHE[mod_id] = downloaded
+    return downloaded
 
 
 def catalog():
     q = (request.args.get("q") or "").lower().strip()
     cat = (request.args.get("category") or "").lower().strip()
     filt = request.args.get("filter") or ""
-
     try:
-        page = max(
-            1,
-            int(request.args.get("page") or 1)
-        )
+        page = max(1, int(request.args.get("page") or 1))
     except (ValueError, TypeError):
         page = 1
-
     limit = 40
     items = visible()
-
     if filt == "free":
-        items = [
-            m for m in items
-            if m.get("price_minor", 0) == 0
-        ]
-
+        items = [m for m in items if m.get("price_minor", 0) == 0]
     elif filt == "paid":
-        items = [
-            m for m in items
-            if m.get("price_minor", 0) > 0
-        ]
-
+        items = [m for m in items if m.get("price_minor", 0) > 0]
     if q:
         items = [
             m for m in items
@@ -626,21 +548,17 @@ def catalog():
             or q in m.get("category", "").lower()
             or q in m.get("summary", "").lower()
         ]
-
     if cat:
         items = [
             m for m in items
             if cat in m.get("category", "").lower()
         ]
-
     start = (page - 1) * limit
     out = []
-
     for m in items[start:start + limit]:
         row = dict(m)
         row.pop("file_url", None)
         out.append(row)
-
     return jsonify({
         "channel": latest_video(),
         "media": MEDIA,
@@ -653,43 +571,25 @@ def catalog():
     })
 
 
-# =========================================================
-# PLIKI POMOCY
-# =========================================================
-
 def load_help():
     if not os.path.exists(HELP_FILE):
         return []
-
     try:
         with open(HELP_FILE, "r", encoding="utf-8") as f:
-            data = json.load(f)
-            return data if isinstance(data, list) else []
+            return json.load(f)
     except Exception:
         return []
 
 
 def save_help(items):
     with open(HELP_FILE, "w", encoding="utf-8") as f:
-        json.dump(
-            items,
-            f,
-            ensure_ascii=False
-        )
+        json.dump(items, f, ensure_ascii=False)
 
-
-# =========================================================
-# APK
-# =========================================================
 
 @app.get("/app.apk")
 def app_apk():
     return redirect(APP_APK)
 
-
-# =========================================================
-# ENDPOINTY
-# =========================================================
 
 @app.get("/v5/channel/latest")
 @app.get("/channel/latest")
@@ -718,184 +618,19 @@ def one(mod_id):
             row = dict(m)
             row.pop("file_url", None)
             return jsonify(row)
-
     return jsonify({"error": "not found"}), 404
 
 
-# =========================================================
-# POBIERANIE MODÓW
-# =========================================================
-
-def direct(url):
-    if "mediafire.com/file/" not in url:
-        return url
-
-    req = urllib.request.Request(
-        url,
-        headers={"User-Agent": "Mozilla/5.0"}
-    )
-
-    with urllib.request.urlopen(req, timeout=60) as response:
-        page = response.read().decode("utf-8", "ignore")
-
-    page = html.unescape(page)
-    page = page.replace("\\/", "/")
-
-    patterns = [
-        r'https://download\d*\.mediafire\.com/[^"\'<>\s]+',
-        r'"(https://download\d*\.mediafire\.com/[^"]+)"',
-        r'href="(https://download\d*\.mediafire\.com/[^"]+)"'
-    ]
-
-    for pattern in patterns:
-        found = re.findall(pattern, page)
-
-        if found:
-            return found[0].rstrip("\\")
-
-    raise Exception(
-        "Nie znaleziono bezpośredniego linku MediaFire"
-    )
-
-
-def fetch_complete_file(mod):
-    source_url = direct(
-        mod.get("file_url", "")
-    )
-
-    req = urllib.request.Request(
-        source_url,
-        headers={
-            "User-Agent": "Mozilla/5.0",
-            "Accept": "application/zip,application/octet-stream,*/*",
-            "Accept-Encoding": "identity",
-            "Connection": "close"
-        }
-    )
-
-    with urllib.request.urlopen(req, timeout=240) as upstream:
-        content_type = upstream.headers.get(
-            "Content-Type", ""
-        ).lower()
-
-        if "text/html" in content_type:
-            raise Exception(
-                "Źródło zwróciło HTML zamiast ZIP"
-            )
-
-        expected = upstream.headers.get("Content-Length")
-
-        data = BytesIO()
-        received = 0
-
-        while True:
-            chunk = upstream.read(256 * 1024)
-
-            if not chunk:
-                break
-
-            data.write(chunk)
-            received += len(chunk)
-
-        if expected:
-            expected = int(expected)
-
-            if received != expected:
-                raise Exception(
-                    "Niekompletny plik ze źródła. "
-                    "Otrzymano " + str(received)
-                    + " bajtów, oczekiwano "
-                    + str(expected)
-                )
-
-    file_data = data.getvalue()
-
-    if not file_data:
-        raise Exception("Pobrany plik jest pusty")
-
-    buffer = BytesIO(file_data)
-
-    if not zipfile.is_zipfile(buffer):
-        raise Exception(
-            "Pobrany plik nie jest poprawnym ZIP-em"
-        )
-
-    buffer.seek(0)
-
-    with zipfile.ZipFile(buffer, "r") as archive:
-        bad_file = archive.testzip()
-
-        if bad_file:
-            raise Exception(
-                "Uszkodzony plik w ZIP: " + bad_file
-            )
-
-    actual_size = len(file_data)
-    actual_sha256 = hashlib.sha256(file_data).hexdigest()
-
-    print(
-        "POPRAWNY ZIP:",
-        mod["id"],
-        actual_size,
-        actual_sha256
-    )
-
-    return {
-        "data": file_data,
-        "size_bytes": actual_size,
-        "sha256": actual_sha256,
-        "filename": mod.get(
-            "filename",
-            mod["id"] + ".zip"
-        )
-    }
-
-
-def get_file(mod):
-    mod_id = mod["id"]
-
-    with CACHE_LOCK:
-        cached = FILE_CACHE.get(mod_id)
-
-    if cached is not None:
-        return cached
-
-    downloaded = fetch_complete_file(mod)
-
-    with CACHE_LOCK:
-        FILE_CACHE[mod_id] = downloaded
-
-    return downloaded
-
-
-@app.route(
-    "/v5/mods/<mod_id>/download",
-    methods=["GET", "POST"]
-)
-@app.route(
-    "/mods/<mod_id>/download",
-    methods=["GET", "POST"]
-)
+@app.route("/v5/mods/<mod_id>/download", methods=["GET", "POST"])
+@app.route("/mods/<mod_id>/download", methods=["GET", "POST"])
 def download(mod_id):
-    mod = next(
-        (m for m in visible() if m["id"] == mod_id),
-        None
-    )
-
+    mod = next((m for m in visible() if m["id"] == mod_id), None)
     if mod is None:
         return jsonify({"error": "not found"}), 404
-
     try:
         file_info = get_file(mod)
-
         add_download(mod_id)
-
-        file_link = url_for(
-            "download_file",
-            mod_id=mod_id,
-            _external=True
-        )
-
+        file_link = url_for("download_file", mod_id=mod_id, _external=True)
         return jsonify({
             "uri": file_link,
             "url": file_link,
@@ -903,14 +638,8 @@ def download(mod_id):
             "sha256": file_info["sha256"],
             "size_bytes": file_info["size_bytes"]
         })
-
     except Exception as e:
-        print(
-            "METADATA ERROR:",
-            mod_id,
-            repr(e)
-        )
-
+        print("METADATA ERROR:", mod_id, repr(e))
         return jsonify({
             "error": "Nie udało się sprawdzić pliku",
             "details": str(e)
@@ -920,164 +649,87 @@ def download(mod_id):
 @app.get("/v5/mods/<mod_id>/file")
 @app.get("/mods/<mod_id>/file")
 def download_file(mod_id):
-    mod = next(
-        (m for m in visible() if m["id"] == mod_id),
-        None
-    )
-
+    mod = next((m for m in visible() if m["id"] == mod_id), None)
     if mod is None:
         return jsonify({"error": "not found"}), 404
-
     try:
         file_info = get_file(mod)
-
         file_data = file_info["data"]
         filename = file_info["filename"]
-
         response = Response(
             file_data,
             status=200,
             content_type="application/zip"
         )
-
         response.headers["Content-Disposition"] = (
-            "attachment; filename*=UTF-8''"
-            + quote(filename)
+            "attachment; filename*=UTF-8''" + quote(filename)
         )
-
-        response.headers["Content-Length"] = str(
-            file_info["size_bytes"]
-        )
-
+        response.headers["Content-Length"] = str(file_info["size_bytes"])
         response.headers["Content-Transfer-Encoding"] = "binary"
         response.headers["Cache-Control"] = "no-store"
         response.headers["Accept-Ranges"] = "none"
         response.headers["X-Content-Type-Options"] = "nosniff"
-
-        print(
-            "WYSŁANO:",
-            mod_id,
-            file_info["size_bytes"],
-            file_info["sha256"]
-        )
-
+        print("WYSŁANO:", mod_id, file_info["size_bytes"], file_info["sha256"])
         return response
-
     except Exception as e:
-        print(
-            "DOWNLOAD ERROR:",
-            mod_id,
-            repr(e)
-        )
-
+        print("DOWNLOAD ERROR:", mod_id, repr(e))
         return jsonify({
             "error": "Nie udało się pobrać kompletnego pliku",
             "details": str(e)
         }), 502
 
 
-# =========================================================
-# SYSTEM POMOCY
-# =========================================================
-
-@app.route(
-    "/v5/help",
-    methods=["GET", "POST"]
-)
-@app.route(
-    "/help",
-    methods=["GET", "POST"]
-)
+@app.route("/v5/help", methods=["GET", "POST"])
+@app.route("/help", methods=["GET", "POST"])
 def help_messages():
     if request.method == "POST":
         data = request.get_json(silent=True) or {}
-
         item = {
             "device_id": data.get("device_id", ""),
             "topic": data.get("topic", ""),
             "message": data.get("message", ""),
-            "time": datetime.now(timezone.utc).isoformat()
+            "time": datetime.utcnow().isoformat()
         }
-
         with HELP_LOCK:
             items = load_help()
             items.append(item)
             save_help(items)
-
         return jsonify({"ok": True})
-
     device_id = request.args.get("device_id") or ""
-
-    with HELP_LOCK:
-        items = load_help()
-
-    mine = [
-        m for m in items
-        if m.get("device_id") == device_id
-    ]
-
+    items = load_help()
+    mine = [m for m in items if m.get("device_id") == device_id]
     return jsonify({"items": mine})
 
 
 @app.get("/v5/help/all")
 def help_all():
-    with HELP_LOCK:
-        items = load_help()
-
-    page = (
-        "<html><meta charset='utf-8'>"
-        "<body style='background:#111;color:#eee;"
-        "font-family:sans-serif;padding:16px'>"
-    )
-
+    items = load_help()
+    page = "<html><meta charset='utf-8'><body style='background:#111;color:#eee;font-family:sans-serif;padding:16px'>"
     page += "<h2>Wiadomości z Pomocy</h2>"
-
     if not items:
         page += "<p>Brak wiadomości</p>"
-
     else:
         for m in items:
             line = (
                 m.get("time", "")[:19].replace("T", " ")
                 + " | "
-                + str(m.get("topic", ""))
+                + m.get("topic", "")
                 + " | "
-                + str(m.get("message", ""))
+                + m.get("message", "")
             )
-
-            page += (
-                "<p>"
-                + html.escape(line)
-                + "</p>"
-            )
-
+            page += "<p>" + html.escape(line) + "</p>"
     page += "</body></html>"
-
     return page
 
 
-# =========================================================
-# BUYERS
-# =========================================================
-
-@app.route(
-    "/v5/buyers",
-    methods=["GET", "POST"]
-)
-@app.route(
-    "/buyers",
-    methods=["GET", "POST"]
-)
+@app.route("/v5/buyers", methods=["GET", "POST"])
+@app.route("/buyers", methods=["GET", "POST"])
 def buyers():
     return jsonify({
         "token": "zgb-ok",
         "recovery_code": "ZGB-OK"
     })
 
-
-# =========================================================
-# STRONA GŁÓWNA
-# =========================================================
 
 @app.get("/")
 def root():
@@ -1091,10 +743,6 @@ def root():
         "update": UPDATE
     })
 
-
-# =========================================================
-# START SERWERA
-# =========================================================
 
 if __name__ == "__main__":
     app.run(
