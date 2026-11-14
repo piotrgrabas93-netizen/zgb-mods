@@ -325,9 +325,7 @@ MODS = [
         "updated_at": "2026-11-06T00:00:00+00:00"
     },
 ]
-
-
-"id": "MF600Series",
+       "id": "MF600Series",
         "title": "MF600Series",
         "author": "Hacker",
         "category": "Ciagniki",
@@ -344,7 +342,34 @@ MODS = [
         "file_url": "https://www.mediafire.com/file/tf5zt9anpdawrz3/FS22_MF600Series.zip/file",
         "filename": "MF600Series.zip",
         "size_bytes":,
-        "sha256": "69d34ba6618d2d82aa223fbaf3cd1a3dbcb204f50d107ed81919465fd7c26979",
+        "sha256": "63615a618bbc349162eff06a4230c6ef10a847c76c28d6bac324d2fd9be5260e",
+        "naffy_url": "",
+        "tags": "",
+        "changelog": "",
+        "requirements": "",
+        "gallery": [],
+        "revision": 1,
+        "updated_at": "2026-11-06T00:00:00+00:00"
+    },
+]
+       "id": "URSUS_C360",
+        "title": "URSUS_C360",
+        "author": "Hacker",
+        "category": "Ciagniki",
+        "version": "1.0.0.0",
+        "price_minor": 0,
+        "published": True,
+        "purchased": True,
+        "downloads": 0,
+        "purchases": 0,
+        "thumbnail": "https://i.ibb.co/N6byzr1L/store-Ursus-C360.png⁠",
+        "description": "URSUS_C360",  
+        "summary": "Price: 18000 €Power: 45-52hp Category small tractors",
+        "compatibility": "FS23 Mobile",
+        "file_url": "https://www.mediafire.com/file/rxquqzrcy1a0ds7/FS22_URSUS_C360.zip/file",
+        "filename": "URSUS_C360.zip",
+        "size_bytes":,
+        "sha256": "63615a618bbc349162eff06a4230c6ef10a847c76c28d6bac324d2fd9be5260e",
         "naffy_url": "",
         "tags": "",
         "changelog": "",
@@ -354,6 +379,7 @@ MODS = [
         "updated_at": "2026-11-06T00:00:00+00:00"
     }
 ]
+
 
 
 def load_counts():
