@@ -1,4 +1,4 @@
-import os
+,import os
 import re
 import html
 import json
@@ -348,7 +348,7 @@ MODS = [
         "newHollandTX32",
         "Kombajny",
         "1.0.0.0",
-        "https://iili.io/oHaKYnp.png",
+        "https://iili.io/oH0hmdv.png",
         "Price: 55.000 € Power: 155 hp Top speed: 25 kph",
         "https://files.catbox.moe/r8aueb.zip",
         "newHollandTX32.zip",
