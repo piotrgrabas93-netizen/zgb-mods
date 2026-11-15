@@ -1,4 +1,3 @@
-
 import os
 import re
 import html
@@ -338,6 +337,22 @@ MODS = [
         "https://www.mediafire.com/file/kse3vxy7a3bream/FS22_JohnDeere8900series.zip/file",
         "JohnDeere8900series.zip",
         "2f9189b06512706aab828bbafd7a69c221a310d243df6bfdf21a49ccb2a187d2"
+    ),
+
+    # =====================================================
+    # NEW HOLLAND TX32
+    # =====================================================
+
+    make_mod(
+        "newHollandTX32",
+        "newHollandTX32",
+        "Kombajny",
+        "1.0.0.0",
+        "https://iili.io/oHaKYnp.png",
+        "Price: 55.000 € Power: 155 hp Top speed: 25 kph",
+        "https://files.catbox.moe/r8aueb.zip",
+        "newHollandTX32.zip",
+        "4e49c3231186cf310ab7a204fd269a4b59f30647e6e476fbec6ad6a089f0fb6d"
     )
 
 ]
@@ -1206,5 +1221,4 @@ if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
         port=int(os.environ.get("PORT", 10000)),
-        threaded=True
-    )
+        threaded=True)
