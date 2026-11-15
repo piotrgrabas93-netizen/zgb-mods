@@ -338,11 +338,7 @@ MODS = [
         "JohnDeere8900series.zip",
         "2f9189b06512706aab828bbafd7a69c221a310d243df6bfdf21a49ccb2a187d2"
     ),
-
-    # =====================================================
-    # NEW HOLLAND TX32
-    # =====================================================
-
+    
     make_mod(
         "newHollandTX32",
         "newHollandTX32",
@@ -350,7 +346,7 @@ MODS = [
         "1.0.0.0",
         "https://iili.io/oH0hmdv.png",
         "Price: 55.000 € Power: 155 hp Top speed: 25 kph",
-        "https://files.catbox.moe/r8aueb.zip",
+        "https://files.catbox.moe/vrzz7z.zip",
         "newHollandTX32.zip",
         "4e49c3231186cf310ab7a204fd269a4b59f30647e6e476fbec6ad6a089f0fb6d"
     )
