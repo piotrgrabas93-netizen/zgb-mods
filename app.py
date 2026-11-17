@@ -102,7 +102,7 @@ MODS = [
     make_mod(
         "deutz-series9",
         "Deutz-Fahr Series 9",
-        "Ciagniki",
+        "Duże ciągniki",
         "2.1.0.0",
         "https://iili.io/ntb6QRa.png",
         "9290 / 9310 / 9340 TTV",
