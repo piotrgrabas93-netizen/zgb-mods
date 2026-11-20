@@ -19,16 +19,22 @@ app.config["MAX_CONTENT_LENGTH"] = 500 * 1024 * 1024
 CHANNEL_ID = "UC7oYer-vkZ7rvJTcy2onzrw"
 APP_APK = "https://files.catbox.moe/7i882h.apk"
 
+DATA_DIR = os.environ.get("DATA_DIR", ".")
+os.makedirs(DATA_DIR, exist_ok=True)
+
 FILE_CACHE = {}
 CACHE_LOCK = threading.Lock()
 
-HELP_FILE = "help_messages.json"
+HELP_FILE = os.path.join(DATA_DIR, "help_messages.json")
 HELP_LOCK = threading.Lock()
 
-COUNTS_FILE = "downloads.json"
+COUNTS_FILE = os.path.join(DATA_DIR, "downloads.json")
 COUNTS_LOCK = threading.Lock()
 
-COUNTDOWN_FILE = "countdown_target.json"
+ADDED_FILE = os.path.join(DATA_DIR, "added.json")
+ADDED_LOCK = threading.Lock()
+
+COUNTDOWN_FILE = os.path.join(DATA_DIR, "countdown_target.json")
 
 VIDEO_CACHE = {"data": None, "time": 0}
 VIDEO_LOCK = threading.Lock()
@@ -53,9 +59,9 @@ UPDATE = {
 }
 
 
-# =========================================================
-# MODY
-# =========================================================
+def now_iso():
+    return datetime.now(timezone.utc).isoformat()
+
 
 def make_mod(
     mod_id,
@@ -66,7 +72,9 @@ def make_mod(
     summary,
     file_url,
     filename,
-    sha256
+    sha256,
+    compatibility="FS23 Mobile",
+    added_at=""
 ):
     return {
         "id": mod_id,
@@ -82,7 +90,7 @@ def make_mod(
         "thumbnail": thumbnail,
         "description": title,
         "summary": summary,
-        "compatibility": "FS23 Mobile",
+        "compatibility": compatibility,
         "file_url": file_url,
         "filename": filename,
         "size_bytes": 0,
@@ -93,12 +101,12 @@ def make_mod(
         "requirements": "",
         "gallery": [],
         "revision": 1,
-        "updated_at": "2026-11-06T00:00:00+00:00"
+        "updated_at": "2026-11-06T00:00:00+00:00",
+        "added_at": added_at
     }
 
 
 MODS = [
-
     make_mod(
         "deutz-series9",
         "Deutz-Fahr Series 9",
@@ -108,9 +116,9 @@ MODS = [
         "9290 / 9310 / 9340 TTV",
         "https://www.mediafire.com/file/xhyvj8oqo21rjw6/FS22_DeutzSeries9.zip/file",
         "FS22_DeutzSeries9.zip",
-        "68fafa7d51f41a268ee4adf5dd81b24e2049dc1d66e0b12c590d27e040a0ad39"
+        "68fafa7d51f41a268ee4adf5dd81b24e2049dc1d66e0b12c590d27e040a0ad39",
+        added_at="2026-11-06T00:00:00+00:00"
     ),
-
     make_mod(
         "lindner-unitrac-122",
         "Lindner Unitrac 122 LDrive",
@@ -120,9 +128,9 @@ MODS = [
         "Unitrac 122 LDrive, ADF 3200, Mistral 3400 SR, Swiss-Elite S 31 Platform",
         "https://www.mediafire.com/file/3onxgf34g2gvuwg/FS22_lindnerUnitrac122LDrive.zip/file",
         "lindnerUnitrac122LDrive.zip",
-        "1b17b79c253b9884018e4ed620a10fc0aa97a4393589d7c0b7da4813e1ac26f2"
+        "1b17b79c253b9884018e4ed620a10fc0aa97a4393589d7c0b7da4813e1ac26f2",
+        added_at="2026-11-06T00:00:00+00:00"
     ),
-
     make_mod(
         "LizardEnergy",
         "Lizard Energy",
@@ -132,9 +140,9 @@ MODS = [
         "Working width 1.5",
         "https://www.mediafire.com/file/e2ysxbui14opltf/FS22_LizardEnergy.zip/file",
         "LizardEnergy.zip",
-        "137b12c4875b6853ae6471fd71eeccec8950b2fc80e8ef67c4eb630f36ed5979"
+        "137b12c4875b6853ae6471fd71eeccec8950b2fc80e8ef67c4eb630f36ed5979",
+        added_at="2026-11-06T00:00:00+00:00"
     ),
-
     make_mod(
         "EVODISCK_Pack",
         "EVODISCK Pack",
@@ -144,9 +152,9 @@ MODS = [
         "EVODISC-K 600\n-Base Price: 32.500",
         "https://files.catbox.moe/2zstrz.zip",
         "EVODISCK_Pack.zip",
-        "26f35bd8455b781a9e0db4380cdeffcc8f32da2a7ffd511a0017913c10c67246"
+        "26f35bd8455b781a9e0db4380cdeffcc8f32da2a7ffd511a0017913c10c67246",
+        added_at="2026-11-06T00:00:00+00:00"
     ),
-
     make_mod(
         "amazoneZGB_ZGTS",
         "amazoneZGB_ZGTS",
@@ -156,9 +164,9 @@ MODS = [
         "Price 50000 Working width: 15.0-36.0 m",
         "https://www.mediafire.com/file/cdabcke1t29r954/FS22_amazoneZGB_ZGTS.zip/file",
         "amazoneZGB_ZGTS.zip",
-        "80e9c66a7c6962f436cba95c16c32d0c53409e2563e33c128ebe10a24ae340b5"
+        "80e9c66a7c6962f436cba95c16c32d0c53409e2563e33c128ebe10a24ae340b5",
+        added_at="2026-11-06T00:00:00+00:00"
     ),
-
     make_mod(
         "Lizard600",
         "Lizard600",
@@ -168,9 +176,9 @@ MODS = [
         "- Cena: 300 - Waga: 600 kg",
         "https://files.catbox.moe/jpg5yy.zip",
         "Lizard600.zip",
-        "6bebee493303b2c5a4a3030cec6ce7167b4f6b3fb9441ef22ecdfff5b3efd4b7"
+        "6bebee493303b2c5a4a3030cec6ce7167b4f6b3fb9441ef22ecdfff5b3efd4b7",
+        added_at="2026-11-06T00:00:00+00:00"
     ),
-
     make_mod(
         "Fendt800VarioGen5",
         "Fendt800VarioGen5",
@@ -180,9 +188,9 @@ MODS = [
         "Tractors Price 287,500€ Power 283 343 hp Max speed 40 60 kph",
         "https://www.mediafire.com/file/6rdl8437n1k04fb/FS25_Fendt800VarioGen5.zip/file",
         "Fendt800VarioGen5.zip",
-        "192155899576ddf7d1b6e4c944948b5bb10f7a4feb4a64b69f458e5ff524a680"
+        "192155899576ddf7d1b6e4c944948b5bb10f7a4feb4a64b69f458e5ff524a680",
+        added_at="2026-11-06T00:00:00+00:00"
     ),
-
     make_mod(
         "Ursus4512_4514",
         "Ursus4512_4514",
@@ -192,9 +200,9 @@ MODS = [
         "Price 4512 31000 $ 4514 41000 $ Power 60 hp Max speed 28 kph",
         "https://www.mediafire.com/file/t71w8y7vhuwpdcl/FS22_Ursus4512_4514.zip/file",
         "Ursus4512_4514.zip",
-        "4157181e853d9d2ad095b42cafc2846981f5221d3774e72d2e8aefbf4b322a2f"
+        "4157181e853d9d2ad095b42cafc2846981f5221d3774e72d2e8aefbf4b322a2f",
+        added_at="2026-11-06T00:00:00+00:00"
     ),
-
     make_mod(
         "ClaasXerion12650",
         "ClaasXerion12650",
@@ -204,9 +212,9 @@ MODS = [
         "Claas Xerion 12.650 Tractor, Large series tractor Model Xerion 12.590 Engine Price 706.045 $ Power 585HP",
         "https://www.mediafire.com/file/koqdyljjs04dme6/FS22_ClaasXerion12650.zip/file",
         "ClaasXerion12650.zip",
-        "69d34ba6618d2d82aa223fbaf3cd1a3dbcb204f50d107ed81919465fd7c26979"
+        "69d34ba6618d2d82aa223fbaf3cd1a3dbcb204f50d107ed81919465fd7c26979",
+        added_at="2026-11-06T00:00:00+00:00"
     ),
-
     make_mod(
         "MF600Series",
         "MF600Series",
@@ -216,9 +224,9 @@ MODS = [
         "Base Price 600 Versions 2WD - 21.500$ 4WD - 26.500$",
         "https://www.mediafire.com/file/tf5zt9anpdawrz3/FS22_MF600Series.zip/file",
         "MF600Series.zip",
-        "63615a618bbc349162eff06a4230c6ef10a847c76c28d6bac324d2fd9be5260e"
+        "63615a618bbc349162eff06a4230c6ef10a847c76c28d6bac324d2fd9be5260e",
+        added_at="2026-11-06T00:00:00+00:00"
     ),
-
     make_mod(
         "URSUS_C360",
         "URSUS_C360",
@@ -228,9 +236,9 @@ MODS = [
         "Price: 18000 € Power: 45-52hp Category small tractors",
         "https://www.mediafire.com/file/rxquqzrcy1a0ds7/FS22_URSUS_C360.zip/file",
         "URSUS_C360.zip",
-        "804daf4f2312324aa9666b064cecbfd696d77080300fd02ec5c6ddc1efd27b27"
+        "804daf4f2312324aa9666b064cecbfd696d77080300fd02ec5c6ddc1efd27b27",
+        added_at="2026-11-06T00:00:00+00:00"
     ),
-
     make_mod(
         "Big_Bud_747_16V",
         "Big_Bud_747_16V",
@@ -240,9 +248,9 @@ MODS = [
         "Big Bud 747 16V Precio base: 406.500 € Potencia: 1100 cv",
         "https://www.mediafire.com/file/aw60l8e9dnfrubw/FS22_Big_Bud_747_16V.zip/file",
         "Big_Bud_747_16V.zip",
-        "2557fea4ab77911ce0f5389735692e787789035bba0c36208a4a0fa8261254b9"
+        "2557fea4ab77911ce0f5389735692e787789035bba0c36208a4a0fa8261254b9",
+        added_at="2026-11-06T00:00:00+00:00"
     ),
-
     make_mod(
         "ClaasTractor_Package",
         "ClaasTractor_Package",
@@ -252,9 +260,9 @@ MODS = [
         "Claas Arion 600 Price: 120.000 $ Power: 145 hp",
         "https://www.mediafire.com/file/972pyakiyvvyodg/FS22_ClaasTractor_Package.zip/file",
         "ClaasTractor_Package.zip",
-        "80595da21f16be961e63e47f75ea81b70dabf3c6a261632e4049a10cf00beebd"
+        "80595da21f16be961e63e47f75ea81b70dabf3c6a261632e4049a10cf00beebd",
+        added_at="2026-11-06T00:00:00+00:00"
     ),
-
     make_mod(
         "Fendt800_900Favorit",
         "Fendt800_900Favorit",
@@ -264,9 +272,9 @@ MODS = [
         "Prices: $76.000 / $81.500 Power: 165 - 265 HP / 165 - 285 HP Speed: 50 kph",
         "https://www.mediafire.com/file/lr6serbfxf0dvxz/FS22_Fendt800_900Favorit.zip/file",
         "Fendt800_900Favorit.zip",
-        "9abd3ae44039fb0b2957ba8fe55378a4e3fc624b1a56733246eaed8b238408b8"
+        "9abd3ae44039fb0b2957ba8fe55378a4e3fc624b1a56733246eaed8b238408b8",
+        added_at="2026-11-06T00:00:00+00:00"
     ),
-
     make_mod(
         "FendtVarioPack",
         "FendtVarioPack",
@@ -276,9 +284,9 @@ MODS = [
         "200 series: 40 km/h $77.000 79 - 114 HP",
         "https://www.mediafire.com/file/9u8ejbb0pafzv0y/FS22_FendtVarioPack.zip/file",
         "FendtVarioPack.zip",
-        "69c72532ae32c6d020196d3f853bdfec6ff3c38364037579519f92ba77a122ff"
+        "69c72532ae32c6d020196d3f853bdfec6ff3c38364037579519f92ba77a122ff",
+        added_at="2026-11-06T00:00:00+00:00"
     ),
-
     make_mod(
         "JohnDeere6R",
         "JohnDeere6R",
@@ -288,9 +296,9 @@ MODS = [
         "Base Price Small Chassis: 99.000 $ Medium Chassis: 128.000 $ Large Chassis: 171.000 $",
         "https://www.mediafire.com/file/uygkw41x7g17tez/FS22_JohnDeere6R.zip/file",
         "JohnDeere6R.zip",
-        "088eaa2aeb61a112f349ec90539e34691da0954616e3aa705858c2800fa4da96"
+        "088eaa2aeb61a112f349ec90539e34691da0954616e3aa705858c2800fa4da96",
+        added_at="2026-11-06T00:00:00+00:00"
     ),
-
     make_mod(
         "JohnDeere8r2016",
         "JohnDeere8r2016",
@@ -300,9 +308,9 @@ MODS = [
         "Price: $299,000 Power: 255-400 hp Max. speed: 50 kph",
         "https://www.mediafire.com/file/ms8zftc6klv90rs/FS22_JohnDeere8r2016.zip/file",
         "JohnDeere8r2016.zip",
-        "0cba6657c00859ea526d55aae22cd983e7974685c39c445ed519bdf190dbe863"
+        "0cba6657c00859ea526d55aae22cd983e7974685c39c445ed519bdf190dbe863",
+        added_at="2026-11-06T00:00:00+00:00"
     ),
-
     make_mod(
         "JohnDeere6010",
         "JohnDeere6010",
@@ -312,9 +320,9 @@ MODS = [
         "Price 4cyl: 50.000 $ Price 6cyl: 70.000 $ Power 80-185HP",
         "https://www.mediafire.com/file/pi1s4iaj7mx3p5t/FS22_JohnDeere6010.zip/file",
         "JohnDeere6010.zip",
-        "a0455eefbe07737a3d898d4f54a44ee54a6a2cbbf7de481559c3cde389b7ba3a"
+        "a0455eefbe07737a3d898d4f54a44ee54a6a2cbbf7de481559c3cde389b7ba3a",
+        added_at="2026-11-06T00:00:00+00:00"
     ),
-
     make_mod(
         "JohnDeere7010Series",
         "JohnDeere7010Series",
@@ -324,9 +332,9 @@ MODS = [
         "Power: 160-175 hp Price: $92,000",
         "https://www.mediafire.com/file/h4rny3u6af1d8v5/FS22_JohnDeere7010Series.zip/file",
         "JohnDeere7010Series.zip",
-        "694805dd99a6d2862d9f7228f8e31e0f13e8ecf5f3b9c055efbc5bcf899adbff"
+        "694805dd99a6d2862d9f7228f8e31e0f13e8ecf5f3b9c055efbc5bcf899adbff",
+        added_at="2026-11-06T00:00:00+00:00"
     ),
-
     make_mod(
         "JohnDeere8900series",
         "JohnDeere8900series",
@@ -336,9 +344,9 @@ MODS = [
         "John Deere 8760 - 8960 Price: 79.999 € Power: 300HP - 370HP",
         "https://www.mediafire.com/file/kse3vxy7a3bream/FS22_JohnDeere8900series.zip/file",
         "JohnDeere8900series.zip",
-        "2f9189b06512706aab828bbafd7a69c221a310d243df6bfdf21a49ccb2a187d2"
+        "2f9189b06512706aab828bbafd7a69c221a310d243df6bfdf21a49ccb2a187d2",
+        added_at="2026-11-06T00:00:00+00:00"
     ),
-    
     make_mod(
         "newHollandTX32",
         "newHollandTX32",
@@ -348,45 +356,41 @@ MODS = [
         "Price: 55.000 € Power: 155 hp Top speed: 25 kph",
         "https://files.catbox.moe/vrzz7z.zip",
         "newHollandTX32.zip",
-        "4e49c3231186cf310ab7a204fd269a4b59f30647e6e476fbec6ad6a089f0fb6d"
-    )
-
+        "4e49c3231186cf310ab7a204fd269a4b59f30647e6e476fbec6ad6a089f0fb6d",
+        added_at="2026-11-06T00:00:00+00:00"
+    ),
 ]
 
 
-# =========================================================
-# LICZNIK POBRAŃ
-# =========================================================
+def load_json(path, fallback):
+    if not os.path.exists(path):
+        return fallback
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            return data if isinstance(data, type(fallback)) else fallback
+    except Exception:
+        return fallback
+
+
+def save_json(path, data):
+    temp = path + ".tmp"
+    with open(temp, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False)
+    os.replace(temp, path)
+
 
 def load_counts():
-    if not os.path.exists(COUNTS_FILE):
-        return {}
-
-    try:
-        with open(COUNTS_FILE, "r", encoding="utf-8") as f:
-            data = json.load(f)
-            return data if isinstance(data, dict) else {}
-    except Exception:
-        return {}
+    return load_json(COUNTS_FILE, {})
 
 
 def save_counts():
-    data = {
-        m["id"]: int(m.get("downloads", 0))
-        for m in MODS
-    }
-
-    temp_file = COUNTS_FILE + ".tmp"
-
-    with open(temp_file, "w", encoding="utf-8") as f:
-        json.dump(data, f)
-
-    os.replace(temp_file, COUNTS_FILE)
+    data = {m["id"]: int(m.get("downloads", 0)) for m in MODS}
+    save_json(COUNTS_FILE, data)
 
 
 def apply_counts():
     saved = load_counts()
-
     for m in MODS:
         floor = int(m.get("downloads", 0))
         saved_value = int(saved.get(m["id"], 0))
@@ -398,70 +402,95 @@ def add_download(mod_id):
         for m in MODS:
             if m["id"] == mod_id:
                 m["downloads"] = int(m.get("downloads", 0)) + 1
-
                 try:
                     save_counts()
                 except Exception as e:
                     print("COUNT SAVE ERROR:", repr(e))
-
                 return m["downloads"]
-
     return 0
 
 
+def apply_added():
+    saved = load_json(ADDED_FILE, {})
+    changed = False
+    for m in MODS:
+        stored = saved.get(m["id"]) or ""
+        current = m.get("added_at") or ""
+        if stored:
+            m["added_at"] = stored
+        elif current:
+            saved[m["id"]] = current
+            changed = True
+        else:
+            stamp = now_iso()
+            m["added_at"] = stamp
+            saved[m["id"]] = stamp
+            changed = True
+    if changed:
+        try:
+            save_json(ADDED_FILE, saved)
+        except Exception as e:
+            print("ADDED SAVE ERROR:", repr(e))
+
+
+def polish_ago(n, one, few, many):
+    n = int(n)
+    if n == 1:
+        return f"1 {one} temu"
+    if 2 <= n % 10 <= 4 and not (12 <= n % 100 <= 14):
+        return f"{n} {few} temu"
+    return f"{n} {many} temu"
+
+
+def relative_time(iso_text):
+    if not iso_text:
+        return ""
+    try:
+        text = iso_text.replace("Z", "+00:00")
+        when = datetime.fromisoformat(text)
+        if when.tzinfo is None:
+            when = when.replace(tzinfo=timezone.utc)
+        seconds = max(0, int((datetime.now(timezone.utc) - when).total_seconds()))
+    except Exception:
+        return ""
+    if seconds < 60:
+        return "przed chwilą"
+    minutes = seconds // 60
+    if minutes < 60:
+        return polish_ago(minutes, "minuta", "minuty", "minut")
+    hours = minutes // 60
+    if hours < 24:
+        return polish_ago(hours, "godzina", "godziny", "godzin")
+    days = hours // 24
+    if days < 30:
+        return polish_ago(days, "dzień", "dni", "dni")
+    return when.strftime("%Y-%m-%d")
+
+
 apply_counts()
+apply_added()
 
-
-# =========================================================
-# LICZNIK AKTUALIZACJI
-# =========================================================
 
 def countdown_info():
     tz = timezone(timedelta(hours=1))
     now = datetime.now(tz)
-
-    key = (
-        str(UPDATE_DAYS) + ":"
-        + str(UPDATE_HOURS) + ":"
-        + str(UPDATE_MINUTES)
-    )
-
+    key = str(UPDATE_DAYS) + ":" + str(UPDATE_HOURS) + ":" + str(UPDATE_MINUTES)
     until_ms = 0
-    saved = {}
-
-    if os.path.exists(COUNTDOWN_FILE):
-        try:
-            with open(COUNTDOWN_FILE, "r", encoding="utf-8") as f:
-                saved = json.load(f)
-        except Exception:
-            saved = {}
-
+    saved = load_json(COUNTDOWN_FILE, {})
     if saved.get("key") == key and saved.get("until_ms"):
         until_ms = int(saved["until_ms"])
-
     else:
         dt = now + timedelta(
             days=int(UPDATE_DAYS),
             hours=int(UPDATE_HOURS),
             minutes=int(UPDATE_MINUTES)
         )
-
         until_ms = int(dt.timestamp() * 1000)
-
         try:
-            with open(COUNTDOWN_FILE, "w", encoding="utf-8") as f:
-                json.dump({
-                    "key": key,
-                    "until_ms": until_ms
-                }, f)
+            save_json(COUNTDOWN_FILE, {"key": key, "until_ms": until_ms})
         except Exception as e:
             print("COUNTDOWN SAVE ERROR:", repr(e))
-
-    seconds = max(
-        0,
-        int(until_ms / 1000 - now.timestamp())
-    )
-
+    seconds = max(0, int(until_ms / 1000 - now.timestamp()))
     return {
         "label": UPDATE_LABEL,
         "days": int(UPDATE_DAYS),
@@ -472,310 +501,146 @@ def countdown_info():
     }
 
 
-# =========================================================
-# YOUTUBE
-# =========================================================
-
 def empty_video():
-    return {
-        "video_id": "",
-        "title": "ZGB",
-        "thumbnail": "",
-        "url": ""
-    }
+    return {"video_id": "", "title": "ZGB", "thumbnail": "", "url": ""}
 
 
 def fetch_latest_video():
-    url = (
-        "https://www.youtube.com/feeds/videos.xml?channel_id="
-        + CHANNEL_ID
-    )
-
-    req = urllib.request.Request(
-        url,
-        headers={"User-Agent": "Mozilla/5.0"}
-    )
-
+    url = "https://www.youtube.com/feeds/videos.xml?channel_id=" + CHANNEL_ID
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
     with urllib.request.urlopen(req, timeout=8) as response:
         xml = response.read().decode("utf-8", "ignore")
-
-    vid = re.search(
-        r"<yt:videoId>([^<]+)</yt:videoId>",
-        xml
-    )
-
-    titles = re.findall(
-        r"<title>(.*?)</title>",
-        xml,
-        re.DOTALL
-    )
-
+    vid = re.search(r"<yt:videoId>([^<]+)</yt:videoId>", xml)
+    titles = re.findall(r"<title>(.*?)</title>", xml, re.DOTALL)
     video_id = vid.group(1) if vid else ""
-
-    title = html.unescape(
-        titles[1].strip() if len(titles) > 1 else "ZGB"
-    )
-
+    title = html.unescape(titles[1].strip() if len(titles) > 1 else "ZGB")
     return {
         "video_id": video_id,
         "title": title,
-        "thumbnail": (
-            "https://img.youtube.com/vi/"
-            + video_id
-            + "/hqdefault.jpg"
-        ) if video_id else "",
-        "url": (
-            "https://www.youtube.com/watch?v="
-            + video_id
-        ) if video_id else ""
+        "thumbnail": ("https://img.youtube.com/vi/" + video_id + "/hqdefault.jpg") if video_id else "",
+        "url": ("https://www.youtube.com/watch?v=" + video_id) if video_id else ""
     }
 
 
 def latest_video():
     now = time.time()
-
     with VIDEO_LOCK:
         cached = VIDEO_CACHE["data"]
         age = now - VIDEO_CACHE["time"]
-
         if cached is not None and age < VIDEO_TTL:
             return cached
-
     try:
         data = fetch_latest_video()
-
     except Exception as e:
         print("YouTube error:", repr(e))
-
         with VIDEO_LOCK:
             if VIDEO_CACHE["data"] is not None:
                 return VIDEO_CACHE["data"]
-
         data = empty_video()
-
     with VIDEO_LOCK:
         VIDEO_CACHE["data"] = data
         VIDEO_CACHE["time"] = now
-
     return data
 
 
-# =========================================================
-# KATALOG
-# =========================================================
-
 def visible():
-    return [
-        m for m in MODS
-        if m.get("published", False)
-    ]
+    return [m for m in MODS if m.get("published", False)]
 
-
-# =========================================================
-# MEDIAFIRE - BEZPOŚREDNI LINK
-# =========================================================
 
 def direct(url):
     if "mediafire.com/file/" not in url:
         return url
-
-    req = urllib.request.Request(
-        url,
-        headers={"User-Agent": "Mozilla/5.0"}
-    )
-
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
     with urllib.request.urlopen(req, timeout=60) as response:
         page = response.read().decode("utf-8", "ignore")
-
-    page = html.unescape(page)
-    page = page.replace("\\/", "/")
-
+    page = html.unescape(page).replace("\\/", "/")
     patterns = [
         r'https://download\d*\.mediafire\.com/[^"\'<>\s]+',
         r'"(https://download\d*\.mediafire\.com/[^"]+)"',
         r'href="(https://download\d*\.mediafire\.com/[^"]+)"'
     ]
-
     for pattern in patterns:
         found = re.findall(pattern, page)
-
         if found:
             return found[0].rstrip("\\")
+    raise Exception("Nie znaleziono bezpośredniego linku MediaFire")
 
-    raise Exception(
-        "Nie znaleziono bezpośredniego linku MediaFire"
-    )
-
-
-# =========================================================
-# POBIERANIE I SPRAWDZANIE ZIP
-# =========================================================
 
 def fetch_complete_file(mod):
-    source_url = direct(
-        mod.get("file_url", "")
-    )
-
-    req = urllib.request.Request(
-        source_url,
-        headers={
-            "User-Agent": "Mozilla/5.0",
-            "Accept": "application/zip,application/octet-stream,*/*",
-            "Accept-Encoding": "identity",
-            "Connection": "close"
-        }
-    )
-
+    source_url = direct(mod.get("file_url", ""))
+    req = urllib.request.Request(source_url, headers={
+        "User-Agent": "Mozilla/5.0",
+        "Accept": "application/zip,application/octet-stream,*/*",
+        "Accept-Encoding": "identity",
+        "Connection": "close"
+    })
     with urllib.request.urlopen(req, timeout=240) as upstream:
-
-        content_type = upstream.headers.get(
-            "Content-Type", ""
-        ).lower()
-
+        content_type = upstream.headers.get("Content-Type", "").lower()
         if "text/html" in content_type:
-            raise Exception(
-                "Źródło zwróciło HTML zamiast ZIP"
-            )
-
+            raise Exception("Źródło zwróciło HTML zamiast ZIP")
         expected = upstream.headers.get("Content-Length")
-
         data = BytesIO()
         received = 0
-
         while True:
             chunk = upstream.read(256 * 1024)
-
             if not chunk:
                 break
-
             data.write(chunk)
             received += len(chunk)
-
             if received > 500 * 1024 * 1024:
-                raise Exception(
-                    "Plik przekracza limit 500 MB"
-                )
-
-        if expected:
-            expected = int(expected)
-
-            if received != expected:
-                raise Exception(
-                    "Niekompletny plik ze źródła. "
-                    "Otrzymano "
-                    + str(received)
-                    + " bajtów, oczekiwano "
-                    + str(expected)
-                )
-
+                raise Exception("Plik przekracza limit 500 MB")
+        if expected and received != int(expected):
+            raise Exception(
+                "Niekompletny plik ze źródła. Otrzymano "
+                + str(received) + " bajtów, oczekiwano " + str(expected)
+            )
     file_data = data.getvalue()
-
     if not file_data:
         raise Exception("Pobrany plik jest pusty")
-
     buffer = BytesIO(file_data)
-
     if not zipfile.is_zipfile(buffer):
-        raise Exception(
-            "Pobrany plik nie jest poprawnym ZIP-em"
-        )
-
+        raise Exception("Pobrany plik nie jest poprawnym ZIP-em")
     buffer.seek(0)
-
     with zipfile.ZipFile(buffer, "r") as archive:
-
         bad_file = archive.testzip()
-
         if bad_file:
-            raise Exception(
-                "Uszkodzony plik w ZIP: " + bad_file
-            )
-
-    actual_size = len(file_data)
-
-    actual_sha256 = hashlib.sha256(
-        file_data
-    ).hexdigest()
-
-    print(
-        "POPRAWNY ZIP:",
-        mod["id"],
-        actual_size,
-        actual_sha256
-    )
-
+            raise Exception("Uszkodzony plik w ZIP: " + bad_file)
     return {
         "data": file_data,
-        "size_bytes": actual_size,
-        "sha256": actual_sha256,
-        "filename": mod.get(
-            "filename",
-            mod["id"] + ".zip"
-        )
+        "size_bytes": len(file_data),
+        "sha256": hashlib.sha256(file_data).hexdigest(),
+        "filename": mod.get("filename", mod["id"] + ".zip")
     }
 
 
-# =========================================================
-# CACHE PLIKÓW
-# =========================================================
-
 def get_file(mod):
     mod_id = mod["id"]
-
     with CACHE_LOCK:
         cached = FILE_CACHE.get(mod_id)
-
     if cached is not None:
         return cached
-
     downloaded = fetch_complete_file(mod)
-
     with CACHE_LOCK:
         if mod_id not in FILE_CACHE:
             FILE_CACHE[mod_id] = downloaded
-
         return FILE_CACHE[mod_id]
 
 
-# =========================================================
-# KATALOG API
-# =========================================================
-
 def catalog():
-    q = (
-        request.args.get("q") or ""
-    ).lower().strip()
-
-    cat = (
-        request.args.get("category") or ""
-    ).lower().strip()
-
+    q = (request.args.get("q") or "").lower().strip()
+    cat = (request.args.get("category") or "").lower().strip()
+    game = (request.args.get("game") or "").lower().strip()
     filt = request.args.get("filter") or ""
-
     try:
-        page = max(
-            1,
-            int(request.args.get("page") or 1)
-        )
+        page = max(1, int(request.args.get("page") or 1))
     except (ValueError, TypeError):
         page = 1
-
     limit = 40
-
     items = visible()
-
     if filt == "free":
-        items = [
-            m for m in items
-            if m.get("price_minor", 0) == 0
-        ]
-
+        items = [m for m in items if m.get("price_minor", 0) == 0]
     elif filt == "paid":
-        items = [
-            m for m in items
-            if m.get("price_minor", 0) > 0
-        ]
-
+        items = [m for m in items if m.get("price_minor", 0) > 0]
     if q:
         items = [
             m for m in items
@@ -783,22 +648,17 @@ def catalog():
             or q in m.get("category", "").lower()
             or q in m.get("summary", "").lower()
         ]
-
     if cat:
-        items = [
-            m for m in items
-            if cat in m.get("category", "").lower()
-        ]
-
+        items = [m for m in items if cat in m.get("category", "").lower()]
+    if game:
+        items = [m for m in items if game.replace("fs", "") in m.get("compatibility", "").lower()]
     start = (page - 1) * limit
-
     out = []
-
     for m in items[start:start + limit]:
         row = dict(m)
         row.pop("file_url", None)
+        row["added_ago"] = relative_time(row.get("added_at", ""))
         out.append(row)
-
     return jsonify({
         "channel": latest_video(),
         "media": MEDIA,
@@ -811,60 +671,24 @@ def catalog():
     })
 
 
-# =========================================================
-# POMOC - WIADOMOŚCI
-# =========================================================
-
 def load_help():
-    if not os.path.exists(HELP_FILE):
-        return []
-
-    try:
-        with open(HELP_FILE, "r", encoding="utf-8") as f:
-            data = json.load(f)
-
-            return data if isinstance(data, list) else []
-
-    except Exception as e:
-        print("HELP LOAD ERROR:", repr(e))
-        return []
+    return load_json(HELP_FILE, [])
 
 
 def save_help(items):
-    temp_file = HELP_FILE + ".tmp"
+    save_json(HELP_FILE, items)
 
-    with open(temp_file, "w", encoding="utf-8") as f:
-        json.dump(
-            items,
-            f,
-            ensure_ascii=False
-        )
-
-    os.replace(temp_file, HELP_FILE)
-
-
-# =========================================================
-# APK
-# =========================================================
 
 @app.get("/app.apk")
 def app_apk():
     return redirect(APP_APK)
 
 
-# =========================================================
-# YOUTUBE API
-# =========================================================
-
 @app.get("/v5/channel/latest")
 @app.get("/channel/latest")
 def channel_latest():
     return jsonify(latest_video())
 
-
-# =========================================================
-# LISTA MODÓW
-# =========================================================
 
 @app.get("/v5/mods")
 @app.get("/v5/mods/")
@@ -880,58 +704,26 @@ def v5_root():
     return catalog()
 
 
-# =========================================================
-# POJEDYNCZY MOD
-# =========================================================
-
 @app.get("/v5/mods/<mod_id>")
 def one(mod_id):
     for m in visible():
-
         if m["id"] == mod_id:
             row = dict(m)
             row.pop("file_url", None)
-
+            row["added_ago"] = relative_time(row.get("added_at", ""))
             return jsonify(row)
-
-    return jsonify({
-        "error": "not found"
-    }), 404
+    return jsonify({"error": "not found"}), 404
 
 
-# =========================================================
-# INFORMACJE O POBIERANIU
-# =========================================================
-
-@app.route(
-    "/v5/mods/<mod_id>/download",
-    methods=["GET", "POST"]
-)
-@app.route(
-    "/mods/<mod_id>/download",
-    methods=["GET", "POST"]
-)
+@app.route("/v5/mods/<mod_id>/download", methods=["GET", "POST"])
+@app.route("/mods/<mod_id>/download", methods=["GET", "POST"])
 def download(mod_id):
-
-    mod = next(
-        (m for m in visible() if m["id"] == mod_id),
-        None
-    )
-
+    mod = next((m for m in visible() if m["id"] == mod_id), None)
     if mod is None:
-        return jsonify({
-            "error": "not found"
-        }), 404
-
+        return jsonify({"error": "not found"}), 404
     try:
         file_info = get_file(mod)
-
-        file_link = url_for(
-            "download_file",
-            mod_id=mod_id,
-            _external=True
-        )
-
+        file_link = url_for("download_file", mod_id=mod_id, _external=True)
         return jsonify({
             "uri": file_link,
             "url": file_link,
@@ -939,264 +731,97 @@ def download(mod_id):
             "sha256": file_info["sha256"],
             "size_bytes": file_info["size_bytes"]
         })
-
     except Exception as e:
+        print("METADATA ERROR:", mod_id, repr(e))
+        return jsonify({"error": "Nie udało się sprawdzić pliku", "details": str(e)}), 502
 
-        print(
-            "METADATA ERROR:",
-            mod_id,
-            repr(e)
-        )
-
-        return jsonify({
-            "error": "Nie udało się sprawdzić pliku",
-            "details": str(e)
-        }), 502
-
-
-# =========================================================
-# WŁAŚCIWE POBIERANIE ZIP
-# =========================================================
 
 @app.get("/v5/mods/<mod_id>/file")
 @app.get("/mods/<mod_id>/file")
 def download_file(mod_id):
-
-    mod = next(
-        (m for m in visible() if m["id"] == mod_id),
-        None
-    )
-
+    mod = next((m for m in visible() if m["id"] == mod_id), None)
     if mod is None:
-        return jsonify({
-            "error": "not found"
-        }), 404
-
+        return jsonify({"error": "not found"}), 404
     try:
         file_info = get_file(mod)
-
-        file_data = file_info["data"]
-        filename = file_info["filename"]
-
-        response = Response(
-            file_data,
-            status=200,
-            content_type="application/zip"
-        )
-
-        response.headers["Content-Disposition"] = (
-            "attachment; filename*=UTF-8''"
-            + quote(filename)
-        )
-
-        response.headers["Content-Length"] = str(
-            file_info["size_bytes"]
-        )
-
+        response = Response(file_info["data"], status=200, content_type="application/zip")
+        response.headers["Content-Disposition"] = "attachment; filename*=UTF-8''" + quote(file_info["filename"])
+        response.headers["Content-Length"] = str(file_info["size_bytes"])
         response.headers["Content-Transfer-Encoding"] = "binary"
         response.headers["Cache-Control"] = "no-store"
         response.headers["Accept-Ranges"] = "none"
         response.headers["X-Content-Type-Options"] = "nosniff"
-
         add_download(mod_id)
-
-        print(
-            "WYSŁANO:",
-            mod_id,
-            file_info["size_bytes"],
-            file_info["sha256"]
-        )
-
+        print("WYSŁANO:", mod_id, file_info["size_bytes"], file_info["sha256"])
         return response
-
     except Exception as e:
-
-        print(
-            "DOWNLOAD ERROR:",
-            mod_id,
-            repr(e)
-        )
-
-        return jsonify({
-            "error": "Nie udało się pobrać kompletnego pliku",
-            "details": str(e)
-        }), 502
+        print("DOWNLOAD ERROR:", mod_id, repr(e))
+        return jsonify({"error": "Nie udało się pobrać kompletnego pliku", "details": str(e)}), 502
 
 
-# =========================================================
-# SYSTEM POMOCY
-# =========================================================
-
-@app.route(
-    "/v5/help",
-    methods=["GET", "POST"]
-)
-@app.route(
-    "/help",
-    methods=["GET", "POST"]
-)
+@app.route("/v5/help", methods=["GET", "POST"])
+@app.route("/help", methods=["GET", "POST"])
 def help_messages():
-
     if request.method == "POST":
-
         data = request.get_json(silent=True) or {}
-
         if not isinstance(data, dict):
-            return jsonify({
-                "error": "Nieprawidłowe dane"
-            }), 400
-
-        device_id = str(
-            data.get("device_id", "")
-        ).strip()
-
-        topic = str(
-            data.get("topic", "")
-        ).strip()
-
-        message = str(
-            data.get("message", "")
-        ).strip()
-
+            return jsonify({"error": "Nieprawidłowe dane"}), 400
+        device_id = str(data.get("device_id", "")).strip()
+        topic = str(data.get("topic", "")).strip()
+        message = str(data.get("message", "")).strip()
         if not device_id or not message:
-            return jsonify({
-                "error": "Brakuje device_id lub message"
-            }), 400
-
-        if len(device_id) > 200:
-            return jsonify({
-                "error": "device_id jest za długi"
-            }), 400
-
-        if len(topic) > 200:
-            return jsonify({
-                "error": "Temat jest za długi"
-            }), 400
-
-        if len(message) > 10000:
-            return jsonify({
-                "error": "Wiadomość jest za długa"
-            }), 400
-
+            return jsonify({"error": "Brakuje device_id lub message"}), 400
+        if len(device_id) > 200 or len(topic) > 200 or len(message) > 10000:
+            return jsonify({"error": "Za długie dane"}), 400
         item = {
             "device_id": device_id,
             "topic": topic,
             "message": message,
-            "time": datetime.now(
-                timezone.utc
-            ).isoformat()
+            "time": now_iso()
         }
-
         with HELP_LOCK:
             items = load_help()
             items.append(item)
-
             try:
                 save_help(items)
             except Exception as e:
                 print("HELP SAVE ERROR:", repr(e))
-
-                return jsonify({
-                    "error": "Nie udało się zapisać wiadomości"
-                }), 500
-
-        return jsonify({
-            "ok": True
-        })
-
-    device_id = request.args.get(
-        "device_id"
-    ) or ""
-
+                return jsonify({"error": "Nie udało się zapisać wiadomości"}), 500
+        return jsonify({"ok": True})
+    device_id = request.args.get("device_id") or ""
     with HELP_LOCK:
         items = load_help()
+    return jsonify({"items": [m for m in items if m.get("device_id") == device_id]})
 
-    mine = [
-        m for m in items
-        if m.get("device_id") == device_id
-    ]
-
-    return jsonify({
-        "items": mine
-    })
-
-
-# =========================================================
-# WSZYSTKIE WIADOMOŚCI - PANEL
-# =========================================================
 
 @app.get("/v5/help/all")
 def help_all():
-
     with HELP_LOCK:
         items = load_help()
-
-    page = (
-        "<html>"
-        "<meta charset='utf-8'>"
-        "<meta name='viewport' content='width=device-width, initial-scale=1'>"
-        "<body style='background:#111;color:#eee;"
-        "font-family:sans-serif;padding:16px'>"
-    )
-
+    page = "<html><meta charset='utf-8'><body style='background:#111;color:#eee;font-family:sans-serif;padding:16px'>"
     page += "<h2>Wiadomości z Pomocy</h2>"
-
     if not items:
         page += "<p>Brak wiadomości</p>"
-
     else:
         for m in items:
-
             line = (
                 str(m.get("time", ""))[:19].replace("T", " ")
-                + " | "
-                + str(m.get("topic", ""))
-                + " | "
-                + str(m.get("message", ""))
+                + " | " + str(m.get("topic", ""))
+                + " | " + str(m.get("message", ""))
             )
-
-            page += (
-                "<p style='background:#202020;"
-                "padding:12px;border-radius:8px'>"
-                + html.escape(line)
-                + "</p>"
-            )
-
+            page += "<p>" + html.escape(line) + "</p>"
     page += "</body></html>"
-
-    return Response(
-        page,
-        content_type="text/html; charset=utf-8"
-    )
+    return Response(page, content_type="text/html; charset=utf-8")
 
 
-# =========================================================
-# BUYERS
-# =========================================================
-
-@app.route(
-    "/v5/buyers",
-    methods=["GET", "POST"]
-)
-@app.route(
-    "/buyers",
-    methods=["GET", "POST"]
-)
+@app.route("/v5/buyers", methods=["GET", "POST"])
+@app.route("/buyers", methods=["GET", "POST"])
 def buyers():
+    return jsonify({"token": "zgb-ok", "recovery_code": "ZGB-OK"})
 
-    return jsonify({
-        "token": "zgb-ok",
-        "recovery_code": "ZGB-OK"
-    })
-
-
-# =========================================================
-# STRONA GŁÓWNA API
-# =========================================================
 
 @app.get("/")
 def root():
-
     return jsonify({
         "ok": True,
         "api": "/v5/mods",
@@ -1208,13 +833,5 @@ def root():
     })
 
 
-# =========================================================
-# START SERWERA
-# =========================================================
-
 if __name__ == "__main__":
-
-    app.run(
-        host="0.0.0.0",
-        port=int(os.environ.get("PORT", 10000)),
-        threaded=True)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)), threaded=True)
