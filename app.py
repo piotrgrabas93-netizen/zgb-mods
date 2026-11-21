@@ -364,7 +364,7 @@ fs23⬆️
 fs26⬇️
 
 
-        ),
+        
     make_mod(
         "FIX_HTZ_17221",
         "FIX_HTZ_17221",
@@ -375,11 +375,10 @@ fs26⬇️
         "https://files.catbox.moe/x4ua8h.zip",
         "FIX_HTZ_17221.zip",
         "1d3ea9bd59273f49f54d423dbfa9feb9ca27eda0dbf897e2df85f678d52b485b",
-        added_at="2026-11-06T00:00:00+00:00"
         compatibility="FS26",
         added_at="2026-11-06T00:00:00+00:00"
-},
-[
+    ),
+
 
 
 
