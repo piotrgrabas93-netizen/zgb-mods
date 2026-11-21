@@ -382,7 +382,20 @@ MODS = [
 ]
 
 
-
+make_mod(
+        "FIX_PTS_Furgon",
+        "FIX_PTS_Furgon",
+        "Przyczepy",
+        "1.0.0.0",
+        "https://iili.io/oFp3K0X.png",
+        "Price: HTZ 17221 Tractor Price: 45000€ Power 180 / 240 HP",
+        "https://files.catbox.moe/4s8x3o.zip",
+        "FIX_PTS_Furgon.zip",
+        "09bef51ac9046b49f03a2ba51374552ea4dc160003100e8c37ab9cf0f0bcfa50",
+        compatibility="FS26",
+        added_at="2026-11-06T00:00:00+00:00"
+ ),
+]
 
 
 
