@@ -101,11 +101,13 @@ def make_mod(
         "requirements": "",
         "gallery": [],
         "revision": 1,
-        "updated_at": "2026-11-06T00:00:00+00:00",
-        "added_at": added_at
+        "updated_at": now_iso(),
+        "added_at": added_at,
     }
 
 
+# Bez sztywnego added_at — przy pierwszym starcie serwer ustawi "teraz"
+# i zapisze w added.json. Nowy mod bez added_at = wrzucony przed chwilą.
 MODS = [
     make_mod(
         "deutz-series9",
@@ -117,7 +119,6 @@ MODS = [
         "https://www.mediafire.com/file/xhyvj8oqo21rjw6/FS22_DeutzSeries9.zip/file",
         "FS22_DeutzSeries9.zip",
         "68fafa7d51f41a268ee4adf5dd81b24e2049dc1d66e0b12c590d27e040a0ad39",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
     make_mod(
         "lindner-unitrac-122",
@@ -129,7 +130,6 @@ MODS = [
         "https://www.mediafire.com/file/3onxgf34g2gvuwg/FS22_lindnerUnitrac122LDrive.zip/file",
         "lindnerUnitrac122LDrive.zip",
         "1b17b79c253b9884018e4ed620a10fc0aa97a4393589d7c0b7da4813e1ac26f2",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
     make_mod(
         "LizardEnergy",
@@ -141,7 +141,6 @@ MODS = [
         "https://www.mediafire.com/file/e2ysxbui14opltf/FS22_LizardEnergy.zip/file",
         "LizardEnergy.zip",
         "137b12c4875b6853ae6471fd71eeccec8950b2fc80e8ef67c4eb630f36ed5979",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
     make_mod(
         "EVODISCK_Pack",
@@ -153,7 +152,6 @@ MODS = [
         "https://files.catbox.moe/2zstrz.zip",
         "EVODISCK_Pack.zip",
         "26f35bd8455b781a9e0db4380cdeffcc8f32da2a7ffd511a0017913c10c67246",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
     make_mod(
         "amazoneZGB_ZGTS",
@@ -165,7 +163,6 @@ MODS = [
         "https://www.mediafire.com/file/cdabcke1t29r954/FS22_amazoneZGB_ZGTS.zip/file",
         "amazoneZGB_ZGTS.zip",
         "80e9c66a7c6962f436cba95c16c32d0c53409e2563e33c128ebe10a24ae340b5",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
     make_mod(
         "Lizard600",
@@ -177,7 +174,6 @@ MODS = [
         "https://files.catbox.moe/jpg5yy.zip",
         "Lizard600.zip",
         "6bebee493303b2c5a4a3030cec6ce7167b4f6b3fb9441ef22ecdfff5b3efd4b7",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
     make_mod(
         "Fendt800VarioGen5",
@@ -189,7 +185,6 @@ MODS = [
         "https://www.mediafire.com/file/6rdl8437n1k04fb/FS25_Fendt800VarioGen5.zip/file",
         "Fendt800VarioGen5.zip",
         "192155899576ddf7d1b6e4c944948b5bb10f7a4feb4a64b69f458e5ff524a680",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
     make_mod(
         "Ursus4512_4514",
@@ -201,7 +196,6 @@ MODS = [
         "https://www.mediafire.com/file/t71w8y7vhuwpdcl/FS22_Ursus4512_4514.zip/file",
         "Ursus4512_4514.zip",
         "4157181e853d9d2ad095b42cafc2846981f5221d3774e72d2e8aefbf4b322a2f",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
     make_mod(
         "ClaasXerion12650",
@@ -213,7 +207,6 @@ MODS = [
         "https://www.mediafire.com/file/koqdyljjs04dme6/FS22_ClaasXerion12650.zip/file",
         "ClaasXerion12650.zip",
         "69d34ba6618d2d82aa223fbaf3cd1a3dbcb204f50d107ed81919465fd7c26979",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
     make_mod(
         "MF600Series",
@@ -225,7 +218,6 @@ MODS = [
         "https://www.mediafire.com/file/tf5zt9anpdawrz3/FS22_MF600Series.zip/file",
         "MF600Series.zip",
         "63615a618bbc349162eff06a4230c6ef10a847c76c28d6bac324d2fd9be5260e",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
     make_mod(
         "URSUS_C360",
@@ -237,7 +229,6 @@ MODS = [
         "https://www.mediafire.com/file/rxquqzrcy1a0ds7/FS22_URSUS_C360.zip/file",
         "URSUS_C360.zip",
         "804daf4f2312324aa9666b064cecbfd696d77080300fd02ec5c6ddc1efd27b27",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
     make_mod(
         "Big_Bud_747_16V",
@@ -249,7 +240,6 @@ MODS = [
         "https://www.mediafire.com/file/aw60l8e9dnfrubw/FS22_Big_Bud_747_16V.zip/file",
         "Big_Bud_747_16V.zip",
         "2557fea4ab77911ce0f5389735692e787789035bba0c36208a4a0fa8261254b9",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
     make_mod(
         "ClaasTractor_Package",
@@ -261,7 +251,6 @@ MODS = [
         "https://www.mediafire.com/file/972pyakiyvvyodg/FS22_ClaasTractor_Package.zip/file",
         "ClaasTractor_Package.zip",
         "80595da21f16be961e63e47f75ea81b70dabf3c6a261632e4049a10cf00beebd",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
     make_mod(
         "Fendt800_900Favorit",
@@ -273,7 +262,6 @@ MODS = [
         "https://www.mediafire.com/file/lr6serbfxf0dvxz/FS22_Fendt800_900Favorit.zip/file",
         "Fendt800_900Favorit.zip",
         "9abd3ae44039be0b2957ba8fe55378a4e3fc624b1a56733246eaed8b238408b8",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
     make_mod(
         "FendtVarioPack",
@@ -285,7 +273,6 @@ MODS = [
         "https://www.mediafire.com/file/9u8ejbb0pafzv0y/FS22_FendtVarioPack.zip/file",
         "FendtVarioPack.zip",
         "69c72532ae32c6d020196d3f853bdfec6ff3c38364037579519f92ba77a122ff",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
     make_mod(
         "JohnDeere6R",
@@ -297,7 +284,6 @@ MODS = [
         "https://www.mediafire.com/file/uygkw41x7g17tez/FS22_JohnDeere6R.zip/file",
         "JohnDeere6R.zip",
         "088eaa2aeb61a112f349ec90539e34691da0954616e3aa705858c2800fa4da96",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
     make_mod(
         "JohnDeere8r2016",
@@ -309,7 +295,6 @@ MODS = [
         "https://www.mediafire.com/file/ms8zftc6klv90rs/FS22_JohnDeere8r2016.zip/file",
         "JohnDeere8r2016.zip",
         "0cba6657c00859ea526d55aae22cd983e7974685c39c445ed519bdf190dbe863",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
     make_mod(
         "JohnDeere6010",
@@ -321,7 +306,6 @@ MODS = [
         "https://www.mediafire.com/file/pi1s4iaj7mx3p5t/FS22_JohnDeere6010.zip/file",
         "JohnDeere6010.zip",
         "a0455eefbe07737a3d898d4f54a44ee54a6a2cbbf7de481559c3cde389b7ba3a",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
     make_mod(
         "JohnDeere7010Series",
@@ -333,7 +317,6 @@ MODS = [
         "https://www.mediafire.com/file/h4rny3u6af1d8v5/FS22_JohnDeere7010Series.zip/file",
         "JohnDeere7010Series.zip",
         "694805dd99a6d2862d9f7228f8e31e0f13e8ecf5f3b9c055efbc5bcf899adbff",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
     make_mod(
         "JohnDeere8900series",
@@ -345,7 +328,6 @@ MODS = [
         "https://www.mediafire.com/file/kse3vxy7a3bream/FS22_JohnDeere8900series.zip/file",
         "JohnDeere8900series.zip",
         "2f9189b06512706aab828bbafd7a69c221a310d243df6bfdf21a49ccb2a187d2",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
     make_mod(
         "newHollandTX32",
@@ -358,13 +340,7 @@ MODS = [
         "newHollandTX32.zip",
         "4e49c3231186cf310ab7a204fd269a4b59f30647e6e476fbec6ad6a089f0fb6d",
         compatibility="FS23 Mobile",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
-
-    # =========================
-    # MODY FS26
-    # =========================
-
     make_mod(
         "FIX_HTZ_17221",
         "FIX_HTZ_17221",
@@ -376,7 +352,6 @@ MODS = [
         "FIX_HTZ_17221.zip",
         "1d3ea9bd59273f49f54d423dbfa9feb9ca27eda0dbf897e2df85f678d52b485b",
         compatibility="FS26",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
     make_mod(
         "FIX_PTS_Furgon",
@@ -389,7 +364,6 @@ MODS = [
         "FIX_PTS_Furgon.zip",
         "09bef51ac9046b49f03a2ba51374552ea4dc160003100e8c37ab9cf0f0bcfa50",
         compatibility="FS26",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
     make_mod(
         "FS26_claasAxion960TT",
@@ -402,7 +376,6 @@ MODS = [
         "FS26_claasAxion960TT.zip",
         "ab2c6dff4239206513bb22d6d3b5f0f44da0923ebbd160019008cd4ad3861a22",
         compatibility="FS26",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
     make_mod(
         "manufacturer",
@@ -415,7 +388,6 @@ MODS = [
         "manufacturer.zip",
         "0a4a24d63fc23a806f7f81f6260eecee4c92b753cf50b3b91ae49102fa1d8114",
         compatibility="FS26",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
     make_mod(
         "FS26_Fendt_MT1100",
@@ -428,7 +400,6 @@ MODS = [
         "FS26_Fendt_MT1100.zip",
         "6db485b3e8b2ed56a5d77aee5c06bc25a923701f1c541081a558963613eac507",
         compatibility="FS26",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
     make_mod(
         "FS26_John_Deere_8RX540HighHorsepower",
@@ -441,7 +412,6 @@ MODS = [
         "FS26_John_Deere_8RX540HighHorsepower.zip",
         "f18102b2266ae983b1d0a981316405b0d8190b19527bd25ef1083dc429d06d77",
         compatibility="FS26",
-        added_at="2026-11-06T00:00:00+00:00"
     ),
 ]
 
@@ -495,78 +465,69 @@ def add_download(mod_id):
 
 
 def apply_added():
-    saved = load_json(ADDED_FILE, {})
-    changed = False
-    for m in MODS:
-        stored = saved.get(m["id"]) or ""
-        current = m.get("added_at") or ""
-        if stored:
-            m["added_at"] = stored
-        elif current:
-            saved[m["id"]] = current
-            changed = True
-        else:
-            stamp = now_iso()
-            m["added_at"] = stamp
-            saved[m["id"]] = stamp
-            changed = True
-    if changed:
-        try:
-            save_json(ADDED_FILE, saved)
-        except Exception as e:
-            print("ADDED SAVE ERROR:", repr(e))
+    """Ustawia datę dodania. Bez daty w kodzie i w pliku = TERAZ."""
+    with ADDED_LOCK:
+        saved = load_json(ADDED_FILE, {})
+        changed = False
+        for m in MODS:
+            mid = m["id"]
+            stored = (saved.get(mid) or "").strip()
+            current = (m.get("added_at") or "").strip()
+            if stored:
+                m["added_at"] = stored
+            elif current:
+                saved[mid] = current
+                m["added_at"] = current
+                changed = True
+            else:
+                stamp = now_iso()
+                m["added_at"] = stamp
+                saved[mid] = stamp
+                changed = True
+        if changed:
+            try:
+                save_json(ADDED_FILE, saved)
+            except Exception as e:
+                print("ADDED SAVE ERROR:", repr(e))
 
 
 def polish_ago(n, one, few, many):
     n = int(n)
-
     if n == 1:
         return f"1 {one} temu"
-
     if 2 <= n % 10 <= 4 and not (12 <= n % 100 <= 14):
         return f"{n} {few} temu"
-
     return f"{n} {many} temu"
 
 
 def relative_time(iso_text):
     if not iso_text:
         return ""
-
     try:
         text = iso_text.replace("Z", "+00:00")
         when = datetime.fromisoformat(text)
-
         if when.tzinfo is None:
             when = when.replace(tzinfo=timezone.utc)
-
         seconds = max(
             0,
-            int((datetime.now(timezone.utc) - when).total_seconds())
+            int((datetime.now(timezone.utc) - when).total_seconds()),
         )
-
     except Exception:
         return ""
 
-    # Zaraz po wrzuceniu
     if seconds < 15:
         return "wrzucony przed chwilą"
-
-    # Sekundy
     if seconds < 60:
         return polish_ago(seconds, "sekundę", "sekundy", "sekund")
 
-    # Minuty
     minutes = seconds // 60
     if minutes < 60:
         return polish_ago(minutes, "minutę", "minuty", "minut")
 
-    # Godziny
     hours = minutes // 60
     if hours < 24:
         return polish_ago(hours, "godzinę", "godziny", "godzin")
 
-    # Dni
     days = hours // 24
     if days < 30:
         return polish_ago(days, "dzień", "dni", "dni")
@@ -574,10 +535,20 @@ def relative_time(iso_text):
     return when.strftime("%Y-%m-%d")
 
 
+apply_counts()
+apply_added()
+
+
 def countdown_info():
     tz = timezone(timedelta(hours=1))
     now = datetime.now(tz)
-    key = str(UPDATE_DAYS) + ":" + str(UPDATE_HOURS) + ":" + str(UPDATE_MINUTES)
+    key = (
+        str(UPDATE_DAYS)
+        + ":"
+        + str(UPDATE_HOURS)
+        + ":"
+        + str(UPDATE_MINUTES)
+    )
     until_ms = 0
     saved = load_json(COUNTDOWN_FILE, {})
     if saved.get("key") == key and saved.get("until_ms"):
@@ -586,7 +557,7 @@ def countdown_info():
         dt = now + timedelta(
             days=int(UPDATE_DAYS),
             hours=int(UPDATE_HOURS),
-            minutes=int(UPDATE_MINUTES)
+            minutes=int(UPDATE_MINUTES),
         )
         until_ms = int(dt.timestamp() * 1000)
         try:
@@ -600,7 +571,7 @@ def countdown_info():
         "hours": int(UPDATE_HOURS),
         "minutes": int(UPDATE_MINUTES),
         "until_ms": until_ms,
-        "seconds": seconds
+        "seconds": seconds,
     }
 
 
@@ -620,8 +591,14 @@ def fetch_latest_video():
     return {
         "video_id": video_id,
         "title": title,
-        "thumbnail": ("https://img.youtube.com/vi/" + video_id + "/hqdefault.jpg") if video_id else "",
-        "url": ("https://www.youtube.com/watch?v=" + video_id) if video_id else ""
+        "thumbnail": (
+            ("https://img.youtube.com/vi/" + video_id + "/hqdefault.jpg")
+            if video_id
+            else ""
+        ),
+        "url": (
+            ("https://www.youtube.com/watch?v=" + video_id) if video_id else ""
+        ),
     }
 
 
@@ -660,7 +637,7 @@ def direct(url):
     patterns = [
         r'https://download\d*\.mediafire\.com/[^"\'<>\s]+',
         r'"(https://download\d*\.mediafire\.com/[^"]+)"',
-        r'href="(https://download\d*\.mediafire\.com/[^"]+)"'
+        r'href="(https://download\d*\.mediafire\.com/[^"]+)"',
     ]
     for pattern in patterns:
         found = re.findall(pattern, page)
@@ -671,12 +648,15 @@ def direct(url):
 
 def fetch_complete_file(mod):
     source_url = direct(mod.get("file_url", ""))
-    req = urllib.request.Request(source_url, headers={
-        "User-Agent": "Mozilla/5.0",
-        "Accept": "application/zip,application/octet-stream,*/*",
-        "Accept-Encoding": "identity",
-        "Connection": "close"
-    })
+    req = urllib.request.Request(
+        source_url,
+        headers={
+            "User-Agent": "Mozilla/5.0",
+            "Accept": "application/zip,application/octet-stream,*/*",
+            "Accept-Encoding": "identity",
+            "Connection": "close",
+        },
+    )
     with urllib.request.urlopen(req, timeout=240) as upstream:
         content_type = upstream.headers.get("Content-Type", "").lower()
         if "text/html" in content_type:
@@ -695,7 +675,9 @@ def fetch_complete_file(mod):
         if expected and received != int(expected):
             raise Exception(
                 "Niekompletny plik ze źródła. Otrzymano "
-                + str(received) + " bajtów, oczekiwano " + str(expected)
+                + str(received)
+                + " bajtów, oczekiwano "
+                + str(expected)
             )
     file_data = data.getvalue()
     if not file_data:
@@ -712,7 +694,7 @@ def fetch_complete_file(mod):
         "data": file_data,
         "size_bytes": len(file_data),
         "sha256": hashlib.sha256(file_data).hexdigest(),
-        "filename": mod.get("filename", mod["id"] + ".zip")
+        "filename": mod.get("filename", mod["id"] + ".zip"),
     }
 
 
@@ -750,7 +732,8 @@ def catalog():
 
     if q:
         items = [
-            m for m in items
+            m
+            for m in items
             if q in m.get("title", "").lower()
             or q in m.get("category", "").lower()
             or q in m.get("summary", "").lower()
@@ -762,29 +745,31 @@ def catalog():
     if game:
         game_code = game.replace("fs", "").strip()
         items = [
-            m for m in items
+            m
+            for m in items
             if game_code in m.get("compatibility", "").lower()
         ]
 
     start = (page - 1) * limit
     out = []
-
-    for m in items[start:start + limit]:
+    for m in items[start : start + limit]:
         row = dict(m)
         row.pop("file_url", None)
         row["added_ago"] = relative_time(row.get("added_at", ""))
         out.append(row)
 
-    return jsonify({
-        "channel": latest_video(),
-        "media": MEDIA,
-        "countdown": countdown_info(),
-        "update": UPDATE,
-        "items": out,
-        "page": page,
-        "page_size": limit,
-        "total": len(items)
-    })
+    return jsonify(
+        {
+            "channel": latest_video(),
+            "media": MEDIA,
+            "countdown": countdown_info(),
+            "update": UPDATE,
+            "items": out,
+            "page": page,
+            "page_size": limit,
+            "total": len(items),
+        }
+    )
 
 
 def load_help():
@@ -835,47 +820,43 @@ def one(mod_id):
 @app.route("/mods/<mod_id>/download", methods=["GET", "POST"])
 def download(mod_id):
     mod = next((m for m in visible() if m["id"] == mod_id), None)
-
     if mod is None:
         return jsonify({"error": "not found"}), 404
-
     try:
         file_info = get_file(mod)
         file_link = url_for("download_file", mod_id=mod_id, _external=True)
-
-        return jsonify({
-            "uri": file_link,
-            "url": file_link,
-            "filename": file_info["filename"],
-            "sha256": file_info["sha256"],
-            "size_bytes": file_info["size_bytes"]
-        })
-
+        return jsonify(
+            {
+                "uri": file_link,
+                "url": file_link,
+                "filename": file_info["filename"],
+                "sha256": file_info["sha256"],
+                "size_bytes": file_info["size_bytes"],
+            }
+        )
     except Exception as e:
         print("METADATA ERROR:", mod_id, repr(e))
-        return jsonify({
-            "error": "Nie udało się sprawdzić pliku",
-            "details": str(e)
-        }), 502
+        return jsonify(
+            {
+                "error": "Nie udało się sprawdzić pliku",
+                "details": str(e),
+            }
+        ), 502
 
 
 @app.get("/v5/mods/<mod_id>/file")
 @app.get("/mods/<mod_id>/file")
 def download_file(mod_id):
     mod = next((m for m in visible() if m["id"] == mod_id), None)
-
     if mod is None:
         return jsonify({"error": "not found"}), 404
-
     try:
         file_info = get_file(mod)
-
         response = Response(
             file_info["data"],
             status=200,
-            content_type="application/zip"
+            content_type="application/zip",
         )
-
         response.headers["Content-Disposition"] = (
             "attachment; filename*=UTF-8''" + quote(file_info["filename"])
         )
@@ -884,24 +865,22 @@ def download_file(mod_id):
         response.headers["Cache-Control"] = "no-store"
         response.headers["Accept-Ranges"] = "none"
         response.headers["X-Content-Type-Options"] = "nosniff"
-
         add_download(mod_id)
-
         print(
             "WYSŁANO:",
             mod_id,
             file_info["size_bytes"],
-            file_info["sha256"]
+            file_info["sha256"],
         )
-
         return response
-
     except Exception as e:
         print("DOWNLOAD ERROR:", mod_id, repr(e))
-        return jsonify({
-            "error": "Nie udało się pobrać kompletnego pliku",
-            "details": str(e)
-        }), 502
+        return jsonify(
+            {
+                "error": "Nie udało się pobrać kompletnego pliku",
+                "details": str(e),
+            }
+        ), 502
 
 
 @app.route("/v5/help", methods=["GET", "POST"])
@@ -909,112 +888,90 @@ def download_file(mod_id):
 def help_messages():
     if request.method == "POST":
         data = request.get_json(silent=True) or {}
-
         if not isinstance(data, dict):
             return jsonify({"error": "Nieprawidłowe dane"}), 400
-
         device_id = str(data.get("device_id", "")).strip()
         topic = str(data.get("topic", "")).strip()
         message = str(data.get("message", "")).strip()
-
         if not device_id or not message:
-            return jsonify({
-                "error": "Brakuje device_id lub message"
-            }), 400
-
+            return jsonify({"error": "Brakuje device_id lub message"}), 400
         if len(device_id) > 200 or len(topic) > 200 or len(message) > 10000:
             return jsonify({"error": "Za długie dane"}), 400
-
         item = {
             "device_id": device_id,
             "topic": topic,
             "message": message,
-            "time": now_iso()
+            "time": now_iso(),
         }
-
         with HELP_LOCK:
             items = load_help()
             items.append(item)
-
             try:
                 save_help(items)
             except Exception as e:
                 print("HELP SAVE ERROR:", repr(e))
-                return jsonify({
-                    "error": "Nie udało się zapisać wiadomości"
-                }), 500
-
+                return jsonify(
+                    {"error": "Nie udało się zapisać wiadomości"}
+                ), 500
         return jsonify({"ok": True})
 
     device_id = request.args.get("device_id") or ""
-
     with HELP_LOCK:
         items = load_help()
-
-    return jsonify({
-        "items": [
-            m for m in items
-            if m.get("device_id") == device_id
-        ]
-    })
+    return jsonify(
+        {"items": [m for m in items if m.get("device_id") == device_id]}
+    )
 
 
 @app.get("/v5/help/all")
 def help_all():
     with HELP_LOCK:
         items = load_help()
-
     page = (
         "<html><meta charset='utf-8'><body "
         "style='background:#111;color:#eee;font-family:sans-serif;padding:16px'>"
     )
-
     page += "<h2>Wiadomości z Pomocy</h2>"
-
     if not items:
         page += "<p>Brak wiadomości</p>"
     else:
         for m in items:
             line = (
                 str(m.get("time", ""))[:19].replace("T", " ")
-                + " | " + str(m.get("topic", ""))
-                + " | " + str(m.get("message", ""))
+                + " | "
+                + str(m.get("topic", ""))
+                + " | "
+                + str(m.get("message", ""))
             )
             page += "<p>" + html.escape(line) + "</p>"
-
     page += "</body></html>"
-
-    return Response(
-        page,
-        content_type="text/html; charset=utf-8"
-    )
+    return Response(page, content_type="text/html; charset=utf-8")
 
 
 @app.route("/v5/buyers", methods=["GET", "POST"])
 @app.route("/buyers", methods=["GET", "POST"])
 def buyers():
-    return jsonify({
-        "token": "zgb-ok",
-        "recovery_code": "ZGB-OK"
-    })
+    return jsonify({"token": "zgb-ok", "recovery_code": "ZGB-OK"})
 
 
 @app.get("/")
 def root():
-    return jsonify({
-        "ok": True,
-        "api": "/v5/mods",
-        "latest_video": "/v5/channel/latest",
-        "app_apk": "/app.apk",
-        "media": MEDIA,
-        "countdown": countdown_info(),
-        "update": UPDATE
-    })
+    return jsonify(
+        {
+            "ok": True,
+            "api": "/v5/mods",
+            "latest_video": "/v5/channel/latest",
+            "app_apk": "/app.apk",
+            "media": MEDIA,
+            "countdown": countdown_info(),
+            "update": UPDATE,
+        }
+    )
 
 
 if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
         port=int(os.environ.get("PORT", 10000)),
-        threaded=True
+        threaded=True,
     )
