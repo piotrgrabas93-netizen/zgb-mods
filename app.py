@@ -1,3 +1,4 @@
+
 import os
 import re
 import html
@@ -347,7 +348,6 @@ MODS = [
         "2f9189b06512706aab828bbafd7a69c221a310d243df6bfdf21a49ccb2a187d2",
         added_at="2026-11-06T00:00:00+00:00"
     ),
-
     make_mod(
         "newHollandTX32",
         "newHollandTX32",
@@ -378,68 +378,73 @@ MODS = [
         "1d3ea9bd59273f49f54d423dbfa9feb9ca27eda0dbf897e2df85f678d52b485b",
         compatibility="FS26",
         added_at="2026-11-06T00:00:00+00:00"
- ),
-
-make_mod(
+    ),
+    make_mod(
         "FIX_PTS_Furgon",
         "FIX_PTS_Furgon",
         "Przyczepy",
         "1.0.0.0",
         "https://iili.io/oFp3K0X.png",
-        "Price: HTZ 17221 Tractor Price: 45000€ Power 180 / 240 HP",
+        "FIX PTS Furgon",
         "https://files.catbox.moe/4s8x3o.zip",
         "FIX_PTS_Furgon.zip",
         "09bef51ac9046b49f03a2ba51374552ea4dc160003100e8c37ab9cf0f0bcfa50",
         compatibility="FS26",
         added_at="2026-11-06T00:00:00+00:00"
- ),
+    ),
+    make_mod(
         "FS26_claasAxion960TT",
-        "ciągniki",
+        "FS26_claasAxion960TT",
+        "Ciągniki",
         "1.0.0.0",
         "https://iili.io/oFpxnet.png",
-        "Price:Price: $355,000 - $390,000 Power: 355 hp - 445 hp"
-        "https://files.catbox.moe/d1790f.zip,
+        "Price: $355,000 - $390,000 Power: 355 hp - 445 hp",
+        "https://files.catbox.moe/d1790f.zip",
         "FS26_claasAxion960TT.zip",
         "ab2c6dff4239206513bb22d6d3b5f0f44da0923ebbd160019008cd4ad3861a22",
         compatibility="FS26",
         added_at="2026-11-06T00:00:00+00:00"
- ),
-   "manufacturer",
-        "ciągniki",
+    ),
+    make_mod(
+        "manufacturer",
+        "manufacturer",
+        "Ciągniki",
         "1.0.0.0",
         "https://iili.io/oFpno3N.png",
-        "Price:Plant manufacturer: HTZ Model: T-150 Engine: YaMZ-236 Price: 8181 €"
-        "https://files.catbox.moe/w8wr71.zip,
+        "Plant manufacturer: HTZ Model: T-150 Engine: YaMZ-236 Price: 8181 €",
+        "https://files.catbox.moe/w8wr71.zip",
         "manufacturer.zip",
         "0a4a24d63fc23a806f7f81f6260eecee4c92b753cf50b3b91ae49102fa1d8114",
         compatibility="FS26",
         added_at="2026-11-06T00:00:00+00:00"
- ),
-
-   "FS26_Fendt_MT1100",
-        "ciągniki",
+    ),
+    make_mod(
+        "FS26_Fendt_MT1100",
+        "FS26_Fendt_MT1100",
+        "Ciągniki",
         "1.0.0.0",
         "https://iili.io/oFpvws1.png",
-        "Price:"
-        "https://files.catbox.moe/y72tiv.zip,
+        "Fendt MT1100",
+        "https://files.catbox.moe/y72tiv.zip",
         "FS26_Fendt_MT1100.zip",
         "6db485b3e8b2ed56a5d77aee5c06bc25a923701f1c541081a558963613eac507",
         compatibility="FS26",
         added_at="2026-11-06T00:00:00+00:00"
- ),
-
-
-   "FS26_John_Deere_8RX540HighHorsepower",
-        "ciągniki",
+    ),
+    make_mod(
+        "FS26_John_Deere_8RX540HighHorsepower",
+        "FS26_John_Deere_8RX540HighHorsepower",
+        "Ciągniki",
         "1.0.0.0",
         "https://iili.io/oFpUmmv.png",
-        "Price:Plant manufacturer: HTZ Model: T-150 Engine: YaMZ-236 Price: 8181 €"
-        "https://files.catbox.moe/0b5ttp.zip,
+        "John Deere 8RX 540 High Horsepower",
+        "https://files.catbox.moe/0b5ttp.zip",
         "FS26_John_Deere_8RX540HighHorsepower.zip",
         "f18102b2266ae983b1d0a981316405b0d8190b19527bd25ef1083dc429d06d77",
         compatibility="FS26",
         added_at="2026-11-06T00:00:00+00:00"
- ),
+    ),
+]
 
 
 def load_json(path, fallback):
@@ -711,16 +716,20 @@ def catalog():
     cat = (request.args.get("category") or "").lower().strip()
     game = (request.args.get("game") or "").lower().strip()
     filt = request.args.get("filter") or ""
+
     try:
         page = max(1, int(request.args.get("page") or 1))
     except (ValueError, TypeError):
         page = 1
+
     limit = 40
     items = visible()
+
     if filt == "free":
         items = [m for m in items if m.get("price_minor", 0) == 0]
     elif filt == "paid":
         items = [m for m in items if m.get("price_minor", 0) > 0]
+
     if q:
         items = [
             m for m in items
@@ -728,17 +737,26 @@ def catalog():
             or q in m.get("category", "").lower()
             or q in m.get("summary", "").lower()
         ]
+
     if cat:
         items = [m for m in items if cat in m.get("category", "").lower()]
+
     if game:
-        items = [m for m in items if game.replace("fs", "") in m.get("compatibility", "").lower()]
+        game_code = game.replace("fs", "").strip()
+        items = [
+            m for m in items
+            if game_code in m.get("compatibility", "").lower()
+        ]
+
     start = (page - 1) * limit
     out = []
+
     for m in items[start:start + limit]:
         row = dict(m)
         row.pop("file_url", None)
         row["added_ago"] = relative_time(row.get("added_at", ""))
         out.append(row)
+
     return jsonify({
         "channel": latest_video(),
         "media": MEDIA,
@@ -799,11 +817,14 @@ def one(mod_id):
 @app.route("/mods/<mod_id>/download", methods=["GET", "POST"])
 def download(mod_id):
     mod = next((m for m in visible() if m["id"] == mod_id), None)
+
     if mod is None:
         return jsonify({"error": "not found"}), 404
+
     try:
         file_info = get_file(mod)
         file_link = url_for("download_file", mod_id=mod_id, _external=True)
+
         return jsonify({
             "uri": file_link,
             "url": file_link,
@@ -811,32 +832,58 @@ def download(mod_id):
             "sha256": file_info["sha256"],
             "size_bytes": file_info["size_bytes"]
         })
+
     except Exception as e:
         print("METADATA ERROR:", mod_id, repr(e))
-        return jsonify({"error": "Nie udało się sprawdzić pliku", "details": str(e)}), 502
+        return jsonify({
+            "error": "Nie udało się sprawdzić pliku",
+            "details": str(e)
+        }), 502
 
 
 @app.get("/v5/mods/<mod_id>/file")
 @app.get("/mods/<mod_id>/file")
 def download_file(mod_id):
     mod = next((m for m in visible() if m["id"] == mod_id), None)
+
     if mod is None:
         return jsonify({"error": "not found"}), 404
+
     try:
         file_info = get_file(mod)
-        response = Response(file_info["data"], status=200, content_type="application/zip")
-        response.headers["Content-Disposition"] = "attachment; filename*=UTF-8''" + quote(file_info["filename"])
+
+        response = Response(
+            file_info["data"],
+            status=200,
+            content_type="application/zip"
+        )
+
+        response.headers["Content-Disposition"] = (
+            "attachment; filename*=UTF-8''" + quote(file_info["filename"])
+        )
         response.headers["Content-Length"] = str(file_info["size_bytes"])
         response.headers["Content-Transfer-Encoding"] = "binary"
         response.headers["Cache-Control"] = "no-store"
         response.headers["Accept-Ranges"] = "none"
         response.headers["X-Content-Type-Options"] = "nosniff"
+
         add_download(mod_id)
-        print("WYSŁANO:", mod_id, file_info["size_bytes"], file_info["sha256"])
+
+        print(
+            "WYSŁANO:",
+            mod_id,
+            file_info["size_bytes"],
+            file_info["sha256"]
+        )
+
         return response
+
     except Exception as e:
         print("DOWNLOAD ERROR:", mod_id, repr(e))
-        return jsonify({"error": "Nie udało się pobrać kompletnego pliku", "details": str(e)}), 502
+        return jsonify({
+            "error": "Nie udało się pobrać kompletnego pliku",
+            "details": str(e)
+        }), 502
 
 
 @app.route("/v5/help", methods=["GET", "POST"])
@@ -844,42 +891,68 @@ def download_file(mod_id):
 def help_messages():
     if request.method == "POST":
         data = request.get_json(silent=True) or {}
+
         if not isinstance(data, dict):
             return jsonify({"error": "Nieprawidłowe dane"}), 400
+
         device_id = str(data.get("device_id", "")).strip()
         topic = str(data.get("topic", "")).strip()
         message = str(data.get("message", "")).strip()
+
         if not device_id or not message:
-            return jsonify({"error": "Brakuje device_id lub message"}), 400
+            return jsonify({
+                "error": "Brakuje device_id lub message"
+            }), 400
+
         if len(device_id) > 200 or len(topic) > 200 or len(message) > 10000:
             return jsonify({"error": "Za długie dane"}), 400
+
         item = {
             "device_id": device_id,
             "topic": topic,
             "message": message,
             "time": now_iso()
         }
+
         with HELP_LOCK:
             items = load_help()
             items.append(item)
+
             try:
                 save_help(items)
             except Exception as e:
                 print("HELP SAVE ERROR:", repr(e))
-                return jsonify({"error": "Nie udało się zapisać wiadomości"}), 500
+                return jsonify({
+                    "error": "Nie udało się zapisać wiadomości"
+                }), 500
+
         return jsonify({"ok": True})
+
     device_id = request.args.get("device_id") or ""
+
     with HELP_LOCK:
         items = load_help()
-    return jsonify({"items": [m for m in items if m.get("device_id") == device_id]})
+
+    return jsonify({
+        "items": [
+            m for m in items
+            if m.get("device_id") == device_id
+        ]
+    })
 
 
 @app.get("/v5/help/all")
 def help_all():
     with HELP_LOCK:
         items = load_help()
-    page = "<html><meta charset='utf-8'><body style='background:#111;color:#eee;font-family:sans-serif;padding:16px'>"
+
+    page = (
+        "<html><meta charset='utf-8'><body "
+        "style='background:#111;color:#eee;font-family:sans-serif;padding:16px'>"
+    )
+
     page += "<h2>Wiadomości z Pomocy</h2>"
+
     if not items:
         page += "<p>Brak wiadomości</p>"
     else:
@@ -890,14 +963,22 @@ def help_all():
                 + " | " + str(m.get("message", ""))
             )
             page += "<p>" + html.escape(line) + "</p>"
+
     page += "</body></html>"
-    return Response(page, content_type="text/html; charset=utf-8")
+
+    return Response(
+        page,
+        content_type="text/html; charset=utf-8"
+    )
 
 
 @app.route("/v5/buyers", methods=["GET", "POST"])
 @app.route("/buyers", methods=["GET", "POST"])
 def buyers():
-    return jsonify({"token": "zgb-ok", "recovery_code": "ZGB-OK"})
+    return jsonify({
+        "token": "zgb-ok",
+        "recovery_code": "ZGB-OK"
+    })
 
 
 @app.get("/")
@@ -914,4 +995,8 @@ def root():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)), threaded=True)
+    app.run(
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 10000)),
+        threaded=True
+    )
