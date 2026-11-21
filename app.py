@@ -347,6 +347,7 @@ MODS = [
         "2f9189b06512706aab828bbafd7a69c221a310d243df6bfdf21a49ccb2a187d2",
         added_at="2026-11-06T00:00:00+00:00"
     ),
+
     make_mod(
         "newHollandTX32",
         "newHollandTX32",
@@ -357,14 +358,14 @@ MODS = [
         "https://files.catbox.moe/vrzz7z.zip",
         "newHollandTX32.zip",
         "4e49c3231186cf310ab7a204fd269a4b59f30647e6e476fbec6ad6a089f0fb6d",
+        compatibility="FS23 Mobile",
         added_at="2026-11-06T00:00:00+00:00"
     ),
-]
-fs23⬆️
-fs26⬇️
 
+    # =========================
+    # MODY FS26
+    # =========================
 
-),      
     make_mod(
         "FIX_HTZ_17221",
         "FIX_HTZ_17221",
@@ -377,7 +378,9 @@ fs26⬇️
         "1d3ea9bd59273f49f54d423dbfa9feb9ca27eda0dbf897e2df85f678d52b485b",
         compatibility="FS26",
         added_at="2026-11-06T00:00:00+00:00"
-    ),
+ ),
+]
+
 
 
 
