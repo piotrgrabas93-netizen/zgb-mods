@@ -379,8 +379,6 @@ MODS = [
         compatibility="FS26",
         added_at="2026-11-06T00:00:00+00:00"
  ),
-]
-
 
 make_mod(
         "FIX_PTS_Furgon",
@@ -395,9 +393,6 @@ make_mod(
         compatibility="FS26",
         added_at="2026-11-06T00:00:00+00:00"
  ),
-]
-
-
         "FS26_claasAxion960TT",
         "ciągniki",
         "1.0.0.0",
@@ -409,7 +404,42 @@ make_mod(
         compatibility="FS26",
         added_at="2026-11-06T00:00:00+00:00"
  ),
-]
+   "manufacturer",
+        "ciągniki",
+        "1.0.0.0",
+        "https://iili.io/oFpno3N.png",
+        "Price:Plant manufacturer: HTZ Model: T-150 Engine: YaMZ-236 Price: 8181 €"
+        "https://files.catbox.moe/w8wr71.zip,
+        "manufacturer.zip",
+        "0a4a24d63fc23a806f7f81f6260eecee4c92b753cf50b3b91ae49102fa1d8114",
+        compatibility="FS26",
+        added_at="2026-11-06T00:00:00+00:00"
+ ),
+
+   "FS26_Fendt_MT1100",
+        "ciągniki",
+        "1.0.0.0",
+        "https://iili.io/oFpvws1.png",
+        "Price:"
+        "https://files.catbox.moe/y72tiv.zip,
+        "FS26_Fendt_MT1100.zip",
+        "6db485b3e8b2ed56a5d77aee5c06bc25a923701f1c541081a558963613eac507",
+        compatibility="FS26",
+        added_at="2026-11-06T00:00:00+00:00"
+ ),
+
+
+   "FS26_John_Deere_8RX540HighHorsepower",
+        "ciągniki",
+        "1.0.0.0",
+        "https://iili.io/oFpUmmv.png",
+        "Price:Plant manufacturer: HTZ Model: T-150 Engine: YaMZ-236 Price: 8181 €"
+        "https://files.catbox.moe/0b5ttp.zip,
+        "FS26_John_Deere_8RX540HighHorsepower.zip",
+        "f18102b2266ae983b1d0a981316405b0d8190b19527bd25ef1083dc429d06d77",
+        compatibility="FS26",
+        added_at="2026-11-06T00:00:00+00:00"
+ ),
 
 
 def load_json(path, fallback):
