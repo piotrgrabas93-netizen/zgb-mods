@@ -1,4 +1,3 @@
-
 import os
 import re
 import html
@@ -273,7 +272,7 @@ MODS = [
         "Prices: $76.000 / $81.500 Power: 165 - 265 HP / 165 - 285 HP Speed: 50 kph",
         "https://www.mediafire.com/file/lr6serbfxf0dvxz/FS22_Fendt800_900Favorit.zip/file",
         "Fendt800_900Favorit.zip",
-        "9abd3ae44039fb0b2957ba8fe55378a4e3fc624b1a56733246eaed8b238408b8",
+        "9abd3ae44039be0b2957ba8fe55378a4e3fc624b1a56733246eaed8b238408b8",
         added_at="2026-11-06T00:00:00+00:00"
     ),
     make_mod(
@@ -520,40 +519,59 @@ def apply_added():
 
 def polish_ago(n, one, few, many):
     n = int(n)
+
     if n == 1:
         return f"1 {one} temu"
+
     if 2 <= n % 10 <= 4 and not (12 <= n % 100 <= 14):
         return f"{n} {few} temu"
+
     return f"{n} {many} temu"
 
 
 def relative_time(iso_text):
     if not iso_text:
         return ""
+
     try:
         text = iso_text.replace("Z", "+00:00")
         when = datetime.fromisoformat(text)
+
         if when.tzinfo is None:
             when = when.replace(tzinfo=timezone.utc)
-        seconds = max(0, int((datetime.now(timezone.utc) - when).total_seconds()))
+
+        seconds = max(
+            0,
+            int((datetime.now(timezone.utc) - when).total_seconds())
+        )
+
     except Exception:
         return ""
+
+    # Zaraz po wrzuceniu
+    if seconds < 15:
+        return "wrzucony przed chwilą"
+
+    # Sekundy
     if seconds < 60:
-        return "przed chwilą"
+        return polish_ago(seconds, "sekundę", "sekundy", "sekund")
+
+    # Minuty
     minutes = seconds // 60
     if minutes < 60:
-        return polish_ago(minutes, "minuta", "minuty", "minut")
+        return polish_ago(minutes, "minutę", "minuty", "minut")
+
+    # Godziny
     hours = minutes // 60
     if hours < 24:
-        return polish_ago(hours, "godzina", "godziny", "godzin")
+        return polish_ago(hours, "godzinę", "godziny", "godzin")
+
+    # Dni
     days = hours // 24
     if days < 30:
         return polish_ago(days, "dzień", "dni", "dni")
+
     return when.strftime("%Y-%m-%d")
-
-
-apply_counts()
-apply_added()
 
 
 def countdown_info():
