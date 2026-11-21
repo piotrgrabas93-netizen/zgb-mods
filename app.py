@@ -398,6 +398,19 @@ make_mod(
 ]
 
 
+        "FS26_claasAxion960TT",
+        "ciągniki",
+        "1.0.0.0",
+        "https://iili.io/oFpxnet.png",
+        "Price:Price: $355,000 - $390,000 Power: 355 hp - 445 hp"
+        "https://files.catbox.moe/d1790f.zip,
+        "FS26_claasAxion960TT.zip",
+        "ab2c6dff4239206513bb22d6d3b5f0f44da0923ebbd160019008cd4ad3861a22",
+        compatibility="FS26",
+        added_at="2026-11-06T00:00:00+00:00"
+ ),
+]
+
 
 def load_json(path, fallback):
     if not os.path.exists(path):
